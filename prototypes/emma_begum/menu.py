@@ -3,30 +3,29 @@ import sys
 from map.map_config import *
 from map.map_creation import *
 
-# Initialize Pygame
 pygame.init()
 
-# Define screen dimensions
+# Screen dimensions
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Set the screen size
-pygame.display.set_caption("Start Game Screen")
+pygame.display.set_caption("Thesis Quest")
 
 # Load the menu background image
 menu_background = pygame.image.load('menu_assets/Thesis quest.png').convert()
 
-# Define fonts
+# Fonts
 font = pygame.font.SysFont("Arial", 40)
 menu_font = pygame.font.SysFont("Arial", 60)
 
-# Colors
+# Colours
 WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
-# Game state
-game_state = "menu"  # Start with the menu state
+# Start with menu
+game_state = "menu"
 
 # Menu options
 menu_options = ["Start Game", "Quit"]
@@ -35,8 +34,8 @@ selected_option = 0
 
 # Function to display the menu
 def display_menu():
-    screen.blit(menu_background, (0, 0))  # Draw the menu background
-    title_text = menu_font.render("Game Menu", True, WHITE)
+    screen.blit(menu_background, (0, 0))
+    title_text = menu_font.render("Main Menu", True, WHITE)
     screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 100))
 
     for i, option in enumerate(menu_options):
@@ -47,7 +46,7 @@ def display_menu():
     pygame.display.flip()
 
 
-# Function to handle menu input
+# Function for menu input
 def handle_menu_input(event):
     global selected_option, game_state
     if event.type == pygame.KEYDOWN:
@@ -81,9 +80,9 @@ def game_loop():
 
         character_rect = character.get_rect(center=player_position)
 
-        # Use a plain background or game-specific background here
-        screen.fill((0, 200, 110))  # Solid green background
-        draw_tile_map()  # Assuming this function is defined in map_creation.py
+
+        screen.fill((0, 200, 110))
+        draw_tile_map()  # Function in map_creation.py
         screen.blit(character, character_rect)
 
         keyboard = pygame.key.get_pressed()
