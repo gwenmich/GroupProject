@@ -3,6 +3,7 @@ import sys
 from map_config import *
 from map_creation import *
 
+
 # Initializing pygame!
 pygame.init()
 
@@ -42,9 +43,9 @@ def game_lopp():
         keyboard = pygame.key.get_pressed()
 
         # movement of character
-        if keyboard[pygame.K_UP] and character_rect.y > 0:
+        if keyboard[pygame.K_UP] and character_rect.y > 10:
             player_position.y -= 250 * dt
-        if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - y:
+        if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - 80:
             player_position.y += 250 * dt
         if keyboard[pygame.K_LEFT] and character_rect.x > 0:
             player_position.x -= 250 * dt
