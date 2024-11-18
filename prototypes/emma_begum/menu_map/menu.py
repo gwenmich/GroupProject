@@ -1,14 +1,14 @@
 import pygame
 import sys
-from map.map_config import *
-from map.map_creation import *
+from menu_map.map_config import *
+from menu_map.map_creation import *
 
 pygame.init()
 
 # Screen dimensions
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Set the screen size
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Sets the screen size
 pygame.display.set_caption("Thesis Quest")
 
 # Load the menu background image
