@@ -71,7 +71,7 @@ def draw_tile_map():
 
 # IT dept hitboxes
 it_dept_A_1 = pygame.Rect(185, 80, 120, 95)
-it_dept_A_2 = pygame.Rect(185, 170, 45, 40)
+it_dept_A_2 = pygame.Rect(185, 170, 40, 40)
 it_dept_A_3 = pygame.Rect(270, 170, 35, 40)
 # library hitboxes
 library_B_1 = pygame.Rect(190, 525, 110, 40)

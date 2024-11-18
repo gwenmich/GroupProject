@@ -5,6 +5,7 @@ from map_creation import *
 
 
 
+
 # Initializing pygame!
 pygame.init()
 
@@ -86,12 +87,6 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
-        counselling_office = pygame.Rect(797, 540, 60, 50)
-        transparent_surface = pygame.Surface((counselling_office.width, counselling_office.height), pygame.SRCALPHA)
-        transparent_surface.fill((255, 0, 0, 128))  # RGBA: 128 is the alpha value
-
-        # Blit the semi-transparent surface onto the screen
-        screen.blit(transparent_surface, (counselling_office.x, counselling_office.y))
 
         # remember to update the screen!
         pygame.display.flip()
