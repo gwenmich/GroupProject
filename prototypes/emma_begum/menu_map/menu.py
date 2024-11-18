@@ -14,7 +14,7 @@ pygame.display.set_caption("Thesis Quest")
 # Load the menu background image
 menu_background = pygame.image.load('menu_assets/Thesis quest.png').convert()
 
-# Fonts
+# Fonts, tbc
 font = pygame.font.SysFont("Arial", 40)
 menu_font = pygame.font.SysFont("Arial", 60)
 
