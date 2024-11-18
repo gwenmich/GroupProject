@@ -46,30 +46,36 @@ wall_image = pygame.image.load('map_assets/wall_1.png')
 wall_image = pygame.transform.scale(wall_image, (WALL_SIZE, WALL_SIZE))
 
 
+# tile map dict to shorten map drawing logic
+tile_images = {
+    'W': wall_image,
+    'A': building_image_1,
+    'B': building_image_3,
+    'C': building_image_2,
+    'D': building_image_4,
+    'E': building_image_5,
+    'G': grass_image,
+    'T': tree_image_2,
+    'S': tree_image_1,
+    'F': bench_image,
+}
+
 
 # drawing tile map
 def draw_tile_map():
     for y, row in enumerate(TILE_MAP):
         for x, tile in enumerate(row):
-            if tile == 'W':
-                screen.blit(wall_image, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'A':
-                screen.blit(building_image_1, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'B':
-                screen.blit(building_image_3, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'C':
-                screen.blit(building_image_2, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'D':
-                screen.blit(building_image_4, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'E':
-                screen.blit(building_image_5, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'G':
-                screen.blit(grass_image, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'T':
-                screen.blit(tree_image_2, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'S':
-                screen.blit(tree_image_1, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'F':
-                screen.blit(bench_image, (x * TILE_SIZE, y * TILE_SIZE))
+            if tile in tile_images:
+                screen.blit(tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
+
+hitboxes = [
+    pygame.Rect(205, 85, 85, 85),  # Building A
+    pygame.Rect(205, 525, 85, 50),  # Building E
+    pygame.Rect(485, 296, 85, 60),  # Building B
+    pygame.Rect(540, 270, 1, 1) , # Minibox for flag on Building B
+    pygame.Rect(745, 140, 80, 45),  # Building C
+    pygame.Rect(785, 110, 1, 1),  # Minibox for Top of Building C
+    pygame.Rect(810, 465, 70, 85),  # Building D
+]
 
