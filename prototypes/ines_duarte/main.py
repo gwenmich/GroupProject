@@ -16,7 +16,7 @@ dt = 0
 player_position = pygame.Vector2(530, 410)
 
 # load main character image and get its rectangle
-character = pygame.image.load('girl64.png').convert_alpha()
+character = pygame.image.load('girl64_cropped.png').convert_alpha()
 x = character.get_width()
 y = character.get_height()
 
@@ -51,13 +51,13 @@ def game_loop():
         new_position = player_position.copy()
 
         # movement of character
-        if keyboard[pygame.K_UP] and character_rect.y > 10:
+        if keyboard[pygame.K_UP] and character_rect.y > 20:
             new_position.y -= 250 * dt
-        if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - 80:
+        if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - 77:
             new_position.y += 250 * dt
-        if keyboard[pygame.K_LEFT] and character_rect.x > 0:
+        if keyboard[pygame.K_LEFT] and character_rect.x > 20:
             new_position.x -= 250 * dt
-        if keyboard[pygame.K_RIGHT] and character_rect.x < SCREEN_WIDTH - x:
+        if keyboard[pygame.K_RIGHT] and character_rect.x < SCREEN_WIDTH - 52:
             new_position.x += 250 * dt
 
 
@@ -67,7 +67,7 @@ def game_loop():
         # by default collision is false, unless it detects collision
         collision_detected = False
 
-        for hitbox in hitboxes:
+        for hitbox in hitboxes.values():
             # checks if new character hitbox intersects another hitbox
             if new_rect.colliderect(hitbox):
                 # if yes stop movement
@@ -86,6 +86,12 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
+        counselling_office = pygame.Rect(797, 540, 60, 50)
+        transparent_surface = pygame.Surface((counselling_office.width, counselling_office.height), pygame.SRCALPHA)
+        transparent_surface.fill((255, 0, 0, 128))  # RGBA: 128 is the alpha value
+
+        # Blit the semi-transparent surface onto the screen
+        screen.blit(transparent_surface, (counselling_office.x, counselling_office.y))
 
         # remember to update the screen!
         pygame.display.flip()
