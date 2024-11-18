@@ -48,3 +48,4 @@ TILE_MAP = [
     'W................................................W',
     'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW'
 ]
+
