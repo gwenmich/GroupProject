@@ -8,12 +8,12 @@ class Timer:
         self.time_limit = time_limit
 
     def countdown(self):
-        while self.time_limit > 0:
+        if self.time_limit > 0:
             seconds = self.time_limit % 60
             minutes = int(self.time_limit / 60) % 60
         else:
             # game over code here
-            screen.blit(pygame.image.load('girl64.png'), (50, 50))
+            seconds, minutes = 0, 0
 
         # display and position timer
         timer_text = FONT.render(f"{minutes:02}:{seconds:02}", True, "black")
@@ -30,7 +30,9 @@ screen = pygame.display.set_mode((1000, 700))
 clock = pygame.time.Clock()
 FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
 
-timer = Timer(10)
+# timer for 30 minutes -> 1800 seconds
+timer = Timer(1800)
+# creating timer where a userevent is posted to event queue every 1 second (1000 milliseconds)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
@@ -43,9 +45,11 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        # decreasing timer by 1 second
         if event.type == pygame.USEREVENT:
             timer.time_limit -= 1
 
+    # calling timer countdown method
     timer.countdown()
 
 

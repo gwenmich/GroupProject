@@ -1,13 +1,14 @@
 import pygame
 from config import *
+from timer import timer
 # from character_building_collision import enter_building
 
 pygame.init()
-
+FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Character movement")
 clock = pygame.time.Clock()
-
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 dt = 0
 
 # position player in the centre of the screen
@@ -62,7 +63,11 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+        # decreasing timer by 1 second
+        if event.type == pygame.USEREVENT:
+            timer.time_limit -= 1
 
+    timer.countdown()
 
     # update screen
     pygame.display.flip()
