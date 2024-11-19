@@ -1,9 +1,12 @@
-import pygame
+
 import sys
-from menu_map.map_config import *
 from menu_map.map_creation import *
 
 pygame.init()
+
+# Music
+pygame.mixer.music.load('lofi1.mp3')
+pygame.mixer.music.play(-1)
 
 # Screen dimensions
 SCREEN_WIDTH = 1000
@@ -14,9 +17,10 @@ pygame.display.set_caption("Thesis Quest")
 # Load the menu background image
 menu_background = pygame.image.load('menu_assets/Thesis quest.png').convert()
 
-# Fonts, tbc
-font = pygame.font.SysFont("Arial", 40)
-menu_font = pygame.font.SysFont("Arial", 60)
+# Load fonts
+font_path = "fonts/PressStart2P-Regular.ttf"
+font = pygame.font.Font(font_path, 30)
+menu_font = pygame.font.Font(font_path, 40)
 
 # Colours
 WHITE = (255, 255, 255)
@@ -36,7 +40,7 @@ selected_option = 0
 def display_menu():
     screen.blit(menu_background, (0, 0))
     title_text = menu_font.render("Main Menu", True, WHITE)
-    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 100))
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 120))
 
     for i, option in enumerate(menu_options):
         color = PURPLE if i == selected_option else WHITE
@@ -80,7 +84,6 @@ def game_loop():
 
         character_rect = character.get_rect(center=player_position)
 
-
         screen.fill((0, 200, 110))
         draw_tile_map()  # Function in map_creation.py
         screen.blit(character, character_rect)
@@ -103,7 +106,7 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     running = False
 
-        pygame.display.flip()  # Update the display
+        pygame.display.flip()  # Updates the display
     pygame.quit()
     sys.exit()
 
