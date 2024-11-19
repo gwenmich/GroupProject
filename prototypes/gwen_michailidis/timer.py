@@ -3,14 +3,22 @@ import time, pygame
 
 
 class Timer:
-
+    # time limit in seconds
     def __init__(self, time_limit):
         self.time_limit = time_limit
 
-
-
     def countdown(self):
-        pass
+        while self.time_limit > 0:
+            seconds = self.time_limit % 60
+            minutes = int(self.time_limit / 60) % 60
+        else:
+            # game over code here
+            screen.blit(pygame.image.load('girl64.png'), (50, 50))
+
+        # display and position timer
+        timer_text = FONT.render(f"{minutes:02}:{seconds:02}", True, "black")
+        timer_text_rect = timer_text.get_rect(topleft=(20, 20))
+        screen.blit(timer_text, timer_text_rect)
 
 
 
@@ -18,11 +26,12 @@ class Timer:
 pygame.init()
 screen = pygame.display.set_mode((1000, 700))
 
-# timer = Timer(1800)
+
 clock = pygame.time.Clock()
 FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
 
-current_seconds = 1800
+timer = Timer(10)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
 run = True
@@ -35,15 +44,10 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.USEREVENT:
-            current_seconds -= 1
+            timer.time_limit -= 1
 
-    if current_seconds >= 0:
-        display_seconds = current_seconds % 60
-        display_minutes = int(current_seconds / 60) % 60
+    timer.countdown()
 
-    timer_text = FONT.render(f"{display_minutes:02}:{display_seconds:02}", True, "black")
-    timer_text_rect = timer_text.get_rect(topleft=(20, 20))
-    screen.blit(timer_text, timer_text_rect)
 
     pygame.display.flip()
 
