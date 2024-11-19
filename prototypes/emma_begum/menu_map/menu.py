@@ -14,7 +14,9 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Thesis Quest")
 
 # Menu background image
-menu_background = pygame.image.load('menu_assets/Thesis quest.png').convert()
+menu_background = pygame.image.load('menu_assets/thesisquest.png').convert()
+# Pause background image
+pause_background = pygame.image.load('menu_assets/pause.png').convert()
 
 # Menu font
 font_path = "fonts/PressStart2P-Regular.ttf"
@@ -30,23 +32,33 @@ BLACK = (0, 0, 0)
 # Game states
 game_state = "main_menu"  # Possible states are "main_menu", "pause_menu", "game"
 
+
 # Menu options
 menu_options = ["Start Game", "High Scores", "Quit"]
 pause_options = ["Resume Game","Main Menu", "Quit"]
 selected_option = 0
 
 
-# Function to display a menu, main and pause
 def display_menu():
-    screen.blit(menu_background, (0, 0))
     if game_state == "main_menu":
+        screen.blit(menu_background, (0, 0))  # Main menu background
         title_text = menu_font.render("Main Menu", True, WHITE)
         options = menu_options
     elif game_state == "pause_menu":
+        screen.blit(pause_background, (0, 0))  # Pause menu background
         title_text = menu_font.render("Pause Menu", True, WHITE)
         options = pause_options
 
+
     screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 120))
+
+
+    for i, option in enumerate(options):
+        color = PURPLE if i == selected_option else WHITE
+        option_text = font.render(option, True, color)
+        screen.blit(option_text, (SCREEN_WIDTH // 2 - option_text.get_width() // 2, 180 + i * 45))
+
+    pygame.display.flip()
 
     for i, option in enumerate(options):
         color = PURPLE if i == selected_option else WHITE
@@ -90,7 +102,7 @@ def game_loop():
     global game_state
     player_position = pygame.Vector2(530, 410)
 
-    # Load character image and get its rectangle
+    # Load character
     character = pygame.image.load('girl64.png').convert_alpha()
     x = character.get_width()
     y = character.get_height()
@@ -99,7 +111,7 @@ def game_loop():
 
     # Game loop
     while game_state == "game":
-        dt = clock.tick(60) / 1000  # FPS is hardcoded to 60
+        dt = clock.tick(60) / 1000
 
         character_rect = character.get_rect(center=player_position)
 
@@ -147,7 +159,7 @@ def main():
         elif game_state == "game":
             game_loop()
 
-        pygame.time.Clock().tick(60)  # Ensure the game runs at 60 FPS
+        pygame.time.Clock().tick(60)  # Ensures game runs at 60 FPS
 
 
 if __name__ == "__main__":
