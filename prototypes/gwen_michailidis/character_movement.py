@@ -1,6 +1,6 @@
 import pygame
 from config import *
-from character_building_collision import enter_building
+# from character_building_collision import enter_building
 
 pygame.init()
 
@@ -52,7 +52,7 @@ while running:
 
 
     # triggers building's mini game when character collides with it
-    enter_building()
+    # enter_building()
 
 
     # exit the game by clicking x or pressing esc key
