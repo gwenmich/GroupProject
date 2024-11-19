@@ -30,7 +30,7 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 # Game states
-game_state = "main_menu"  # Possible states are "main_menu", "pause_menu", "game"
+game_state = "main_menu"
 
 
 # Menu options
@@ -79,9 +79,12 @@ def handle_menu_input(event):
         elif event.key == pygame.K_RETURN:
             if game_state == "main_menu":
                 if selected_option == 0:  # "Start Game"
+                    game_state = "game"
+                    pygame.mixer.music.load('mapmusictest.mp3')
+                    pygame.mixer.music.play(-1)
                     game_state = "game"  # Transition to the game state
-                elif selected_option == 1:  # "High Scores"
-                    # Add logic for high scores if needed
+                elif selected_option == 1:  # High Scores goes here
+
                     pass
                 elif selected_option == 2:  # "Quit"
                     pygame.quit()
