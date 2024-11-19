@@ -23,11 +23,15 @@ class Timer:
 
 
 
+
+# sample boilerplate to see it working
 pygame.init()
 screen = pygame.display.set_mode((1000, 700))
 
 
 clock = pygame.time.Clock()
+
+# font for timer
 FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
 
 # timer for 30 minutes -> 1800 seconds
@@ -45,7 +49,7 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        # decreasing timer by 1 second
+        # decreases timer by 1 second
         if event.type == pygame.USEREVENT:
             timer.time_limit -= 1
 
