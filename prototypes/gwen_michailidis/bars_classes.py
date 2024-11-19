@@ -90,3 +90,17 @@ screen.blit(stress_icon, (780, 22))
 
 
 
+
+
+# code for implementing games bar in main.py
+
+games_bar = GamesBar(500, 30, 70, 16, 4)
+
+
+# to put after screen initialisation before while loop
+games_icon = pygame.image.load('stress.png').convert_alpha()
+
+# to put in while loop
+games_bar.draw(screen)
+screen.blit(games, (780, 22))
+
