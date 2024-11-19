@@ -10,30 +10,42 @@ class Timer:
 
 
     def countdown(self):
+        pass
 
-        elapsed_time = time.time() - start_time
-        print(self.time_limit - int(elapsed_time))
-        if elapsed_time > self.time_limit:
-            print("GAME OVER")
 
 
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 700))
 
-timer = Timer(1800)
-start_time = time.time()
+# timer = Timer(1800)
+clock = pygame.time.Clock()
+FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
+
+current_seconds = 1800
+
+
 run = True
 
 while run:
 
-    timer.countdown()
-
+    screen.fill("white")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.USEREVENT:
+            current_seconds -= 1
 
+    if current_seconds >= 0:
+        display_seconds = current_seconds % 60
+        display_minutes = int(current_seconds / 60) % 60
+
+    timer_text = FONT.render(f"{display_minutes:02}:{display_seconds:02}", True, "black")
+    timer_text_rect = timer_text.get_rect(topleft=(20, 20))
+    screen.blit(timer_text, timer_text_rect)
+
+    pygame.display.flip()
 
 pygame.quit()
 
