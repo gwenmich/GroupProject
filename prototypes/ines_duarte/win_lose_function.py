@@ -1,5 +1,3 @@
-import pygame
-from prototypes.emma_begum.menu_map.menu import *
 from prototypes.gwen_michailidis.bars_classes import stress_bar, games_bar
 from prototypes.gwen_michailidis.timer import timer
 
