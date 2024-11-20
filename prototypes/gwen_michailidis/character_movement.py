@@ -1,14 +1,16 @@
 import pygame
 from config import *
-from timer import timer
+from bars_classes import StressBar, GamesBar
+from timer import Timer
+
 # from character_building_collision import enter_building
 
 pygame.init()
-FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Character movement")
 clock = pygame.time.Clock()
-pygame.time.set_timer(pygame.USEREVENT, 1000)
+
 dt = 0
 
 # position player in the centre of the screen
@@ -19,6 +21,14 @@ character = pygame.image.load('girl64.png').convert_alpha()
 x = character.get_width()
 y = character.get_height()
 
+# initialise stress and games bars
+stress_bar = StressBar(900, 20, 70, 16, 100)
+games_bar = GamesBar(510, 20, 70, 16, 4)
+
+# set timer for 30 minutes -> 1800 seconds
+timer = Timer(1800)
+# creating timer where a userevent is posted to event queue every 1 second (1000 milliseconds)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
 running = True
@@ -30,6 +40,12 @@ while running:
 
     # background screen colour - to change with map
     screen.fill((58, 179, 66))
+
+    # add stress and games bar to screen
+    stress_bar.draw(screen)
+    stress_bar.draw_text(screen)
+    games_bar.draw(screen)
+    games_bar.draw_text(screen)
 
     # position character's rect in the centre of the screen
     character_rect = character.get_rect(center=player_position)
@@ -63,11 +79,12 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
-        # decreasing timer by 1 second
+        # decreases timer by 1 second every second
         if event.type == pygame.USEREVENT:
-            timer.time_limit -= 1
+                timer.time_limit -= 1
 
-    timer.countdown()
+    timer.countdown(screen)
+
 
     # update screen
     pygame.display.flip()

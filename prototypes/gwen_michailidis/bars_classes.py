@@ -19,7 +19,9 @@ class Bars(ABC):
     def update(self, mini_game_result):
         pass
 
-
+    @abstractmethod
+    def draw_text(self, surface):
+        pass
 
 
 
@@ -45,6 +47,11 @@ class StressBar(Bars):
         elif mini_game_result == "Win" and self.stress <= 95:
             self.stress -= 5
 
+    def draw_text(self, surface):
+        FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
+        stress_text = FONT.render("STRESS", True, "black")
+        stress_text_rect = stress_text.get_rect(topleft=(770, 20))
+        surface.blit(stress_text, stress_text_rect)
 
 
 
@@ -65,42 +72,9 @@ class GamesBar(Bars):
             self.wins += 1
 
 
-
-
-
-
-
-
-
-
-
-# code for implementing stress bar in main.py
-
-stress_bar = StressBar(900, 30, 70, 16, 100)
-
-
-
-# to put after screen initialisation before while loop
-stress_icon = pygame.image.load('stress.png').convert_alpha()
-
-
-# to put in while loop
-stress_bar.draw(screen)
-screen.blit(stress_icon, (780, 22))
-
-
-
-
-
-# code for implementing games bar in main.py
-
-games_bar = GamesBar(500, 30, 70, 16, 4)
-
-
-# to put after screen initialisation before while loop
-games_icon = pygame.image.load('stress.png').convert_alpha()
-
-# to put in while loop
-games_bar.draw(screen)
-screen.blit(games, (780, 22))
+    def draw_text(self, surface):
+        FONT = pygame.font.Font("PressStart2P-Regular.ttf", 20)
+        games_text = FONT.render("CHALLENGES", True, "black")
+        games_text_rect = games_text.get_rect(topleft=(300, 20))
+        surface.blit(games_text, games_text_rect)
 
