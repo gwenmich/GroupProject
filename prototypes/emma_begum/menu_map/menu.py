@@ -4,7 +4,7 @@ from menu_map.map_creation import *
 pygame.init()
 
 # Music
-pygame.mixer.music.load('lofi1.mp3')
+pygame.mixer.music.load('music/lofi1.mp3')
 pygame.mixer.music.play(-1)
 
 # Screen dimensions
@@ -28,6 +28,10 @@ WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+
+# Sounds
+click_sound = pygame.mixer.Sound('music/click.mp3')
+start_sound = pygame.mixer.Sound('music/starts.mp3')
 
 # Game states
 game_state = "main_menu"
@@ -73,14 +77,17 @@ def handle_menu_input(event):
     global selected_option, game_state
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_DOWN:
+            click_sound.play()
             selected_option = (selected_option + 1) % len(menu_options if game_state == "main_menu" else pause_options)
         elif event.key == pygame.K_UP:
+            click_sound.play()
             selected_option = (selected_option - 1) % len(menu_options if game_state == "main_menu" else pause_options)
         elif event.key == pygame.K_RETURN:
+            start_sound.play()
             if game_state == "main_menu":
                 if selected_option == 0:  # "Start Game"
                     game_state = "game"
-                    pygame.mixer.music.load('mapmusictest.mp3')
+                    pygame.mixer.music.load('music/mapmusic.mp3')
                     pygame.mixer.music.play(-1)
                     game_state = "game"  # Transition to the game state
                 elif selected_option == 1:  # High Scores goes here
@@ -94,6 +101,8 @@ def handle_menu_input(event):
                     game_state = "game"  # Resume game
                 elif selected_option == 1:  # "Main Menu"
                     game_state = "main_menu"  # Go back to main menu
+                    pygame.mixer.music.load('music/lofi1.mp3')
+                    pygame.mixer.music.play(-1)
                 elif selected_option == 2:  # "Quit"
                     pygame.quit()
                     sys.exit()
