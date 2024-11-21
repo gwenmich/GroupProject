@@ -1,6 +1,5 @@
 import pygame
-from menu_map.map_config import *  # Add the `map.` prefix
-
+from map_config import *
 
 # Initializing
 pygame.init()
@@ -47,30 +46,67 @@ wall_image = pygame.image.load('map_assets/wall_1.png')
 wall_image = pygame.transform.scale(wall_image, (WALL_SIZE, WALL_SIZE))
 
 
+# tile map dict to shorten map drawing logic
+tile_images = {
+    'W': wall_image,
+    'A': building_image_1,
+    'B': building_image_3,
+    'C': building_image_2,
+    'D': building_image_4,
+    'E': building_image_5,
+    'G': grass_image,
+    'T': tree_image_2,
+    'S': tree_image_1,
+    'F': bench_image,
+}
+
 
 # drawing tile map
 def draw_tile_map():
     for y, row in enumerate(TILE_MAP):
         for x, tile in enumerate(row):
-            if tile == 'W':
-                screen.blit(wall_image, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'A':
-                screen.blit(building_image_1, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'B':
-                screen.blit(building_image_3, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'C':
-                screen.blit(building_image_2, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'D':
-                screen.blit(building_image_4, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'E':
-                screen.blit(building_image_5, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'G':
-                screen.blit(grass_image, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'T':
-                screen.blit(tree_image_2, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'S':
-                screen.blit(tree_image_1, (x * TILE_SIZE, y * TILE_SIZE))
-            elif tile == 'F':
-                screen.blit(bench_image, (x * TILE_SIZE, y * TILE_SIZE))
+            if tile in tile_images:
+                screen.blit(tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
 
+# IT dept hitboxes
+it_dept_A_1 = pygame.Rect(185, 80, 120, 95)
+it_dept_A_2 = pygame.Rect(185, 170, 40, 40)
+it_dept_A_3 = pygame.Rect(270, 170, 35, 40)
+# library hitboxes
+library_B_1 = pygame.Rect(190, 525, 110, 40)
+library_B_2 = pygame.Rect(180, 560, 40, 50)
+library_B_3 = pygame.Rect(270, 560, 40, 50)
+# councelling office hir=tboxes
+counselling_office_1 = pygame.Rect(465, 300, 120, 50)
+counselling_office_2 = pygame.Rect(465, 330, 38, 50)
+counselling_office_3 = pygame.Rect(550, 330, 38, 50)
+counselling_office_4 = pygame.Rect(520, 265, 25, 30)
+# classroom
+classroom_1 = pygame.Rect(725, 140, 120, 60)
+classroom_2 = pygame.Rect(725, 210, 30, 20)
+classroom_3 = pygame.Rect(815, 210, 30, 20)
+classroom_4 = pygame.Rect(773, 103, 25, 40)
+# cafeteria hitboxes
+cafeteria_1 = pygame.Rect(797, 462, 97, 90)
+cafeteria_2 = pygame.Rect(797, 540, 60, 50)
+
+
+hitboxes = {
+    "it_dept_1": it_dept_A_1,
+    "it_dept_2": it_dept_A_2,
+    "it_dept_3": it_dept_A_3,
+    "library_1": library_B_1,
+    "library_2": library_B_2,
+    "library_3": library_B_3,
+    "counselling_office_1": counselling_office_1,
+    "counselling_office_2": counselling_office_2,
+    "counselling_office_3": counselling_office_3,
+    "counselling_office_4": counselling_office_4,
+    "classroom_1": classroom_1,
+    "classroom_2": classroom_2,
+    "classroom_3": classroom_3,
+    "classroom_4": classroom_4,
+    "cafeteria_1": cafeteria_1,
+    "cafeteria_2": cafeteria_2
+}
