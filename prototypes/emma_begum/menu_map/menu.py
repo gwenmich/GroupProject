@@ -36,12 +36,10 @@ start_sound = pygame.mixer.Sound('music/starts.mp3')
 # Game states
 game_state = "main_menu"
 
-
 # Menu options
 menu_options = ["Start Game", "High Scores", "Quit"]
 pause_options = ["Resume Game","Main Menu", "Quit"]
 selected_option = 0
-
 
 def display_menu():
     if game_state == "main_menu":
@@ -70,7 +68,6 @@ def display_menu():
         screen.blit(option_text, (SCREEN_WIDTH // 2 - option_text.get_width() // 2, 180 + i * 45))
 
     pygame.display.flip()
-
 
 # Function for menu input
 def handle_menu_input(event):
@@ -106,7 +103,6 @@ def handle_menu_input(event):
                 elif selected_option == 2:  # "Quit"
                     pygame.quit()
                     sys.exit()
-
 
 
 # Function to start the game (using the game loop from main.py)
