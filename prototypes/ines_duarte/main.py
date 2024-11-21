@@ -1,6 +1,4 @@
-import pygame
 import sys
-from map_config import *
 from map_creation import *
 
 
