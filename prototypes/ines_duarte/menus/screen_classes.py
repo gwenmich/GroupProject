@@ -17,9 +17,12 @@ class Screen(ABC):
         pygame.display.set_icon(self.game_icon)
 
 
+    @abstractmethod
+    def load_image(self, path, size=None):
+        pass
 
     @abstractmethod
-    def draw(self):
+    def draw(self, game_state):
         pass
 
 
@@ -35,22 +38,24 @@ class MapScreen(Screen):
 
 
         self.tile_images = {
-            'W': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\wall_1.png', WALL_SIZE),
-            'A': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\police-station.png', BUILDING_SIZE),
-            'B': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\school.png', BUILDING_SIZE),
-            'C': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\royal-palace.png', BUILDING_SIZE),
-            'D': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\apartment.png', BUILDING_SIZE),
-            'E': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\museum.png', BUILDING_SIZE),
-            'G': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\grass.png', GRASS_SIZE),
-            'T': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\tree.png', TREE_SIZE),
-            'S': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\sakura.png', TREE_SIZE),
-            'F': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\bench.png', BENCH_SIZE),
+            'W': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\wall_1.png', (WALL_SIZE, WALL_SIZE)),
+            'A': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\police-station.png', (BUILDING_SIZE, BUILDING_SIZE)),
+            'B': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\school.png', (BUILDING_SIZE, BUILDING_SIZE)),
+            'C': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\royal-palace.png', (BUILDING_SIZE, BUILDING_SIZE)),
+            'D': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\apartment.png', (BUILDING_SIZE, BUILDING_SIZE)),
+            'E': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\museum.png', (BUILDING_SIZE, BUILDING_SIZE)),
+            'G': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\grass.png', (GRASS_SIZE, GRASS_SIZE)),
+            'T': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\tree.png', (TREE_SIZE, TREE_SIZE)),
+            'S': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\sakura.png', (TREE_SIZE, TREE_SIZE)),
+            'F': self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\map\map_assets\bench.png', (BENCH_SIZE, BENCH_SIZE)),
         }
 
 
-    def load_image(self, path, size):
+    def load_image(self, path, size=None):
         image = pygame.image.load(path)
-        return pygame.transform.scale(image, (size, size))
+        if size:  # Scale to a custom size
+            return pygame.transform.scale(image, size)
+        return image
 
     def draw(self):
         self.screen_fill = self.screen.fill((0, 200, 110))
@@ -91,7 +96,10 @@ class MapScreen(Screen):
 #
 #     def win_lose(self):
 
+    return game_state
 
+
+# Main function
 def main():
     # Create the MapScreen
     map_screen = MapScreen()
@@ -124,6 +132,5 @@ def main():
     sys.exit()
 
 
-# call main function in dunder main
 if __name__ == "__main__":
     main()
