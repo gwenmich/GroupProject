@@ -22,7 +22,7 @@ class Screen(ABC):
         pass
 
     @abstractmethod
-    def draw(self, game_state):
+    def draw(self):
         pass
 
 
@@ -53,9 +53,10 @@ class MapScreen(Screen):
 
     def load_image(self, path, size=None):
         image = pygame.image.load(path)
-        if size:  # Scale to a custom size
+        if size:
             return pygame.transform.scale(image, size)
         return image
+
 
     def draw(self):
         self.screen_fill = self.screen.fill((0, 200, 110))
@@ -80,13 +81,12 @@ class MapScreen(Screen):
 # class MenuScreen(Screen):
 #
 #
-#
-#
+# maybe future Game class???
 # class Game:
 #     def __init__(self):
 #         pygame.init()
 #         self.clock = pygame.time.Clock()
-#         self.runnin = True
+#         self.running = True
 #
 #     def new_game(self):
 #         self.playing = True
@@ -96,7 +96,6 @@ class MapScreen(Screen):
 #
 #     def win_lose(self):
 
-    return game_state
 
 
 # Main function
@@ -104,12 +103,9 @@ def main():
     # Create the MapScreen
     map_screen = MapScreen()
 
-
     # Game loop
     running = True
     while running:
-
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
