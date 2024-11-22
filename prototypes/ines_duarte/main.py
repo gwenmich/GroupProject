@@ -1,5 +1,5 @@
 import sys
-from map_creation import *
+from hitboxes import *
 
 
 
