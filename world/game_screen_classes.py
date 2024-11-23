@@ -101,36 +101,40 @@ class MapScreen(Screen):
 
 
 
-# UNCOMMENT TO TEXT
-# Main function
-def main():
-    # Create the MapScreen
-    map_screen = MapScreen()
-
-    # Game loop
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-            # decreases timer by 1 second every second
-            if event.type == pygame.USEREVENT:
-                map_screen.timer.timer_duration -= 1
-
-        map_screen.draw()
-
-        # Update the display
-        pygame.display.flip()
-
-        # framerate in seconds - the time difference between two frames
-        pygame.time.Clock().tick(FPS)
-
-    pygame.quit()
-    sys.exit()
-
 
 if __name__ == "__main__":
+
+    # UNCOMMENT TO TEXT
+    # Main function
+    def main():
+        # Create the MapScreen
+        map_screen = MapScreen()
+
+        # Game loop
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                # decreases timer by 1 second every second
+                if event.type == pygame.USEREVENT:
+                    map_screen.timer.timer_duration -= 1
+
+            map_screen.draw()
+
+            # Update the display
+            pygame.display.flip()
+
+            # framerate in seconds - the time difference between two frames
+            pygame.time.Clock().tick(FPS)
+
+        pygame.quit()
+        sys.exit()
+
     main()
+
+
+

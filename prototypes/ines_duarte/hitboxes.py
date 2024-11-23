@@ -110,3 +110,11 @@ hitboxes = {
     "cafeteria_1": cafeteria_1,
     "cafeteria_2": cafeteria_2
 }
+
+
+def check_collision(new_rect, hitboxes):
+    for hitbox in hitboxes.values():
+        if new_rect.colliderect(hitbox):
+            return True
+    return False
+
