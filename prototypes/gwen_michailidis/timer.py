@@ -3,13 +3,13 @@ import pygame
 
 class Timer:
     # time limit in seconds
-    def __init__(self, time_limit):
-        self.time_limit = time_limit
+    def __init__(self, timer_duration):
+        self.timer_duration = timer_duration
 
     def countdown(self, surface):
-        if self.time_limit > 0:
-            seconds = self.time_limit % 60
-            minutes = int(self.time_limit / 60) % 60
+        if self.timer_duration > 0:
+            seconds = self.timer_duration % 60
+            minutes = int(self.timer_duration / 60) % 60
         else:
             # game over code here
             seconds, minutes = 0, 0
