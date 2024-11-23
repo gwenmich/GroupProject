@@ -30,6 +30,15 @@ class GameOverScreen(Screen):
         yes_no = self.font_small.render("Type y(Yes) or n(No)", True, DUSTY_YELLOW)
         self.screen.blit(yes_no, (SCREEN_WIDTH // 2 - yes_no.get_width() // 2, 570))
 
+    def menu_handler(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.key == pygame.K_y:
+                    main()
+                    return
 
 def main():
     # Initialize Pygame
@@ -41,10 +50,7 @@ def main():
     clock = pygame.time.Clock()
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        game_over_screen.menu_handler()
 
         # Draw the Game Over screen
         game_over_screen.draw()
