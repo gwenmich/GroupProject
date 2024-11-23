@@ -15,7 +15,7 @@ class GameOverScreen(Screen):
         self.font_large = pygame.font.Font(r"C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\PressStart2P-Regular.ttf", 90)  # Adjust the size as needed
         self.font_medium = pygame.font.Font(r"C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\PressStart2P-Regular.ttf", 40)  # Adjust the size as needed
         self.font_small = pygame.font.Font(r"C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\PressStart2P-Regular.ttf", 15)  # Adjust the size as needed
-
+        self.blink_interval = 450
 
     def load_image(self, path, size=None):
         image = pygame.image.load(path)
@@ -26,13 +26,19 @@ class GameOverScreen(Screen):
 
     def draw(self, game_state=None):
         self.screen.fill(DUSTY_PINK)
-        game_over_text = self.font_large.render("GAME OVER", True, DUSTY_YELLOW)
-        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2,
-                                          SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
+        current_time = pygame.time.get_ticks()
+
+        if (current_time // self.blink_interval) % 2 == 0:
+            game_over_text = self.font_large.render("GAME OVER", True, DUSTY_YELLOW)
+            self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2,
+                                              SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
+
         replay = self.font_medium.render("Try again?", True, SKY_BLUE)
         self.screen.blit(replay, (SCREEN_WIDTH // 2 - replay.get_width() // 2, 500))
+
         yes_no = self.font_small.render("Type y(Yes) or n(No)", True, DUSTY_YELLOW)
         self.screen.blit(yes_no, (SCREEN_WIDTH // 2 - yes_no.get_width() // 2, 570))
+
         icon = self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\menu_assets\stress-test.png', (200, 200))
         self.screen.blit(icon, (SCREEN_WIDTH // 2 - icon.get_width() // 2, 100))
 
