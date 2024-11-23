@@ -63,18 +63,11 @@ def game_loop():
         # updates player hitbox position
         new_rect = character.get_rect(center=new_position)
 
-        # by default collision is false, unless it detects collision
-        collision_detected = False
+        # check collision
+        collision_detected = check_collision(new_rect, hitboxes)
 
-        for hitbox in hitboxes.values():
-            # checks if new character hitbox intersects another hitbox
-            if new_rect.colliderect(hitbox):
-                # if yes stop movement
-                collision_detected = True
-                break
-
-        # if not update player position
-        if not collision_detected:
+        # if no collision detected update player position
+        if collision_detected == False:
             player_position = new_position
 
         # game quitting logic
