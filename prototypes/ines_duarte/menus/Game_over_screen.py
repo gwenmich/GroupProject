@@ -16,9 +16,13 @@ class GameOverScreen(Screen):
         self.font_medium = pygame.font.Font(r"C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\PressStart2P-Regular.ttf", 40)  # Adjust the size as needed
         self.font_small = pygame.font.Font(r"C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\PressStart2P-Regular.ttf", 15)  # Adjust the size as needed
 
+
     def load_image(self, path, size=None):
-        # This screen doesn't need to load any images
-        pass
+        image = pygame.image.load(path)
+        if size:
+            return pygame.transform.scale(image, size)
+        return image
+
 
     def draw(self, game_state=None):
         self.screen.fill(DUSTY_PINK)
@@ -29,11 +33,17 @@ class GameOverScreen(Screen):
         self.screen.blit(replay, (SCREEN_WIDTH // 2 - replay.get_width() // 2, 500))
         yes_no = self.font_small.render("Type y(Yes) or n(No)", True, DUSTY_YELLOW)
         self.screen.blit(yes_no, (SCREEN_WIDTH // 2 - yes_no.get_width() // 2, 570))
+        icon = self.load_image(r'C:\Users\inesd\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\ines_duarte\menus\menu_assets\stress-test.png', (200, 200))
+        self.screen.blit(icon, (SCREEN_WIDTH // 2 - icon.get_width() // 2, 100))
+
 
     def menu_handler(self):
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE or event.key == pygame.QUIT:
+                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
                 if event.key == pygame.K_y:
