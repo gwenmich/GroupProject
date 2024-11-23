@@ -73,34 +73,34 @@ class GameOverScreen(Screen):
                     sys.exit()
                 # if key press is Y replay game loop
                 if event.key == pygame.K_y:
-                    main()
+                    main_game_loop()
                     return
 
 
 
-# UNCOMMENT TO TEST
-def main():
-    # Initialize Pygame
-    pygame.init()
-
-    # Call game over class and store it in a variable in order to create an instance of the screen object
-    game_over_screen = GameOverScreen()
-
-    # instantiating Clock to control framerate
-    clock = pygame.time.Clock()
-
-    while True:
-        # pass the menu interaction function
-        game_over_screen.menu_handler()
-
-        # Draw the Game Over screen
-        game_over_screen.draw()
-
-        # Update the screen
-        pygame.display.flip()
-
-        # set the frame rate at 60 FPS
-        clock.tick(60)
-
-if __name__ == "__main__":
-    main()
+# # UNCOMMENT TO TEST
+# def main_game_loop():
+#     # Initialize Pygame
+#     pygame.init()
+#
+#     # Call game over class and store it in a variable in order to create an instance of the screen object
+#     game_over_screen = GameOverScreen()
+#
+#     # instantiating Clock to control framerate
+#     clock = pygame.time.Clock()
+#
+#     while True:
+#         # pass the menu interaction function
+#         game_over_screen.menu_handler()
+#
+#         # Draw the Game Over screen
+#         game_over_screen.draw()
+#
+#         # Update the screen
+#         pygame.display.flip()
+#
+#         # set the frame rate at 60 FPS
+#         clock.tick(60)
+#
+# if __name__ == "__main__":
+#     main()
