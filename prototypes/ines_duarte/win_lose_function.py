@@ -16,7 +16,7 @@ def win_lose(timer_duration):
     # check win condition and updates game state to trigger menu
     if game_bar.wins == 4:
         game_state = "Victory"
-        if stress_bar.stress == 0 and timer.timer_duration <= initial_time / 2:
+        if timer.timer_duration <= initial_time / 3:
             print("WOW that's a perfect victory! Five stars!")
         elif timer.timer_duration <= initial_time / 2:
             print("That's really impressive! Four stars!")
