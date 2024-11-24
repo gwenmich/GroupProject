@@ -36,10 +36,10 @@ def get_high_scores():
         # informative text to let you know code got to this point
         print("Connected to DB: %s" % DATABASE)
 
-        query = """SELECT sc.game_final_time, sc.game_score, pl.user_name
+        query = """SELECT sc.game_score, pl.user_name
                     FROM scores sc
                     JOIN players pl ON sc.player_id = pl.player_id
-                    ORDER BY sc.game_final_time ASC
+                    ORDER BY pl.user_name ASC
                     LIMIT 10;"""
 
         # aptly named, execute is used to...you guessed it, execute the query

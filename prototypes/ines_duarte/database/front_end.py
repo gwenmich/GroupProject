@@ -2,6 +2,8 @@ import requests
 # we need json to format the data payloads
 import json
 
+from prototypes.ines_duarte.database.db_utils import get_high_scores
+
 
 # GET METHOD ########################################################
 
@@ -68,10 +70,13 @@ def get_top10_scores_front_end():
 #     result = requests.post(endpoint, headers=headers, data=json.dumps(race_details))  # Use json instead of data
 #     return result
 
+def iterate_my_stuff(func):
+    for i in func:
+        print(i)
 
 def run():
     print('Here are you scores')
-    return get_top10_scores_front_end()
+    iterate_my_stuff(get_high_scores())
 
 
 if __name__ == "__main__":
