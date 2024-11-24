@@ -2,7 +2,7 @@
 # to a remote repository
 
 USER = "root"
-PASSWORD = "root"
+PASSWORD = ""
 # you guessed it! You need to type your password inside the quotation marks. Do NOT delete the quote marks. Thank you!
 HOST = "localhost"
 # this must be the exact name of the database as created on workbench

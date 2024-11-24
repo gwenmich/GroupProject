@@ -1,4 +1,5 @@
 SELECT * FROM players;
+SELECT * FROM scores;
 
 SELECT sc.game_final_time, sc.game_score, pl.user_name
 FROM scores sc

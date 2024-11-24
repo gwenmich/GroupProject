@@ -4,10 +4,14 @@ from world.game_screen_classes import Screen
 from world.map_config import *
 import requests
 
+
 # storing colors in variables
-DUSTY_PINK = (231, 84, 128)
+DUSTY_PINK = (250, 100, 160)
 SKY_BLUE = (135, 206, 235)
-DUSTY_YELLOW = (239, 228, 176)
+DUSTY_YELLOW = (250, 228, 30)
+DARK_PURPLE = (150, 0, 100)
+BLACK = (0, 0, 0)
+
 # variable storing
 FONT_PATH = "world/PressStart2P-Regular.ttf"
 
@@ -20,8 +24,6 @@ class GameOverScreen(Screen):
         self.font_large = pygame.font.Font(FONT_PATH, 70)
         self.font_medium = pygame.font.Font(FONT_PATH, 20)
         self.font_small = pygame.font.Font(FONT_PATH, 15)
-        # blinking interval in milliseconds
-        self.blink_interval = 450
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -42,9 +44,14 @@ class GameOverScreen(Screen):
 
     # function to draw the Game Over Screen
     def draw(self, game_state=None):
+        icon = self.load_image('prototypes/ines_duarte/menus/menu_assets/new_cloud_bg.png', (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen.blit(icon, (0,0))
+
         scores = self.get_top10_scores_front_end()
         # first fills background
-        self.screen.fill(DUSTY_PINK)
+
+
+
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
         current_time = pygame.time.get_ticks()
 
@@ -52,18 +59,32 @@ class GameOverScreen(Screen):
         # divided using floor division to round down by the blinking interval in milliseconds. It's either one, or zero,
         #and only when it is zero does it blit the text.
 
-        game_over_text = self.font_large.render("HIGH SCORES", True, DUSTY_YELLOW)
+        game_over_text = self.font_large.render("HIGH SCORES", True, DARK_PURPLE)
         # centering the text exactly in middle
         self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, 80))
 
-        headers = self.font_medium.render("PLAYERS      STARS      TIME", True, SKY_BLUE)
+        headers = self.font_medium.render("PLAYERS     TIME      STARS", True, DUSTY_YELLOW)
         self.screen.blit(headers, (SCREEN_WIDTH // 2 - headers.get_width() // 2, 200))
 
         y_offset = 250
         for score in scores:
-            score_text = f"{score['Player']}          {score['Stars']}         {score['Final Time']}"
-            rendered_text = self.font_small.render(score_text, True, DUSTY_YELLOW)
-            self.screen.blit(rendered_text, (500 - rendered_text.get_width() // 2, y_offset))
+            score_text = f"{score['Player']}"
+            rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
+            self.screen.blit(rendered_text, (300 - rendered_text.get_width() // 2, y_offset))
+            y_offset += 40
+
+        y_offset = 250
+        for score in scores:
+            score_text = f"{score['Stars']}"
+            rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
+            self.screen.blit(rendered_text, (720 - rendered_text.get_width() // 2, y_offset))
+            y_offset += 40
+
+        y_offset = 250
+        for score in scores:
+            score_text = f"{score['Final Time']}"
+            rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
+            self.screen.blit(rendered_text, (510 - rendered_text.get_width() // 2, y_offset))
             y_offset += 40
 
         pygame.display.flip()

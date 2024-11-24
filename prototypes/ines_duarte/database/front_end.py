@@ -41,29 +41,8 @@ def add_new_score(user_name: str, game_final_time: str, game_score: str):
     # json.dumps specifies the dictionary that is being converted to a string as the POST method requires a string
     result = requests.post(endpoint, headers=headers, data=json.dumps(spell_details))
     return result
-#
-#
-# # Function to make a POST request to the API to add a new race to db
-# # Similar syntax to previous function
-# def add_new_race_to_list(race_name: str, size: str, speed: str, ability_bonus_2: str, ability_bonus_1: str,
-#                  darkvision: bool, trained_skill: str):
-#     endpoint = "http://127.0.0.1:5000/races/add"
-#     race_details = {
-#         "race_name": race_name,
-#         "size": size,
-#         "speed": speed,
-#         "ability_bonus_2": ability_bonus_2,
-#         "ability_bonus_1": ability_bonus_1,
-#         "darkvision": darkvision,
-#         "trained_skill": trained_skill
-#     }
-#
-#     headers = {
-#         'Content-Type': 'application/json'  # Minimum header required
-#     }
-#
-#     result = requests.post(endpoint, headers=headers, data=json.dumps(race_details))  # Use json instead of data
-#     return result
+
+
 
 def iterate_my_stuff(func):
     for i in func:

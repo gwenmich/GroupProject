@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS scores (
     player_id INT NOT NULL,
     game_final_time VARCHAR(250) NOT NULL,
     game_score VARCHAR(250) NOT NULL,
-    game_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (player_id) REFERENCES players(player_id)
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS game_saves (
     hero_sprite_position_y INT NOT NULL,
     challenges_won INT NOT NULL,
     stress_level INT NOT NULL,
-    game_date DATETIME NOT NULL,
+    game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (player_id) REFERENCES players(player_id)
 );
 
@@ -57,16 +57,16 @@ VALUES
 
 INSERT INTO scores (player_id, game_final_time, game_score, game_date)
 VALUES
-((SELECT player_id FROM players WHERE user_name = 'inesD'), '18:30', '4 Stars', '2024-11-01 14:30:00'),
-((SELECT player_id FROM players WHERE user_name = 'SuperGM'), '13:45', '4 Stars', '2024-11-02 15:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'just_GRACE'), '09:10', '5 Stars', '2024-11-03 16:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'Em_B'), '28:50', '3 Stars', '2024-11-04 17:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'JMG'), '08:55', '5 Stars', '2024-11-05 18:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'tiGGy'), '16:40', '4 Stars', '2024-11-06 19:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'PinkEmma'), '22:00', '3 Stars', '2024-11-07 20:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'Fatihah'), '11:50', '4 Stars', '2024-11-04 17:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'Jedi_Luke'), '21:55', '3 Stars', '2024-11-05 18:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'wizard_HAMED'), '07:40', '5 Stars', '2024-11-06 19:00:00'),
-((SELECT player_id FROM players WHERE user_name = 'Arianne_40K'), '17:00', '4 Stars', '2024-11-07 20:00:00');
+((SELECT player_id FROM players WHERE user_name = 'inesD'), '18:30', '4 Stars', '2024-03-01 14:30:00'),
+((SELECT player_id FROM players WHERE user_name = 'SuperGM'), '13:45', '4 Stars', '2024-11-02 15:09:00'),
+((SELECT player_id FROM players WHERE user_name = 'just_GRACE'), '09:10', '5 Stars', DEFAULT),
+((SELECT player_id FROM players WHERE user_name = 'Em_B'), '28:50', '3 Stars', '2024-09-04 17:00:00'),
+((SELECT player_id FROM players WHERE user_name = 'JMG'), '08:55', '5 Stars', '2024-01-05 13:45:00'),
+((SELECT player_id FROM players WHERE user_name = 'tiGGy'), '16:40', '4 Stars', '2024-02-06 19:01:00'),
+((SELECT player_id FROM players WHERE user_name = 'PinkEmma'), '22:00', '3 Stars', '2024-12-07 12:00:00'),
+((SELECT player_id FROM players WHERE user_name = 'Fatihah'), '11:50', '4 Stars', '2024-06-04 17:12:00'),
+((SELECT player_id FROM players WHERE user_name = 'Jedi_Luke'), '21:55', '3 Stars', '2024-08-05 09:07:00'),
+((SELECT player_id FROM players WHERE user_name = 'wizard_HAMED'), '07:40', '5 Stars', '2024-09-06 13:00:00'),
+((SELECT player_id FROM players WHERE user_name = 'Arianne_40K'), '17:00', '4 Stars', '2024-05-07 07:07:00');
 
 
