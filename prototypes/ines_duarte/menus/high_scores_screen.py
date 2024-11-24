@@ -1,5 +1,7 @@
 import pygame
 import sys
+
+from prototypes.emma_begum.menu_map.menu import game_state
 from world.game_screen_classes import Screen
 from world.map_config import *
 import requests
@@ -16,7 +18,7 @@ BLACK = (0, 0, 0)
 FONT_PATH = "world/PressStart2P-Regular.ttf"
 
 # Child Class inheriting from Screen Class
-class GameOverScreen(Screen):
+class HighScoreScreen(Screen):
     def __init__(self):
         # initializing the parent class variables
         super().__init__()
@@ -48,9 +50,6 @@ class GameOverScreen(Screen):
         self.screen.blit(icon, (0,0))
 
         scores = self.get_top10_scores_front_end()
-        # first fills background
-
-
 
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
         current_time = pygame.time.get_ticks()
@@ -59,33 +58,33 @@ class GameOverScreen(Screen):
         # divided using floor division to round down by the blinking interval in milliseconds. It's either one, or zero,
         #and only when it is zero does it blit the text.
 
-        game_over_text = self.font_large.render("HIGH SCORES", True, DARK_PURPLE)
+        high_score_text = self.font_large.render("HIGH SCORES", True, DARK_PURPLE)
         # centering the text exactly in middle
-        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, 80))
+        self.screen.blit(high_score_text, (SCREEN_WIDTH // 2 - high_score_text.get_width() // 2, 80))
 
         headers = self.font_medium.render("PLAYERS     TIME      STARS", True, DUSTY_YELLOW)
         self.screen.blit(headers, (SCREEN_WIDTH // 2 - headers.get_width() // 2, 200))
 
-        y_offset = 250
+        y_position = 250
         for score in scores:
             score_text = f"{score['Player']}"
             rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
-            self.screen.blit(rendered_text, (300 - rendered_text.get_width() // 2, y_offset))
-            y_offset += 40
+            self.screen.blit(rendered_text, (300 - rendered_text.get_width() // 2, y_position))
+            y_position += 40
 
-        y_offset = 250
+        y_position = 250
         for score in scores:
             score_text = f"{score['Stars']}"
             rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
-            self.screen.blit(rendered_text, (720 - rendered_text.get_width() // 2, y_offset))
-            y_offset += 40
+            self.screen.blit(rendered_text, (720 - rendered_text.get_width() // 2, y_position))
+            y_position += 40
 
-        y_offset = 250
+        y_position = 250
         for score in scores:
             score_text = f"{score['Final Time']}"
             rendered_text = self.font_small.render(score_text, True, DARK_PURPLE)
-            self.screen.blit(rendered_text, (510 - rendered_text.get_width() // 2, y_offset))
-            y_offset += 40
+            self.screen.blit(rendered_text, (510 - rendered_text.get_width() // 2, y_position))
+            y_position += 40
 
         pygame.display.flip()
 
@@ -97,14 +96,11 @@ class GameOverScreen(Screen):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                # if the key press is either N or ESQ it also quits
-                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                # if key press is Y replay game loop
-                if event.key == pygame.K_y:
-                    main_game_loop()
-                    return
+                # if the key press is ESQ back to menu
+                if event.key == pygame.K_ESCAPE:
+                    game_state = 'Start Menu'
+                    # call funtion to return to main menu
+                    # still need to check the logic to return to main menu!
 
 
 
@@ -114,17 +110,17 @@ def main_game_loop():
     pygame.init()
 
     # Call game over class and store it in a variable in order to create an instance of the screen object
-    game_over_screen = GameOverScreen()
+    high_score_screen = HighScoreScreen()
 
     # instantiating Clock to control framerate
     clock = pygame.time.Clock()
 
     while True:
         # pass the menu interaction function
-        game_over_screen.menu_handler()
+        high_score_screen.menu_handler()
 
         # Draw the Game Over screen
-        game_over_screen.draw()
+        high_score_screen.draw()
 
         # Update the screen
         pygame.display.flip()
