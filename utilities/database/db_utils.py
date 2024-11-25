@@ -78,3 +78,27 @@ def get_high_scores():
             db_connection.close()
             # prints statement to indicate it was successful
             print("DB connection is closed")
+
+
+def add_new_score(new_user_name, game_final_time,game_score):
+    try:
+        db_connection = _connect_to_db()
+        cur = db_connection.cursor()
+        print("Connected to DB: %s" % DATABASE)
+
+        # using cur.callproc instead of cur.execute as its specific for procedure
+        # pass the function that contains the transaction
+        cur.callproc('Save_High_Score', [new_user_name, game_final_time, game_score])
+
+        # # commiting the transaction or it will roll back once serve stops
+        db_connection.commit()
+
+    except Exception:
+        raise DbConnectionError("Failed to read data from DB")
+
+    finally:
+        if cur:
+            cur.close()
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
