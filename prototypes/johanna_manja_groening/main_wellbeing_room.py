@@ -151,6 +151,12 @@ class Game():
 
 
 pygame.init()
+pygame.mixer.init()
+
+
+#add music from the soundsfolder and loop them indefenitely
+pygame.mixer.music.load("prototypes/johanna_manja_groening/sounds/cozy-lofi-beat-split-memmories-248205.mp3")
+pygame.mixer.music.play(-1)
 
 # Screen dimensions
 SCREEN_WIDTH = 1000
