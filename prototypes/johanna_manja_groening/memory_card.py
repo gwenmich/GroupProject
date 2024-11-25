@@ -1,13 +1,12 @@
-
 class Card(pygame.sprite.Sprite):
     def __init__(self, filename, x, y):
         super().__init__()
 
         self.name = filename.split('.')[0]
 
-        self.original_image = pygame.image.load('images/' + filename)
+        self.original_image = pygame.image.load('prototypes/johanna_manja_groening/images' + filename)
 
-        self.back_image = pygame.image.load('images/affirmations')
+        self.back_image = pygame.image.load('prototypes/johanna_manja_groening/images/affirmations')
 
         self.image = self.back_image
         self.shown = False
