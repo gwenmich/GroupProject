@@ -86,9 +86,11 @@ def add_new_score(new_user_name, game_final_time,game_score):
         cur = db_connection.cursor()
         print("Connected to DB: %s" % DATABASE)
 
-
+        # using cur.callproc instead of cur.execute as its specific for procedure
+        # pass the function that contains the transaction
         cur.callproc('Save_High_Score', [new_user_name, game_final_time, game_score])
-        # # commiting the transaction to apply deletion
+
+        # # commiting the transaction or it will roll back once serve stops
         db_connection.commit()
 
     except Exception:

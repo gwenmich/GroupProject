@@ -12,12 +12,11 @@ def get_top10_scores_front_end():
     # using .json to format the response, converting it into a python dictionary
     result = requests.get(endpoint).json()
     return result
-#
-#
-#
+
+
 # # POST METHOD ########################################################
 #
-# Function to make a POST request to the API to add a new spell to db
+# Function to make a POST request to the API to add a new score
 def add_new_high_score(new_user_name: str, game_final_time: str, game_score: str):
     # stored route in variable 'endpoint' for reusability
     endpoint = "http://127.0.0.1:5000/scores/add"
@@ -51,6 +50,7 @@ def run():
     print('Here are you scores')
     add_new_high_score("Test Player", "00:00", "5 Stars")
     iterate_my_stuff(get_top10_scores_front_end())
+
 
 if __name__ == "__main__":
     run()
