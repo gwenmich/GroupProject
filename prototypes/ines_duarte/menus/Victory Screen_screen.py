@@ -7,6 +7,8 @@ from world.map_config import *
 DUSTY_PINK = (231, 84, 128)
 SKY_BLUE = (135, 206, 235)
 DUSTY_YELLOW = (250, 228, 100)
+DARKER_BLUE = (108, 165, 188)
+BLACK = (0, 0, 0)
 # variable storing
 FONT_PATH = "world/PressStart2P-Regular.ttf"
 
@@ -18,9 +20,12 @@ class VictoryScreen(Screen):
         # variables for different sized fonts, calling the font path variable
         self.font_large = pygame.font.Font(FONT_PATH, 60)
         self.font_medium = pygame.font.Font(FONT_PATH, 40)
+        self.font_small_2 = pygame.font.Font(FONT_PATH, 30)
         self.font_small = pygame.font.Font(FONT_PATH, 15)
         # blinking interval in milliseconds
         self.blink_interval = 600
+        self.stars = 5
+        self.user_text = ''
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -35,6 +40,7 @@ class VictoryScreen(Screen):
 
     # function to draw the Game Over Screen
     def draw(self, game_state=None):
+        global stars
         # first fills background
         self.screen.fill(SKY_BLUE)
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
@@ -47,27 +53,47 @@ class VictoryScreen(Screen):
         # centering the text exactly in middle
         self.screen.blit(victory_text, (SCREEN_WIDTH // 2 - victory_text.get_width() // 2, 80))
 
-
-        # yes_no = self.font_small.render("Type y(Yes) or n(No)", True, DUSTY_YELLOW)
-        # self.screen.blit(yes_no, (SCREEN_WIDTH // 2 - yes_no.get_width() // 2, 570))
-
+        # if statements to show the number of stars matching player score.
         medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
-        if (current_time // self.blink_interval) % 2 == 0:
-            self.screen.blit(medal, (150, 190))
-            self.screen.blit(medal, (300, 190))
-            self.screen.blit(medal, (450, 190))
-            self.screen.blit(medal, (600, 190))
-            self.screen.blit(medal, (750, 190))
-        # these are always visible
-        score = self.font_medium.render("with Distinction", True, DUSTY_PINK)
-        self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 350))
+        if self.stars == 5:
+            if (current_time // self.blink_interval) % 2 == 0:
+                self.screen.blit(medal, (150, 190))
+                self.screen.blit(medal, (300, 190))
+                self.screen.blit(medal, (450, 190))
+                self.screen.blit(medal, (600, 190))
+                self.screen.blit(medal, (750, 190))
+            # these are always visible
+            score = self.font_medium.render("with Distinction", True, DUSTY_PINK)
+            self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 330))
+        if self.stars == 4:
+            if (current_time // self.blink_interval) % 2 == 0:
+                self.screen.blit(medal, (210, 190))
+                self.screen.blit(medal, (360, 190))
+                self.screen.blit(medal, (510, 190))
+                self.screen.blit(medal, (660, 190))
+            score = self.font_medium.render("with Merit!", True, DUSTY_PINK)
+            self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 330))
+        if self.stars == 3:
+            if (current_time // self.blink_interval) % 2 == 0:
+                self.screen.blit(medal, (300, 190))
+                self.screen.blit(medal, (450, 190))
+                self.screen.blit(medal, (600, 190))
+            score = self.font_medium.render("Well done!", True, DUSTY_PINK)
+            self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 330))
 
-        # if stars == 3:
-        #     if (current_time // self.blink_interval) % 2 == 0:
-        #         self.screen.blit(medal, (300, 190))
-        #         self.screen.blit(medal, (450, 190))
-        #         self.screen.blit(medal, (600, 190))
-
+        # code for the save button
+        self.button_blink = 300
+        if (current_time // self.button_blink) % 2 == 0:
+            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (600, 100))
+            self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
+        if (current_time // self.button_blink) % 2 == 1:
+            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (595, 95))
+            self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
+        save_score = self.font_small.render("What name shall we put in the diploma?", True, DUSTY_YELLOW)
+        self.screen.blit(save_score, (SCREEN_WIDTH // 2 - save_score.get_width() // 2, 480))
+        # user name to save score
+        user_name = self.font_small_2.render(self.user_text, True, DARKER_BLUE)
+        self.screen.blit(user_name, (SCREEN_WIDTH // 2 - user_name.get_width() // 2, 527))
 
 
     # this checks for pygame events such as key presses and or QUIT
@@ -79,15 +105,17 @@ class VictoryScreen(Screen):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 # if the key press is either N or ESQ it also quits
-                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                # if key press is Y replay game loop
-                if event.key == pygame.K_y:
-                    main_game_loop()
-                    return
-
-
+                    # Check for backspace
+                if event.key == pygame.K_BACKSPACE:
+                    # get text input from 0 to -1 i.e. end.
+                    self.user_text = self.user_text[:-1]
+                    # Unicode standard is used for string
+                # formation
+                else:
+                    self.user_text += event.unicode
 
 # UNCOMMENT TO TEST
 def main_game_loop():
@@ -101,11 +129,16 @@ def main_game_loop():
     clock = pygame.time.Clock()
 
     while True:
+        # stars variable to change medals. This should probably be coded with the timer to update depending on final time
+        victory_screen.stars = 4
         # pass the menu interaction function
-        victory_screen.menu_handler()
+
 
         # Draw the Game Over screen
         victory_screen.draw()
+
+        victory_screen.menu_handler()
+
 
         # Update the screen
         pygame.display.flip()
