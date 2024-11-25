@@ -116,11 +116,11 @@ if __name__ == "__main__":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
                 # decreases timer by 1 second every second
-                if event.type == pygame.USEREVENT:
+                elif event.type == pygame.USEREVENT:
                     map_screen.timer.timer_duration -= 1
 
             map_screen.draw()

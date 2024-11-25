@@ -27,7 +27,7 @@ class VictoryScreen(Screen):
         self.font_small = pygame.font.Font(FONT_PATH, 15)
         self.font_tiny = pygame.font.Font(FONT_PATH, 15)
         # blinking interval in milliseconds
-        self.blink_interval = 600
+        self.star_blink = 300
         self.button_blink = 300
         self.stars = 5
         self.user_text = ''
@@ -58,11 +58,19 @@ class VictoryScreen(Screen):
         victory_text = self.font_large.render("YOU GRADUATED!", True, DUSTY_YELLOW)
         # centering the text exactly in middle
         self.screen.blit(victory_text, (SCREEN_WIDTH // 2 - victory_text.get_width() // 2, 80))
+        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
 
         # if statements to show the number of stars matching player score.
-        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
         if self.stars == 5:
-            if (current_time // self.blink_interval) % 2 == 0:
+            if (current_time // self.star_blink) % 2 == 0:
+                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
+                self.screen.blit(medal, (150, 190))
+                self.screen.blit(medal, (300, 190))
+                self.screen.blit(medal, (450, 190))
+                self.screen.blit(medal, (600, 190))
+                self.screen.blit(medal, (750, 190))
+            elif (current_time // self.star_blink) % 2 == 1:
+                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
                 self.screen.blit(medal, (150, 190))
                 self.screen.blit(medal, (300, 190))
                 self.screen.blit(medal, (450, 190))
@@ -72,7 +80,13 @@ class VictoryScreen(Screen):
             score = self.font_medium.render("with Distinction", True, DUSTY_PINK)
             self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 310))
         elif self.stars == 4:
-            if (current_time // self.blink_interval) % 2 == 0:
+            if (current_time // self.star_blink) % 2 == 0:
+                self.screen.blit(medal, (210, 190))
+                self.screen.blit(medal, (360, 190))
+                self.screen.blit(medal, (510, 190))
+                self.screen.blit(medal, (660, 190))
+            elif (current_time // self.star_blink) % 2 == 1:
+                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
                 self.screen.blit(medal, (210, 190))
                 self.screen.blit(medal, (360, 190))
                 self.screen.blit(medal, (510, 190))
@@ -80,7 +94,12 @@ class VictoryScreen(Screen):
             score = self.font_medium.render("with Merit!", True, DUSTY_PINK)
             self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 310))
         elif self.stars == 3:
-            if (current_time // self.blink_interval) % 2 == 0:
+            if (current_time // self.star_blink) % 2 == 0:
+                self.screen.blit(medal, (300, 190))
+                self.screen.blit(medal, (450, 190))
+                self.screen.blit(medal, (600, 190))
+            elif (current_time // self.star_blink) % 2 == 1:
+                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
                 self.screen.blit(medal, (300, 190))
                 self.screen.blit(medal, (450, 190))
                 self.screen.blit(medal, (600, 190))

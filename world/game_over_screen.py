@@ -66,13 +66,13 @@ class GameOverScreen(Screen):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 # if the key press is either N or ESQ it also quits
                 if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
                 # if key press is Y replay game loop
-                if event.key == pygame.K_y:
+                elif event.key == pygame.K_y:
                     main_game_loop()
                     return
 
