@@ -23,6 +23,7 @@ class Screen(ABC):
         # load image for game window
         self.game_icon = pygame.image.load('assets/main_map/school_2.png')
         pygame.display.set_icon(self.game_icon)
+        self.game_state = 'Main Menu'
 
 
     # abstract methods to be overwritten by child classes
