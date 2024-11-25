@@ -1,5 +1,8 @@
 import pygame
 import sys
+
+from werkzeug.sansio.http import is_resource_modified
+
 from world.game_screen_classes import Screen
 from world.map_config import *
 
@@ -24,6 +27,7 @@ class VictoryScreen(Screen):
         self.font_small = pygame.font.Font(FONT_PATH, 15)
         # blinking interval in milliseconds
         self.blink_interval = 600
+        self.button_blink = 300
         self.stars = 5
         self.user_text = ''
 
@@ -81,13 +85,14 @@ class VictoryScreen(Screen):
             score = self.font_medium.render("Well done!", True, DUSTY_PINK)
             self.screen.blit(score, (SCREEN_WIDTH // 2 - score.get_width() // 2, 330))
 
+    def save_button(self):
+        current_time = pygame.time.get_ticks()
         # code for the save button
-        self.button_blink = 300
         if (current_time // self.button_blink) % 2 == 0:
-            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (600, 100))
+            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (630, 100))
             self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
         if (current_time // self.button_blink) % 2 == 1:
-            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (595, 95))
+            save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (625, 95))
             self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
         save_score = self.font_small.render("What name shall we put in the diploma?", True, DUSTY_YELLOW)
         self.screen.blit(save_score, (SCREEN_WIDTH // 2 - save_score.get_width() // 2, 480))
@@ -115,7 +120,8 @@ class VictoryScreen(Screen):
                     # Unicode standard is used for string
                 # formation
                 else:
-                    self.user_text += event.unicode
+                    if len(self.user_text) < 20:
+                        self.user_text += event.unicode
 
 # UNCOMMENT TO TEST
 def main_game_loop():
@@ -124,6 +130,7 @@ def main_game_loop():
 
     # Call game over class and store it in a variable in order to create an instance of the screen object
     victory_screen = VictoryScreen()
+
 
     # instantiating Clock to control framerate
     clock = pygame.time.Clock()
@@ -136,6 +143,7 @@ def main_game_loop():
 
         # Draw the Game Over screen
         victory_screen.draw()
+        victory_screen.save_button()
 
         victory_screen.menu_handler()
 
