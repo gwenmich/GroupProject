@@ -148,7 +148,10 @@ class Game():
 
         self.cards_group.draw(screen)
         self.cards_group.update()
-
+        
+        end_of_game_image = pygame.image.load('prototypes/johanna_manja_groening/images/end_of_game.png').convert()
+        if self.level_complete:
+            self.screen.blit(end_of_game_image,(0,0))
 
 pygame.init()
 pygame.mixer.init()
