@@ -49,7 +49,6 @@ class Game():
         self.frame_count = 0
         self.block_game = False
 
-        #first level
         self.generate_level()
 
     def update(self, event_list):
@@ -94,9 +93,7 @@ class Game():
         self.cols=6
         self.generate_cardset(self.cards)
  
-    def generate_cardset(self,cards):
-        #self.cols = self.rows = self.cols if self.cols >= self.rows else self.rows 
-
+    def generate_cardset(self,cards): 
         CARDS_WIDTH =(self.img_width * self.cols + self.padding *3) 
         LEFT_MARGIN = RIGHT_MARGIN = (self.width - CARDS_WIDTH) // 2
         self.cards_group.empty()
@@ -108,7 +105,7 @@ class Game():
             self.cards_group.add(card)
     
     def select_random_cards(self):
-        cards =random.sample(self.all_cards,12) #(self.level + self.level +2))
+        cards =random.sample(self.all_cards,12) 
         cards_copy = cards.copy()
         cards.extend(cards_copy)
         random.shuffle(cards)
@@ -118,18 +115,10 @@ class Game():
             for event in event_list:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE and self.level_complete:
-                        #self.level +=1
-                       # if self.level >=6:
-                            #self.level=1
                         self.generate_level()
 
     
     def draw(self):
-        #BLACK =(0,0,0)
-        #SCREEN_WIDTH = 1000
-        #SCREEN_HEIGHT = 700
-        #screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        #pygame.display.set_caption("Wellbeing Room")
         background_image = pygame.image.load('prototypes/johanna_manja_groening/images/wellbeing_background.png').convert() 
         #screen.fill(BLACK) 
         self.screen.blit(background_image,(0,0))
@@ -166,7 +155,8 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wellbeing Room")
-start_image = pygame.image.load('prototypes/johanna_manja_groening/images/wellbeing_room_start.png').convert()
+
+
 
 FPS = 60
 clock =pygame.time.Clock()
