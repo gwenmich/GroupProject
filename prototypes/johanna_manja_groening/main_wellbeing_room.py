@@ -1,6 +1,7 @@
 import pygame, random
 
-
+#from game import Game
+#from memory_card import Card 
 
 
 
@@ -13,7 +14,6 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wellbeing Room")
-background_image = pygame.image.load('prototypes/johanna_manja_groening/images/wellbeing_background.png').convert()
 start_image = pygame.image.load('prototypes/johanna_manja_groening/images/wellbeing_room_start.png').convert()
 
 FPS = 60
@@ -27,7 +27,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
   
-    screen.blit(background_image,(0,0))
+    screen.blit(start_image,(0,0))
     pygame.display.update()
 
 pygame.quit()
