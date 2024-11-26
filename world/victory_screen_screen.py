@@ -1,10 +1,8 @@
 import pygame
 import sys
-
-from werkzeug.sansio.http import is_resource_modified
-
 from world.game_screen_classes import Screen
 from world.map_config import *
+from utilities.database.front_end import add_new_high_score
 
 # storing colors in variables
 DUSTY_PINK = (231, 84, 128)
@@ -46,7 +44,6 @@ class VictoryScreen(Screen):
 
     # function to draw the Game Over Screen
     def draw(self, game_state=None):
-        global stars
         # first fills background
         self.screen.fill(SKY_BLUE)
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
@@ -58,8 +55,8 @@ class VictoryScreen(Screen):
         victory_text = self.font_large.render("YOU GRADUATED!", True, DUSTY_YELLOW)
         # centering the text exactly in middle
         self.screen.blit(victory_text, (SCREEN_WIDTH // 2 - victory_text.get_width() // 2, 80))
-        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
 
+        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
         # if statements to show the number of stars matching player score.
         if self.stars == 5:
             if (current_time // self.star_blink) % 2 == 0:
@@ -146,9 +143,12 @@ class VictoryScreen(Screen):
                 elif event.key == pygame.K_RETURN:
                     if len(self.user_text) > 0:
                         self.enter_pressed = True
+                        # when user hits ENTER it trigger the function that saves the score
+                        # must replace TEST with variable for timer and stars
+                        add_new_high_score(self.user_text, 'TEST', 'TEST')
                 elif event.key == pygame.K_BACKSPACE:
                     self.user_text = self.user_text[:-1]
-                    # Usi Unicode
+                    # Using Unicode
                 else:
                     if len(self.user_text) < 11:
                         self.user_text += event.unicode

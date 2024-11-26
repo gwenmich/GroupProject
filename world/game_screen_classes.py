@@ -91,13 +91,13 @@ class MapScreen(Screen):
                     self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
         # drawing the bars and timers and the matching texts
-        self.stress_bar.draw(self.screen)
-        self.stress_bar.draw_text(self.screen)
-
-        self.games_bar.draw(self.screen)
-        self.games_bar.draw_text(self.screen)
-
-        self.timer.countdown(self.screen)
+        # self.stress_bar.draw(self.screen)
+        # self.stress_bar.draw_text(self.screen)
+        #
+        # self.games_bar.draw(self.screen)
+        # self.games_bar.draw_text(self.screen)
+        #
+        # self.timer.countdown(self.screen)
 
 
 
@@ -120,8 +120,8 @@ if __name__ == "__main__":
                     if event.key == pygame.K_ESCAPE:
                         running = False
                 # decreases timer by 1 second every second
-                elif event.type == pygame.USEREVENT:
-                    map_screen.timer.timer_duration -= 1
+                # elif event.type == pygame.USEREVENT:
+                #     map_screen.timer.timer_duration -= 1
 
             map_screen.draw()
 

@@ -53,13 +53,49 @@ hitboxes = {
 }
 
 
+# TEXT BUBBLE COORDINATES CODE
+library_rect_B = pygame.Rect(175, 515, 140, 100)
+cafeteria_rect_B = pygame.Rect(780, 450, 130, 150)
+counselling_rect_B = pygame.Rect(452, 280, 150, 115)
+classroom_rect_B = pygame.Rect(710, 120, 150, 120)
+it_dept_rect_B = pygame.Rect(175, 75, 140, 140)
+
+buildings_bubble_hitboxes = {
+    "Library": library_rect_B,
+    "Cafeteria": cafeteria_rect_B,
+    "Counselling": counselling_rect_B,
+    "Classroom": classroom_rect_B,
+    "IT Dept.": it_dept_rect_B
+}
+
+# for the speech bubble on the menu
+bubble_position = {
+    "Library": (280, 500),
+    "Classroom": (815, 120),
+    "Cafeteria": (815, 420),
+    "IT Dept.": (280, 120),
+    "Counselling": (480, 190)
+}
+
 # hitbox collision function, you pass the new rectangle matching player position and the intended hitbox dictionary
 def check_collision(new_rect, hitboxes):
     # if there's a match between a coordinates of a hitbox in the dict and new_rect(new player position) return true
     for hitbox in hitboxes.values():
         if new_rect.colliderect(hitbox):
             return True
+    # if no match found, False
     return False
+
+
+# similar colision function but checks items not values
+def check_collision_items(new_rect, hitboxes):
+    for name, rect in hitboxes.items():
+        if new_rect.colliderect(rect):
+            # if found returns the name so i can get the right coordinates from the their dict by name
+            return name
+    # if no match found, False
+    return False
+
 
 if __name__ == "__main__":
 

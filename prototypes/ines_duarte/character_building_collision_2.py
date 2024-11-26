@@ -6,7 +6,7 @@ from mini_games import mini_game
 library = pygame.Rect(230, 540, 35, 40)
 cafeteria = pygame.Rect(850, 525, 40, 40)
 counselling_office = pygame.Rect(510, 327, 35, 40)
-classroom = pygame.Rect(852, 527, 35, 40)
+classroom = pygame.Rect(760, 183, 50, 40)
 it_dept = pygame.Rect(230, 150, 35, 40)
 
 
