@@ -44,7 +44,6 @@ class VictoryScreen(Screen):
 
     # function to draw the Game Over Screen
     def draw(self, game_state=None):
-        global stars
         # first fills background
         self.screen.fill(SKY_BLUE)
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
@@ -56,8 +55,8 @@ class VictoryScreen(Screen):
         victory_text = self.font_large.render("YOU GRADUATED!", True, DUSTY_YELLOW)
         # centering the text exactly in middle
         self.screen.blit(victory_text, (SCREEN_WIDTH // 2 - victory_text.get_width() // 2, 80))
-        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
 
+        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
         # if statements to show the number of stars matching player score.
         if self.stars == 5:
             if (current_time // self.star_blink) % 2 == 0:
