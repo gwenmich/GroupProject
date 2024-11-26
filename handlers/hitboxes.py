@@ -53,6 +53,23 @@ hitboxes = {
 }
 
 
+# TEXT BUBBLE COORDINATES CODE
+library_rect_B = pygame.Rect(175, 515, 140, 100)
+cafeteria_rect_B = pygame.Rect(780, 450, 130, 150)
+counselling_office_rect_B = pygame.Rect(452, 280, 150, 115)
+classroom_rect_B = pygame.Rect(852, 527, 35, 40)
+it_dept_rect_B = pygame.Rect(175, 75, 140, 140)
+
+buildings_bubble_list = {
+    "Library": library_rect_B,
+    "Cafeteria": cafeteria_rect_B,
+    "Counselling": counselling_office_rect_B,
+    "Classroom": classroom_rect_B,
+    "IT Department": it_dept_rect_B
+}
+
+
+
 # hitbox collision function, you pass the new rectangle matching player position and the intended hitbox dictionary
 def check_collision(new_rect, hitboxes):
     # if there's a match between a coordinates of a hitbox in the dict and new_rect(new player position) return true
