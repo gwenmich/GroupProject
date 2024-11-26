@@ -1,6 +1,7 @@
 import requests
 # we need json to format the data payloads
 import json
+from utilities.database.db_utils import get_high_scores
 
 
 # GET METHOD ########################################################
@@ -12,18 +13,19 @@ def get_top10_scores_front_end():
     # using .json to format the response, converting it into a python dictionary
     result = requests.get(endpoint).json()
     return result
-
-
+#
+#
+#
 # # POST METHOD ########################################################
 #
-# Function to make a POST request to the API to add a new score
-def add_new_high_score(new_user_name: str, game_final_time: str, game_score: str):
+# Function to make a POST request to the API to add a new spell to db
+def add_new_score(user_name: str, game_final_time: str, game_score: str):
     # stored route in variable 'endpoint' for reusability
     endpoint = "http://127.0.0.1:5000/scores/add"
     # created a dictionary to structure de information being passed as argument in key value pairs to make it more
     # clear when its send as a json
     spell_details = {
-        "new_user_name": new_user_name,
+        "user_name": user_name,
         "game_final_time": game_final_time,
         "game_score": game_score
     }
@@ -48,8 +50,7 @@ def iterate_my_stuff(func):
 
 def run():
     print('Here are you scores')
-    add_new_high_score("Test Player", "00:00", "5 Stars")
-    iterate_my_stuff(get_top10_scores_front_end())
+    print(get_high_scores())
 
 
 if __name__ == "__main__":
