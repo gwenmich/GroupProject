@@ -4,45 +4,37 @@ from abc import ABC, abstractmethod
 from world.map_config import *
 from world.game_screen_classes import Screen, MapScreen
 from world.victory_screen_screen import *
+# from handlers.hitboxes import *
 
 DARK_BLUE = (10, 100, 160)
+
+def center_text(rect, text):
+    x_position = rect.x + (rect.width - text.get_width()) // 2
+    y_position = rect.y + (rect.height - text.get_height()) // 2
+    return x_position, y_position
 
 # class for speech bubbles
 class Bubble(ABC):
     # initialize
-    def __init__(self, surface):
+    def __init__(self, surface, width, height, x_axis, y_axis):
         pygame.init()
         FONT_PATH = "world/PressStart2P-Regular.ttf"
         self.font_large = pygame.font.Font(FONT_PATH, 60)
         self.font_medium = pygame.font.Font(FONT_PATH, 40)
-        self.font_small_2 = pygame.font.Font(FONT_PATH, 30)
-        self.font_small = pygame.font.Font(FONT_PATH, 15)
-        self.font_tiny = pygame.font.Font(FONT_PATH, 12)
-        self.bubble_height = 80
-        self.bubble_width = 100
-        self.bubble_x = 470
-        self.bubble_y = 230
+        self.font_small_2 = pygame.font.Font(FONT_PATH, 20)
+        self.font_small = pygame.font.Font(FONT_PATH, 12)
+        self.font_tiny = pygame.font.Font(FONT_PATH, 11)
+        self.bubble_height = height
+        self.bubble_width = width
+        self.bubble_x = x_axis
+        self.bubble_y = y_axis
         self.enter_pressed = False
         self.surface = surface
 
 
-    # abstract methods to be overwritten by child classes
-    @abstractmethod
-    def load_image(self, path, size=None):
-        pass
 
-    # abstract methods to be overwritten by child classes
-    @abstractmethod
-    def draw(self):
-        pass
-
-
-class MapBubbles(Bubble):
-    def __init__(self, surface):
-        # initializing the parent class variables
-        super().__init__(surface)
-
-    def load_image(self, path, size=None):
+    @staticmethod
+    def load_image(path, size=None):
         image = pygame.image.load(path)
         # if size is given, rescale image
         if size:
@@ -51,24 +43,62 @@ class MapBubbles(Bubble):
             # is not just assumes NONE and returns image
             return image
 
+    # abstract methods to be overwritten by child classes
+    @abstractmethod
+    def draw(self):
+        pass
+
+
+class MapBubbles(Bubble):
+    def __init__(self, surface, x_axis, y_axis):
+        # initializing the parent class variables
+        super().__init__(surface, width=110, height=90, x_axis=x_axis, y_axis=y_axis)
+        self.bubble_blink = 300
+        self.enter_pressed = False
+
     # bubble_rect = pygame.Rect(player_position.x, player_position.y, 64, 64)
     def draw(self):
-        counselling_office_1 = pygame.Rect(465, 300, 130, 130)
-        bubble = self.load_image('prototypes/ines_duarte/speech_bubbles/message_pink.png', (self.bubble_width, self.bubble_height))
-        self.surface.screen.blit(bubble, (self.bubble_x, self.bubble_y))
-        bubble_rect = pygame.Rect(self.bubble_x, self.bubble_y, self.bubble_width, self.bubble_height)
+        current_time = pygame.time.get_ticks()
+        if self.enter_pressed == False:
+            if (current_time // self.bubble_blink) % 2 == 0:
+                # instruction to player on how to clear bubble
+                clear_bubble = self.font_small_2.render("PRESS ENTER TO CLEAR", True, DARK_BLUE)
+                self.surface.screen.blit(clear_bubble, (SCREEN_WIDTH // 2 - clear_bubble.get_width() // 2, 655))
 
-        building_name = self.font_tiny.render("Library", True, DARK_BLUE)
-        # centering the text in bubble using the rect
-        text_x = bubble_rect.x + (bubble_rect.width - building_name.get_width()) // 2
-        text_y = bubble_rect.y + (bubble_rect.height - building_name.get_height()) // 2
-        self.surface.screen.blit(building_name, (text_x, text_y - 5))
+                bubble = Bubble.load_image('prototypes/ines_duarte/speech_bubbles/message_pink.png', (self.bubble_width, self.bubble_height))
+                self.surface.screen.blit(bubble, (self.bubble_x, self.bubble_y))
+                building_name = self.font_small.render("Library", True, DARK_BLUE)
+
+                bubble_rect = pygame.Rect(self.bubble_x, self.bubble_y, self.bubble_width, self.bubble_height)
+                text_x, text_y = center_text(bubble_rect, building_name)
+                self.surface.screen.blit(building_name, (text_x, text_y - 5))
+
+            elif (current_time // self.bubble_blink) % 2 == 1:
+                bubble = Bubble.load_image('prototypes/ines_duarte/speech_bubbles/message_pink.png', (self.bubble_width - 3, self.bubble_height - 3))
+                self.surface.screen.blit(bubble, (self.bubble_x, self.bubble_y))
+                building_name = self.font_tiny.render("Library", True, DARK_BLUE)
+                # centering the text in bubble using the rect
+                bubble_rect = pygame.Rect(self.bubble_x, self.bubble_y, self.bubble_width, self.bubble_height)
+                text_x, text_y  = center_text(bubble_rect, building_name)
+                self.surface.screen.blit(building_name, (text_x, text_y - 5))
+
+
+    def menu_handler(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.enter_pressed = True
 
 
 
 
-
-
+building_names = {
+    "Library": (480, 190),
+    "Classroom": (480, 190),
+    "Canteen":(480, 190),
+    "IT Department":(480, 190),
+    "Counselling": (480, 190)
+}
 
 def main_game_loop():
     # Initialize Pygame
@@ -76,7 +106,7 @@ def main_game_loop():
 
     # Call game over class and store it in a variable in order to create an instance of the screen object
     map_screen = MapScreen()
-    bubble = MapBubbles(map_screen)
+    bubble = MapBubbles(map_screen, x_axis=240, y_axis=140)
 
     # instantiating Clock to control framerate
     clock = pygame.time.Clock()
@@ -85,6 +115,7 @@ def main_game_loop():
         # stars variable to change medals. This should probably be coded with the timer to update depending on final time
         map_screen.draw()
         bubble.draw()
+        bubble.menu_handler()
 
         # Update the screen
         pygame.display.flip()

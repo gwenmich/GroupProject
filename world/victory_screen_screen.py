@@ -143,7 +143,7 @@ class VictoryScreen(Screen):
                 elif event.key == pygame.K_RETURN:
                     if len(self.user_text) > 0:
                         self.enter_pressed = True
-                        # went user hits ENTER it trigger the function that saves the score
+                        # when user hits ENTER it trigger the function that saves the score
                         # must replace TEST with variable for timer and stars
                         add_new_high_score(self.user_text, 'TEST', 'TEST')
                 elif event.key == pygame.K_BACKSPACE:
