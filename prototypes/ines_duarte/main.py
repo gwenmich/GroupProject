@@ -1,5 +1,8 @@
 import sys
+
 from hitboxes import *
+from utilities.speech_bubble_map import *
+
 
 
 
@@ -15,7 +18,7 @@ dt = 0
 player_position = pygame.Vector2(530, 410)
 
 # load main character image and get its rectangle
-character = pygame.image.load('girl64_cropped.png').convert_alpha()
+character = pygame.image.load('prototypes/ines_duarte/girl64_cropped.png').convert_alpha()
 x = character.get_width()
 y = character.get_height()
 
@@ -26,8 +29,9 @@ def game_loop():
 
     # setting running to True for game loop
     running = True
-
     # game loop
+    bubble = MapBubbles(screen, 0, 0, "")
+
     while running:
 
         # framerate in seconds - the time difference between two frames
@@ -64,11 +68,17 @@ def game_loop():
         new_rect = character.get_rect(center=new_position)
 
         # check collision
-        collision_detected = check_collision(new_rect, hitboxes)
+        building_collision = check_collision(new_rect, hitboxes)
 
-        # if no collision detected update player position
-        if collision_detected == False:
+        # check collision with building bubbles
+        bubble.handler(new_rect, buildings_bubble_hitboxes, bubble_position)
+
+        if bubble.visible_bubble == True:
+            bubble.draw()
+
+        if building_collision == False:
             player_position = new_position
+
 
         # game quitting logic
         for event in pygame.event.get():
