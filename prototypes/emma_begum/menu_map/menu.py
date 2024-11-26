@@ -3,172 +3,182 @@ from menu_map.map_creation import *
 
 pygame.init()
 
-# Music
-pygame.mixer.music.load('music/lofi1.mp3')
-pygame.mixer.music.play(-1)
-
-# Screen dimensions
+# Display
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Thesis Quest")
-
-# Menu background image
-menu_background = pygame.image.load('menu_assets/thesisquest.png').convert()
-# Pause background image
-pause_background = pygame.image.load('menu_assets/pause.png').convert()
-
-# Menu font
-font_path = "fonts/PressStart2P-Regular.ttf"
-font = pygame.font.Font(font_path, 30)
-menu_font = pygame.font.Font(font_path, 40)
-
-# Colours
 WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
-RED = (255, 0, 0)
-BLACK = (0, 0, 0)
-
-# Sounds
-click_sound = pygame.mixer.Sound('music/click.mp3')
-start_sound = pygame.mixer.Sound('music/starts.mp3')
+FPS = 60
 
 # Game states
-game_state = "main_menu"
+class GameState:
+    MAIN_MENU = "main_menu"
+    PAUSE_MENU = "pause_menu"
+    GAME = "game"
 
-# Menu options
-menu_options = ["Start Game", "High Scores", "Quit"]
-pause_options = ["Resume Game","Main Menu", "Quit"]
-selected_option = 0
+# Game Manager
+class GameManager:
+    def __init__(self):
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        pygame.display.set_caption("Thesis Quest")
+        self.clock = pygame.time.Clock()
+        self.game_state = GameState.MAIN_MENU
+        self.selected_option = 0
+        self.menu = Menu(self)
+        self.game = Game(self)
+        self.setup_music()
 
-def display_menu():
-    if game_state == "main_menu":
-        screen.blit(menu_background, (0, 0))  # Main menu background
-        title_text = menu_font.render("Main Menu", True, WHITE)
-        options = menu_options
-    elif game_state == "pause_menu":
-        screen.blit(pause_background, (0, 0))  # Pause menu background
-        title_text = menu_font.render("Pause Menu", True, WHITE)
-        options = pause_options
+    def setup_music(self):
+        pygame.mixer.music.load('music/lofi1.mp3')
+        pygame.mixer.music.play(-1)
 
-
-    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 120))
-
-
-    for i, option in enumerate(options):
-        color = PURPLE if i == selected_option else WHITE
-        option_text = font.render(option, True, color)
-        screen.blit(option_text, (SCREEN_WIDTH // 2 - option_text.get_width() // 2, 180 + i * 45))
-
-    pygame.display.flip()
-
-    for i, option in enumerate(options):
-        color = PURPLE if i == selected_option else WHITE
-        option_text = font.render(option, True, color)
-        screen.blit(option_text, (SCREEN_WIDTH // 2 - option_text.get_width() // 2, 180 + i * 45))
-
-    pygame.display.flip()
-
-# Function for menu input
-def handle_menu_input(event):
-    global selected_option, game_state
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_DOWN:
-            click_sound.play()
-            selected_option = (selected_option + 1) % len(menu_options if game_state == "main_menu" else pause_options)
-        elif event.key == pygame.K_UP:
-            click_sound.play()
-            selected_option = (selected_option - 1) % len(menu_options if game_state == "main_menu" else pause_options)
-        elif event.key == pygame.K_RETURN:
-            start_sound.play()
-            if game_state == "main_menu":
-                if selected_option == 0:  # "Start Game"
-                    game_state = "game"
-                    pygame.mixer.music.load('music/mapmusic.mp3')
-                    pygame.mixer.music.play(-1)
-                    game_state = "game"  # Transition to the game state
-                elif selected_option == 1:  # High Scores goes here
-
-                    pass
-                elif selected_option == 2:  # "Quit"
-                    pygame.quit()
-                    sys.exit()
-            elif game_state == "pause_menu":
-                if selected_option == 0:  # "Resume Game"
-                    game_state = "game"  # Resume game
-                elif selected_option == 1:  # "Main Menu"
-                    game_state = "main_menu"  # Go back to main menu
-                    pygame.mixer.music.load('music/lofi1.mp3')
-                    pygame.mixer.music.play(-1)
-                elif selected_option == 2:  # "Quit"
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
+                if self.game_state in [GameState.MAIN_MENU, GameState.PAUSE_MENU]:
+                    self.menu.handle_input(event)
+                elif self.game_state == GameState.GAME:
+                    self.game.handle_input(event)
 
-# Function to start the game (using the game loop from main.py)
-def game_loop():
-    global game_state
-    player_position = pygame.Vector2(530, 410)
+            if self.game_state in [GameState.MAIN_MENU, GameState.PAUSE_MENU]:
+                self.menu.display()
+            elif self.game_state == GameState.GAME:
+                self.game.loop()
 
-    # Load character
-    character = pygame.image.load('girl64.png').convert_alpha()
-    x = character.get_width()
-    y = character.get_height()
+            self.clock.tick(FPS)
 
-    clock = pygame.time.Clock()
 
-    # Game loop
-    while game_state == "game":
-        dt = clock.tick(60) / 1000
+# Menu
+class Menu:
+    def __init__(self, manager):
+        self.manager = manager
+        self.font_path = "fonts/PressStart2P-Regular.ttf"
+        self.title_font = pygame.font.Font(self.font_path, 40)
+        self.option_font = pygame.font.Font(self.font_path, 30)
+        self.click_sound = pygame.mixer.Sound('music/click.mp3')
+        self.start_sound = pygame.mixer.Sound('music/starts.mp3')
+        self.menu_options = ["Start Game", "High Scores", "Quit"]
+        self.pause_options = ["Resume Game", "Main Menu", "Quit"]
+        self.menu_background = pygame.image.load('menu_assets/thesisquest.png').convert()
+        self.pause_background = pygame.image.load('menu_assets/pause.png').convert()
 
-        character_rect = character.get_rect(center=player_position)
+    def display(self):
+        options = (
+            self.menu_options
+            if self.manager.game_state == GameState.MAIN_MENU
+            else self.pause_options
+        )
+        background = (
+            self.menu_background
+            if self.manager.game_state == GameState.MAIN_MENU
+            else self.pause_background
+        )
 
-        screen.fill((0, 200, 110))
-        draw_tile_map()  # Function in map_creation.py
-        screen.blit(character, character_rect)
+        self.manager.screen.blit(background, (0, 0))
+        title_text = self.title_font.render(
+            "Main Menu" if self.manager.game_state == GameState.MAIN_MENU else "Pause Menu",
+            True,
+            WHITE,
+        )
+        self.manager.screen.blit(
+            title_text,
+            (
+                SCREEN_WIDTH // 2 - title_text.get_width() // 2,
+                120,
+            ),
+        )
 
-        keyboard = pygame.key.get_pressed()
+        for i, option in enumerate(options):
+            color = PURPLE if i == self.manager.selected_option else WHITE
+            option_text = self.option_font.render(option, True, color)
+            self.manager.screen.blit(
+                option_text,
+                (
+                    SCREEN_WIDTH // 2 - option_text.get_width() // 2,
+                    180 + i * 45,
+                ),
+            )
 
-        if keyboard[pygame.K_UP] and character_rect.y > 0:
-            player_position.y -= 250 * dt
-        if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - y:
-            player_position.y += 250 * dt
-        if keyboard[pygame.K_LEFT] and character_rect.x > 0:
-            player_position.x -= 250 * dt
-        if keyboard[pygame.K_RIGHT] and character_rect.x < SCREEN_WIDTH - x:
-            player_position.x += 250 * dt
+        pygame.display.flip()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+    def handle_input(self, event):
+        if event.type == pygame.KEYDOWN:
+            options = (
+                self.menu_options
+                if self.manager.game_state == GameState.MAIN_MENU
+                else self.pause_options
+            )
+            if event.key == pygame.K_DOWN:
+                self.click_sound.play()
+                self.manager.selected_option = (self.manager.selected_option + 1) % len(options)
+            elif event.key == pygame.K_UP:
+                self.click_sound.play()
+                self.manager.selected_option = (self.manager.selected_option - 1) % len(options)
+            elif event.key == pygame.K_RETURN:
+                self.start_sound.play()
+                self.select_option()
+
+    def select_option(self):
+        if self.manager.game_state == GameState.MAIN_MENU:
+            if self.manager.selected_option == 0:  # Start Game
+                self.manager.game_state = GameState.GAME
+                pygame.mixer.music.load('music/mapmusic.mp3')
+                pygame.mixer.music.play(-1)
+            elif self.manager.selected_option == 1:  # High Scores
+                pass  # Add High Score functionality here
+            elif self.manager.selected_option == 2:  # Quit
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    game_state = "pause_menu"  # Switch to pause menu
-                    return
-
-        pygame.display.flip()  # Updates display
-
-
-# Main loop for managing game state
-def main():
-    global game_state, selected_option
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        elif self.manager.game_state == GameState.PAUSE_MENU:
+            if self.manager.selected_option == 0:  # Resume Game
+                self.manager.game_state = GameState.GAME
+            elif self.manager.selected_option == 1:  # Main Menu
+                self.manager.game_state = GameState.MAIN_MENU
+                pygame.mixer.music.load('music/lofi1.mp3')
+                pygame.mixer.music.play(-1)
+            elif self.manager.selected_option == 2:  # Quit
                 pygame.quit()
                 sys.exit()
 
-            if game_state in ["main_menu", "pause_menu"]:
-                handle_menu_input(event)
 
-        if game_state in ["main_menu", "pause_menu"]:
-            display_menu()
-        elif game_state == "game":
-            game_loop()
+# Game Map
+class Game:
+    def __init__(self, manager):
+        self.manager = manager
+        self.player_position = pygame.Vector2(530, 410)
+        self.character = pygame.image.load('girl64.png').convert_alpha()
+        self.character_rect = self.character.get_rect(center=self.player_position)
+        self.speed = 250
 
-        pygame.time.Clock().tick(60)  # Ensures game runs at 60 FPS
+    def loop(self):
+        dt = self.manager.clock.tick(FPS) / 1000
+        self.character_rect = self.character.get_rect(center=self.player_position)
+
+        self.manager.screen.fill((0, 200, 110))
+        draw_tile_map()
+        self.manager.screen.blit(self.character, self.character_rect)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP] and self.character_rect.y > 0:
+            self.player_position.y -= self.speed * dt
+        if keys[pygame.K_DOWN] and self.character_rect.y < SCREEN_HEIGHT - self.character_rect.height:
+            self.player_position.y += self.speed * dt
+        if keys[pygame.K_LEFT] and self.character_rect.x > 0:
+            self.player_position.x -= self.speed * dt
+        if keys[pygame.K_RIGHT] and self.character_rect.x < SCREEN_WIDTH - self.character_rect.width:
+            self.player_position.x += self.speed * dt
+
+        pygame.display.flip()
+
+    def handle_input(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            self.manager.game_state = GameState.PAUSE_MENU
 
 
 if __name__ == "__main__":
-    main()
+    game_manager = GameManager()
+    game_manager.run()
