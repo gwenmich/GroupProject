@@ -3,7 +3,6 @@ import sys
 from abc import ABC, abstractmethod
 from world.map_config import *
 from world.game_screen_classes import Screen, MapScreen
-# from world.victory_screen_screen import *
 from handlers.hitboxes import *
 
 
@@ -75,7 +74,7 @@ class MapBubbles(Bubble):
 
         if self.enter_pressed == False:
             if (current_time // self.bubble_blink) % 2 == 0:
-                bubble = Bubble.load_image('assets/main_map/message_pink.png', (self.bubble_width, self.bubble_height))
+                bubble = MapBubbles.load_image('assets/main_map/message_pink.png', (self.bubble_width, self.bubble_height))
                 surface_type.blit(bubble, (self.bubble_x, self.bubble_y))
                 building_name = self.font_small.render(self.text, True, DARK_BLUE)
 
@@ -84,7 +83,7 @@ class MapBubbles(Bubble):
                 surface_type.blit(building_name, (text_x, text_y - 5))
 
             elif (current_time // self.bubble_blink) % 2 == 1:
-                bubble = Bubble.load_image('assets/main_map/message_pink.png', (self.bubble_width - 3, self.bubble_height - 3))
+                bubble = MapBubbles.load_image('assets/main_map/message_pink.png', (self.bubble_width - 3, self.bubble_height - 3))
                 surface_type.blit(bubble, (self.bubble_x, self.bubble_y))
                 building_name = self.font_tiny.render(self.text, True, DARK_BLUE)
                 # centering the text in bubble using the rect
