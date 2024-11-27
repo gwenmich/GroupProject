@@ -1,14 +1,7 @@
 import pygame
+from character_class import Character
+
 
 class SpriteSheet():
-
-    def __init__(self, image):
-        self.sheet = image
-
-    def get_image(self, frame, width, height, bg_colour):
-        image = pygame.Surface((width, height)).convert_alpha()
-        image.blit(self.sheet, (0, 0), ((frame * width), 0, width, height))
-        image.set_colorkey(bg_colour)
-        return image
 
 

@@ -6,8 +6,8 @@ import os
 pygame.init()
 
 # File Paths
-FONT_PATH = r"C:\Users\Lenap\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\grace_parr\PressStart2P-Regular.ttf"
-BACKGROUND_PATH = r"C:\Users\Lenap\PycharmProjects\CFGDegree-GroupProjectTeam1\prototypes\grace_parr\Library.png"  # Updated background path
+FONT_PATH = "PressStart2P-Regular.ttf"
+BACKGROUND_PATH = "Library.png"  # Updated background path
 
 # Ensure font file and background image exist
 if not os.path.exists(FONT_PATH):
