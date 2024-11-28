@@ -110,10 +110,6 @@ class MapBubbles(Bubble):
             # the building is the name returned by the collision check
             self.text = bubble_collision
 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    self.enter_pressed = True
 
 
 
