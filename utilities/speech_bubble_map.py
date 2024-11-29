@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from world.map_config import *
 from world.game_screen_classes import Screen, MapScreen
 from handlers.hitboxes import *
-
+from pygame import Rect
 
 DARK_BLUE = (10, 100, 160)
 
@@ -33,7 +33,40 @@ class Bubble(ABC):
         self.enter_pressed = False
         self.surface = surface
 
+    # static method to make text fit to the size of a specif surface rect
+    @staticmethod
+    def wrap_text(surface, text, color, rect, font, aa=False):
+        # pass the dimensions of the area using pygame Rect method
+        rect = Rect(rect)
+        # to start the text at the top
+        y = rect.top
+        line_spacing = 10
 
+        # this checks font height to correctly space the lines
+        font_height = font.size("Tg")[1]
+
+        # while there is still text left
+        while text:
+            # start by initializing variable i as 1 to count how many characters will fit a line
+            i = 1
+            # here we make sure it stops blitting if the text y coordinate plus font height does not excess the bottom and if it will stop
+            if y + font_height > rect.bottom:
+                break
+            # using sting slicing we consider the lenght of the text starting at [0] until i which stats at one and increments
+            while font.size(text[:i])[0] < rect.width and i < len(text):
+                i += 1
+            # once it finds the limit, looks for the last word
+            if i < len(text):
+                i = text.rfind(" ", 0, i) + 1
+            # and blits the text until the correct index
+            line = font.render(text[:i], aa, color)
+            surface.blit(line, (rect.left, y))
+            # then it adjust y for the next line
+            y += font_height + line_spacing
+            # Remove the text we just blitted as we go to start the loop again
+            text = text[i:]
+        # returns any unbitted text that did not fit the dimensions of the rectangle
+        return text
 
     @staticmethod
     def load_image(path, size=None):
