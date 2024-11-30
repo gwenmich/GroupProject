@@ -235,7 +235,8 @@ class TypingGame:
                             self.user_input = ""
                             self.typing_complete = False
                         else:
-                            self.user_input += event.unicode
+                            if len(self.user_input) < 43:
+                                self.user_input += event.unicode
             if self.current_screen == "intro":
                 self.intro_screen()
             elif self.current_screen == "instructions":
