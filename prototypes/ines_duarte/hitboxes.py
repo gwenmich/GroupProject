@@ -69,6 +69,13 @@ def draw_tile_map():
         if tile in tile_images:
             screen.blit(tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
+# using enumerate and passing the tile map to iterate through every row and column checking index and value
+for y, row in enumerate(TILE_MAP):
+    for x, tile in enumerate(row):
+        # if it find the letter in the tile image dictionary it blits the image with the matching Key Value
+        if tile in self.tile_images:
+            self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
+
 
 # IT dept hitboxes
 it_dept_A_1 = pygame.Rect(185, 80, 120, 95)
