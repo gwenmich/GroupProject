@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import textwrap
 
 # Initialize Pygame
 pygame.init()
@@ -8,6 +9,7 @@ pygame.init()
 # File Paths
 FONT_PATH = "PressStart2P-Regular.ttf"
 BACKGROUND_PATH = "Library.png"  # Updated background path
+
 
 # Ensure font file and background image exist
 if not os.path.exists(FONT_PATH):
@@ -20,15 +22,14 @@ WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Quiz Game")
 
-# Colors
+# Colours
 WHITE = (255, 255, 255)
-PURPLE = (138, 43, 226)
 
-# Fonts
+# Font files, pixellated
 try:
-    FONT = pygame.font.Font(FONT_PATH, 18)  # Reduced font size to fit text
-    LARGE_FONT = pygame.font.Font(FONT_PATH, 24)  # Slightly larger for titles
-    SMALL_FONT = pygame.font.Font(FONT_PATH, 16)  # Smaller for intro messages
+    FONT = pygame.font.Font(FONT_PATH, 14)
+    LARGE_FONT = pygame.font.Font(FONT_PATH, 24)
+    SMALL_FONT = pygame.font.Font(FONT_PATH, 16)
 except Exception as e:
     print(f"Error loading font: {e}")
     sys.exit()
@@ -40,26 +41,6 @@ Librarian_INTRO = "LIBRARIAN_INTRO"
 END_SCREEN = "END_SCREEN"
 CURRENT_STATE = MAIN_MENU
 
-
-# Function to break text into multiple lines if it's too long (I had a lot of problems with this!)
-def wrap_text(text, font, max_width):
-    words = text.split(' ')
-    lines = []
-    current_line = ""
-
-    for word in words:
-        # Check the width of the current line with the new word
-        test_line = current_line + ' ' + word if current_line else word
-        if font.size(test_line)[0] <= max_width:
-            current_line = test_line
-        else:
-            lines.append(current_line)
-            current_line = word
-
-    lines.append(current_line)  # Add the last line
-    return lines
-
-
 # Question class for the quiz
 class Question:
     def __init__(self, question_text, choices, answer_index):
@@ -67,17 +48,21 @@ class Question:
         self.choices = choices
         self.answer_index = answer_index
 
-    def draw(self, screen):
+    def draw(self, screen, selected_choice=None):
         y_offset = 150
-        question_surface = LARGE_FONT.render(self.question_text, True, WHITE)
-        screen.blit(question_surface, (50, 50))
+        question_lines = textwrap.wrap(self.question_text, width=50)  # Wrap the question text
+        for line in question_lines:
+            question_surface = FONT.render(line, True, WHITE)
+            screen.blit(question_surface, (50, y_offset))
+            y_offset += 20
 
         # Draw choices
         for i, choice in enumerate(self.choices):
             choice_surface = FONT.render(choice, True, WHITE)
             screen.blit(choice_surface, (100, y_offset))
-            y_offset += 50
-
+            if selected_choice == i:
+                pygame.draw.circle(screen, (0, 255, 0), (90, y_offset), 5)  # Appears right next to the letter
+            y_offset += 30
 
 # Quiz Game
 class QuizGame:
@@ -108,18 +93,14 @@ class QuizGame:
         # Draw the background image
         try:
             background = pygame.image.load(BACKGROUND_PATH)
-            background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Scale the image to fit the screen
+            background = pygame.transform.scale(background, (WIDTH, HEIGHT))
             screen.blit(background, (0, 0))
         except pygame.error as e:
             print(f"Error loading background image: {e}")
 
         if self.current_question < len(self.questions):
             question = self.questions[self.current_question]
-            question.draw(screen)
-
-            if self.selected_choice is not None:
-                y_offset = 150 + 50 * self.selected_choice
-                pygame.draw.circle(screen, PURPLE, (75, y_offset + 15), 10)
+            question.draw(screen, self.selected_choice)
         else:
             # Set game state to END_SCREEN when questions are finished
             global CURRENT_STATE
@@ -136,7 +117,7 @@ class QuizGame:
         end_surface = LARGE_FONT.render(end_message, True, WHITE)
         result_surface = FONT.render(result_message, True, WHITE)
 
-        # Ensure text is centered on the screen
+        # Makes sure text is centered on the screen
         screen.blit(end_surface,
                     (WIDTH // 2 - end_surface.get_width() // 2, HEIGHT // 2 - end_surface.get_height()))
         screen.blit(result_surface, (WIDTH // 2 - result_surface.get_width() // 2, HEIGHT // 2 + 50))
@@ -146,7 +127,6 @@ class QuizGame:
         exit_surface = FONT.render("Press E to Exit", True, WHITE)
         screen.blit(restart_surface, (WIDTH // 2 - restart_surface.get_width() // 2, HEIGHT // 2 + 100))
         screen.blit(exit_surface, (WIDTH // 2 - exit_surface.get_width() // 2, HEIGHT // 2 + 150))
-
 
 # Main Menu
 def draw_main_menu():
@@ -167,7 +147,6 @@ def draw_main_menu():
 
     pygame.display.update()
 
-
 # Librarian Introduction
 def draw_librarian_intro():
     try:
@@ -179,19 +158,18 @@ def draw_librarian_intro():
 
     # Split text if it's too long
     intro_text = "Hey you! You need to complete this quiz before you can hand in any thesis work!"
-    lines = wrap_text(intro_text, SMALL_FONT, WIDTH - 40)  # 40 pixels padding on each side
+    lines = textwrap.wrap(intro_text, width=50)
 
-    y_offset = HEIGHT // 2 - len(lines) * 20  # Adjust y_offset for multiple lines
+    y_offset = HEIGHT // 2 - len(lines) * 20
     for line in lines:
         line_surface = SMALL_FONT.render(line, True, WHITE)
         screen.blit(line_surface, (WIDTH // 2 - line_surface.get_width() // 2, y_offset))
-        y_offset += 20  # Move to the next line
+        y_offset += 20
 
     instruction_surface = SMALL_FONT.render("Press Enter to start the quiz!", True, WHITE)
     screen.blit(instruction_surface, (WIDTH // 2 - instruction_surface.get_width() // 2, y_offset + 40))
 
     pygame.display.update()
-
 
 # Main Game Loop
 def main():

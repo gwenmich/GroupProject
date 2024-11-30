@@ -2,7 +2,8 @@ import sys
 
 from hitboxes import *
 from utilities.speech_bubble_map import *
-
+from utilities.intro_bubble import *
+from prototypes.ines_duarte.random_useful_code import hitbox_visible_square
 
 
 
@@ -31,6 +32,8 @@ def game_loop():
     running = True
     # game loop
     bubble = MapBubbles(screen, 0, 0, "")
+
+    intro_bubble = IntroBubble(screen, 125, 30, '')
 
     while running:
 
@@ -79,7 +82,10 @@ def game_loop():
         if building_collision == False:
             player_position = new_position
 
+        intro_bubble.draw()
+        intro_bubble.handler()
 
+        # hitbox_visible_square(screen, 205, 260, 600, 260)
         # game quitting logic
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,6 +93,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+
 
 
         # remember to update the screen!
