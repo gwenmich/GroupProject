@@ -2,8 +2,10 @@ import pygame
 import random
 import sys
 
-#initialize Pygame
+#initialize Pygame and mixer
 pygame.init()
+pygame.mixer.init()
+
 
 #screen dimensions
 width, height = 800, 600
@@ -65,6 +67,8 @@ class MazeGame:
             ("A friend calls you. Do you pick up?", -5),
             ("You found a map! Do you follow it?", 5),
         ]
+        pygame.mixer.music.load("background_music.mp3")  # Load the music file
+        pygame.mixer.music.play(-1, 0.0)  # Play the music in a loop (-1) starting immediately
 
     def draw_background(self):
         screen.blit(background, (0, 0))
