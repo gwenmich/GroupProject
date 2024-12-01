@@ -24,6 +24,9 @@ class HighScoreScreen(Screen):
         self.font_large = pygame.font.Font(FONT_PATH, 70)
         self.font_medium = pygame.font.Font(FONT_PATH, 20)
         self.font_small = pygame.font.Font(FONT_PATH, 15)
+        # new variable to contain the menu game stated that will be used to update the main game loop
+        # always reset back to its own menu
+        self.menu = "High Scores"
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -93,12 +96,11 @@ class HighScoreScreen(Screen):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            # if event.type == pygame.KEYDOWN:
-            #     # if the key press is ESQ back to menu
-            #     if event.key == pygame.K_ESCAPE:
-            #         game_state = 'Start Menu'
-                    # call funtion to return to main menu
-                    # still need to check the logic to return to main menu!
+            if event.type == pygame.KEYDOWN:
+                # if the key press is ESQ back to menu
+                if event.key == pygame.K_ESCAPE:
+                    # variable to update game state gets called here to go back to main menu
+                    self.menu = "Main Menu"
 
 
 

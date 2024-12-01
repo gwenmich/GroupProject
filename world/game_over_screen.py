@@ -2,6 +2,7 @@ import pygame
 import sys
 from world.game_screen_classes import Screen
 from world.map_config import *
+# from main.game_class import *
 
 # storing colors in variables
 DUSTY_PINK = (231, 84, 128)
@@ -21,6 +22,7 @@ class GameOverScreen(Screen):
         self.font_small = pygame.font.Font(FONT_PATH, 15)
         # blinking interval in milliseconds
         self.blink_interval = 450
+        # self.play_again = Game()
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -73,7 +75,7 @@ class GameOverScreen(Screen):
                     sys.exit()
                 # if key press is Y replay game loop
                 elif event.key == pygame.K_y:
-                    main_game_loop()
+                    # self.play_again.loop()
                     return
 
 

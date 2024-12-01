@@ -29,18 +29,25 @@ class Game:
 
             print(f"Before checking: Current game_state = {game_state}")
 
-            if game_state != self.menu.next_game_state:
-                print(f"Game state updated to: {self.menu.next_game_state}")
-                game_state = self.menu.next_game_state
 
             if game_state == "Main Menu":
                 print(f"In Main Menu state.")
                 self.menu.display(self.map_screen.screen)
                 self.menu.handle_input()
+                # So this is where if checks if the game_state is diferent than the menu specifc variable and if so updates
+                if game_state != self.menu.next_game_state:
+                    print(f"Game state updated to: {self.menu.next_game_state}")
+                    game_state = self.menu.next_game_state
+                    # the set the menu variable back to default
+                    self.menu.next_game_state = "Main Menu"
             elif game_state == "High Scores":
                 print(f"In High Scores state.")
                 self.high_scores.draw()
-                self.high_scores.menu_handler()
+                self.high_scores.handler()
+                if game_state != self.high_scores.menu:
+                    print(f"Game state updated to: {self.high_scores.menu}")
+                    game_state = self.high_scores.menu
+                    self.high_scores.menu = "High Scores"
             elif game_state == "Map":
                 print(f"In Map state.")
                 self.map_screen.draw()
@@ -50,10 +57,12 @@ class Game:
             elif game_state == "Victory":
                 print(f"In Game over state state.")
                 self.game_over.draw()
-                self.game_over.menu_handler()
+                self.game_over.handler()
 
             elif game_state == "Game Over":
                 print(f"In Game over state state.")
+                self.game_over.draw()
+                self.game_over.handler()
 
 
 
