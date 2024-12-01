@@ -74,6 +74,7 @@ class Menu:
             # pygame.mixer.music.play(-1)
         elif self.selected_option == 1:  # High Scores
             print(f"selected option: {self.selected_option}")
+            self.next_game_state = "High Scores"
         elif self.selected_option == 2:  # Quit
             pygame.quit()
             sys.exit()

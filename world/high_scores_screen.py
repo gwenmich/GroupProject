@@ -43,7 +43,7 @@ class HighScoreScreen(Screen):
         return result
 
     # function to draw the Game Over Screen
-    def draw(self, game_state=None):
+    def draw(self):
         icon = self.load_image('prototypes/ines_duarte/menus/menu_assets/new_cloud_bg.png', (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.screen.blit(icon, (0,0))
 
@@ -87,16 +87,16 @@ class HighScoreScreen(Screen):
         pygame.display.flip()
 
             # this checks for pygame events such as key presses and or QUIT
-    def menu_handler(self):
+    def handler(self):
         for event in pygame.event.get():
             # if user presses QUIT it closes pygame and sys to close all operations
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                # if the key press is ESQ back to menu
-                if event.key == pygame.K_ESCAPE:
-                    game_state = 'Start Menu'
+            # if event.type == pygame.KEYDOWN:
+            #     # if the key press is ESQ back to menu
+            #     if event.key == pygame.K_ESCAPE:
+            #         game_state = 'Start Menu'
                     # call funtion to return to main menu
                     # still need to check the logic to return to main menu!
 
@@ -115,7 +115,7 @@ def main_game_loop():
 
     while True:
         # pass the menu interaction function
-        high_score_screen.menu_handler()
+        high_score_screen.handler()
 
         # Draw the Game Over screen
         high_score_screen.draw()
