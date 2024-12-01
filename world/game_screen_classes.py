@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from world.map_config import *
 from prototypes.gwen_michailidis.bars_classes import *
 from prototypes.gwen_michailidis.timer import *
+import itertools
 
 
 
@@ -83,12 +84,10 @@ class MapScreen(Screen):
         # background color
         self.screen_fill = self.screen.fill((0, 200, 110))
 
-        # using enumerate and passing the tile map to iterate through every row and column checking index and value
-        for y, row in enumerate(TILE_MAP):
-            for x, tile in enumerate(row):
-                # if it find the letter in the tile image dictionary it blits the image with the matching Key Value
-                if tile in self.tile_images:
-                    self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
+        for y, x in itertools.product(range(len(TILE_MAP)), range(len(TILE_MAP[0]))):
+            tile = TILE_MAP[y][x]
+            if tile in self.tile_images:
+                self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
         # drawing the bars and timers and the matching texts
         # self.stress_bar.draw(self.screen)
