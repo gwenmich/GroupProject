@@ -15,7 +15,11 @@ class Menu:
         self.menu_options = ["Start Game", "High Scores", "Quit"]
         self.menu_background = pygame.image.load('assets/main_menu/thesisquest.png').convert()
         self.selected_option = 0
+        self.setup_music()
 
+    def setup_music(self):
+        pygame.mixer.music.load('assets/main_menu/lofi1.mp3')
+        pygame.mixer.music.play(-1)
 
     def display(self, display):
         display.blit(self.menu_background, (0, 0))
@@ -53,15 +57,18 @@ class Menu:
                 elif event.key == pygame.K_RETURN:
                     self.start_sound.play()
                     self.select_option()
-
+                    print("enter key pressed")
 
     def select_option(self):
+        global game_state
         if self.selected_option == 0:  # Start Game
-            self.game_state = "Map"
+            game_state = 'Map'
             pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
             pygame.mixer.music.play(-1)
+            print(f"selected option: {self.selected_option}")
         elif self.selected_option == 1:  # High Scores
             pass  # Add functionality
         elif self.selected_option == 2:  # Quit
             pygame.quit()
             sys.exit()
+

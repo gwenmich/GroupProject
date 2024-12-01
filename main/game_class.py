@@ -1,5 +1,5 @@
 from character_class import Character
-from main_config import FPS
+from main_config import *
 from world.game_screen_classes import MapScreen
 import pygame
 from menu_class import Menu
@@ -13,14 +13,7 @@ class Game:
         self.player = Character(self.map_screen.screen, "assets/sprites/girl_sprite.png", 2, "#ff00d6", 64, 64)
         self.clock = pygame.time.Clock()
         self.dt = 0
-        self.game_state = "Main Menu"
         # self.game = Game(self)
-        self.setup_music()
-
-
-    def setup_music(self):
-        pygame.mixer.music.load('assets/main_menu/lofi1.mp3')
-        pygame.mixer.music.play(-1)
 
 
 
@@ -38,10 +31,12 @@ class Game:
                 # elif self.game_state == GameState.GAME:
                 #     self.game.handle_input(event)
 
-            if self.game_state == "Main Menu":
+            self.menu.select_option()
+
+            if game_state == "Main Menu":
                 self.menu.display(self.map_screen.screen)
                 self.menu.handle_input()
-            elif self.game_state == "Map":
+            elif game_state == "Map":
                 self.map_screen.draw()
                 self.player.animate(self.map_screen.screen)
                 self.player.move(250, self.dt)
@@ -49,6 +44,7 @@ class Game:
             # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
             # pygame.mixer.music.play(-1)
             pygame.display.flip()
+
 
         # def handle_input(self, event):
         #     pass
