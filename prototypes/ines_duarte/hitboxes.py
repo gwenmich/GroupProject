@@ -1,5 +1,6 @@
 import pygame
 from prototypes.ines_duarte.map.map_config import *
+import itertools
 
 # Initializing
 pygame.init()
@@ -63,10 +64,17 @@ tile_images = {
 
 # drawing tile map
 def draw_tile_map():
-    for y, row in enumerate(TILE_MAP):
-        for x, tile in enumerate(row):
-            if tile in tile_images:
-                screen.blit(tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
+    for y, x in itertools.product(range(len(TILE_MAP)), range(len(TILE_MAP[0]))):
+        tile = TILE_MAP[y][x]
+        if tile in tile_images:
+            screen.blit(tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
+
+# # using enumerate and passing the tile map to iterate through every row and column checking index and value
+# for y, row in enumerate(TILE_MAP):
+#     for x, tile in enumerate(row):
+#         # if it find the letter in the tile image dictionary it blits the image with the matching Key Value
+#         if tile in self.tile_images:
+#             self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
 
 # IT dept hitboxes
