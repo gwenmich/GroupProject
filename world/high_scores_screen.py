@@ -24,6 +24,9 @@ class HighScoreScreen(Screen):
         self.font_large = pygame.font.Font(FONT_PATH, 70)
         self.font_medium = pygame.font.Font(FONT_PATH, 20)
         self.font_small = pygame.font.Font(FONT_PATH, 15)
+        # new variable to contain the menu game stated that will be used to update the main game loop
+        # always reset back to its own menu
+        self.menu = "High Scores"
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -43,7 +46,7 @@ class HighScoreScreen(Screen):
         return result
 
     # function to draw the Game Over Screen
-    def draw(self, game_state=None):
+    def draw(self):
         icon = self.load_image('prototypes/ines_duarte/menus/menu_assets/new_cloud_bg.png', (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.screen.blit(icon, (0,0))
 
@@ -87,7 +90,7 @@ class HighScoreScreen(Screen):
         pygame.display.flip()
 
             # this checks for pygame events such as key presses and or QUIT
-    def menu_handler(self):
+    def handler(self):
         for event in pygame.event.get():
             # if user presses QUIT it closes pygame and sys to close all operations
             if event.type == pygame.QUIT:
@@ -96,9 +99,8 @@ class HighScoreScreen(Screen):
             if event.type == pygame.KEYDOWN:
                 # if the key press is ESQ back to menu
                 if event.key == pygame.K_ESCAPE:
-                    game_state = 'Start Menu'
-                    # call funtion to return to main menu
-                    # still need to check the logic to return to main menu!
+                    # variable to update game state gets called here to go back to main menu
+                    self.menu = "Main Menu"
 
 
 
@@ -115,7 +117,7 @@ def main_game_loop():
 
     while True:
         # pass the menu interaction function
-        high_score_screen.menu_handler()
+        high_score_screen.handler()
 
         # Draw the Game Over screen
         high_score_screen.draw()

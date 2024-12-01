@@ -2,6 +2,7 @@ import pygame
 import sys
 from world.game_screen_classes import Screen
 from world.map_config import *
+# from main.game_class import *
 
 # storing colors in variables
 DUSTY_PINK = (231, 84, 128)
@@ -21,6 +22,7 @@ class GameOverScreen(Screen):
         self.font_small = pygame.font.Font(FONT_PATH, 15)
         # blinking interval in milliseconds
         self.blink_interval = 450
+        # self.play_again = Game()
 
     # function to load and resize images, size is NONE by default unless it needs resizing
     # takes path and size as arguments
@@ -34,7 +36,7 @@ class GameOverScreen(Screen):
             return image
 
     # function to draw the Game Over Screen
-    def draw(self, game_state=None):
+    def draw(self):
         # first fills background
         self.screen.fill(DUSTY_PINK)
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
@@ -60,7 +62,7 @@ class GameOverScreen(Screen):
         self.screen.blit(icon, (SCREEN_WIDTH // 2 - icon.get_width() // 2, 100))
 
     # this checks for pygame events such as key presses and or QUIT
-    def menu_handler(self):
+    def handler(self):
         for event in pygame.event.get():
             # if user presses QUIT it closes pygame and sys to close all operations
             if event.type == pygame.QUIT:
@@ -73,7 +75,7 @@ class GameOverScreen(Screen):
                     sys.exit()
                 # if key press is Y replay game loop
                 elif event.key == pygame.K_y:
-                    main_game_loop()
+                    # self.play_again.loop()
                     return
 
 
@@ -91,7 +93,7 @@ def main_game_loop():
 
     while True:
         # pass the menu interaction function
-        game_over_screen.menu_handler()
+        game_over_screen.handler()
 
         # Draw the Game Over screen
         game_over_screen.draw()
