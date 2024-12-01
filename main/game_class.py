@@ -8,8 +8,8 @@ import sys
 from world.high_scores_screen import HighScoreScreen
 from utilities.timer import Timer
 from utilities.bars_classes import StressBar, GamesBar
-
-
+from prototypes.ines_duarte.random_useful_code import hitbox_visible_square
+from utilities.intro_bubble import IntroBubble
 class Game:
     def __init__(self):
         # self.manager = manager
@@ -26,6 +26,7 @@ class Game:
         self.timer = Timer(1800)
         # creating a pygame for to set how often timer updates, every second
         pygame.time.set_timer(pygame.USEREVENT, 1000)
+        self.intro_text = IntroBubble(self.map_screen.screen, 125, 30, '')
         self.high_scores = HighScoreScreen()
         self.game_over = GameOverScreen()
 
@@ -37,7 +38,7 @@ class Game:
             global game_state
             self.dt = self.clock.tick(FPS)/1000
 
-            print(f"Before checking: Current game_state = {game_state}")
+            # print(f"Before checking: Current game_state = {game_state}")
 
 
             if game_state == "Main Menu":
@@ -59,18 +60,28 @@ class Game:
                     game_state = self.high_scores.menu
                     self.high_scores.menu = "High Scores"
             elif game_state == "Map":
-                print(f"In Map state.")
+                self.dt = self.clock.tick(FPS) / 1000
+                # print(f"In Map state.")
                 self.map_screen.draw()
                 self.map_screen.handler()
                 self.player.animate(self.map_screen.screen)
-                self.player.move(250, self.dt)
+                self.player.move(400, self.dt)
                 # drawing the bars and timers and the matching texts
+                # stress bars
                 self.stress_bar.draw(self.map_screen.screen)
                 self.stress_bar.draw_text(self.map_screen.screen)
+                # Challenge wins
                 self.games_bar.draw(self.map_screen.screen)
                 self.games_bar.draw_text(self.map_screen.screen)
-
+                # timer
                 self.timer.countdown(self.map_screen.screen)
+                hitbox_visible_square(self.map_screen.screen, 465, 330, 10, 50)
+                self.intro_text.draw()
+                self.intro_text.handler()
+                for event in pygame.event.get():
+                    if event.type == pygame.USEREVENT:
+                       self.timer.timer_duration -= 1
+
             elif game_state == "Victory":
                 print(f"In Game over state state.")
                 self.game_over.draw()
@@ -88,7 +99,8 @@ class Game:
             # pygame.mixer.music.play(-1)
             pygame.display.flip()
 
-            print(f"After checking: Current game_state = {game_state}")
+
+            # print(f"After checking: Current game_state = {game_state}")
 
 
             # def handle_input(self, event):

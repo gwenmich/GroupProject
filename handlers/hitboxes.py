@@ -18,8 +18,8 @@ library_B_3 = pygame.Rect(270, 560, 40, 50)
 
 # counselling office hitboxes
 counselling_office_1 = pygame.Rect(465, 300, 120, 50)
-counselling_office_2 = pygame.Rect(465, 330, 38, 50)
-counselling_office_3 = pygame.Rect(550, 330, 38, 50)
+counselling_office_2 = pygame.Rect(465, 330, 10, 50)
+counselling_office_3 = pygame.Rect(580, 330, 10, 50)
 counselling_office_4 = pygame.Rect(520, 265, 25, 30)
 
 # classroom
@@ -82,6 +82,7 @@ def check_collision(new_rect, hitboxes):
     # if there's a match between a coordinates of a hitbox in the dict and new_rect(new player position) return true
     for hitbox in hitboxes.values():
         if new_rect.colliderect(hitbox):
+            print(f"Collision detected with: {hitbox}")
             return True
     # if no match found, False
     return False
