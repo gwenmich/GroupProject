@@ -8,7 +8,8 @@ pygame.init()
 
 # File Paths
 FONT_PATH = "PressStart2P-Regular.ttf"
-BACKGROUND_PATH = "Library.png"
+BACKGROUND_PATH = "Library.png"  # Updated background path
+
 
 # Ensure font file and background image exist
 if not os.path.exists(FONT_PATH):
@@ -23,7 +24,6 @@ pygame.display.set_caption("Quiz Game")
 
 # Colours
 WHITE = (255, 255, 255)
-PURPLE = (138, 43, 226)
 
 # Font files, pixellated
 try:
@@ -48,7 +48,7 @@ class Question:
         self.choices = choices
         self.answer_index = answer_index
 
-    def draw(self, screen):
+    def draw(self, screen, selected_choice=None):
         y_offset = 150
         question_lines = textwrap.wrap(self.question_text, width=50)  # Wrap the question text
         for line in question_lines:
@@ -60,6 +60,8 @@ class Question:
         for i, choice in enumerate(self.choices):
             choice_surface = FONT.render(choice, True, WHITE)
             screen.blit(choice_surface, (100, y_offset))
+            if selected_choice == i:
+                pygame.draw.circle(screen, (0, 255, 0), (90, y_offset), 5)  # Appears right next to the letter
             y_offset += 30
 
 # Quiz Game
@@ -98,11 +100,7 @@ class QuizGame:
 
         if self.current_question < len(self.questions):
             question = self.questions[self.current_question]
-            question.draw(screen)
-
-            if self.selected_choice is not None:
-                y_offset = 150 + 30 * self.selected_choice
-                pygame.draw.circle(screen, PURPLE, (75, y_offset + 15), 10)
+            question.draw(screen, self.selected_choice)
         else:
             # Set game state to END_SCREEN when questions are finished
             global CURRENT_STATE
