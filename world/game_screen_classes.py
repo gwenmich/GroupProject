@@ -40,7 +40,7 @@ class Screen(ABC):
 
 class MapScreen(Screen):
     def __init__(self):
-        # initialize parent lcass
+        # initialize parent class
         super().__init__()
         # set map color
         self.screen_fill = self.screen.fill((0, 200, 110))
