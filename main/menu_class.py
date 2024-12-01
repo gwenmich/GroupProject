@@ -3,6 +3,7 @@ from main_config import *
 import sys
 # from game_class import game
 from world.game_screen_classes import MapScreen
+import time
 
 class Menu:
     def __init__(self):
@@ -16,6 +17,7 @@ class Menu:
         self.menu_background = pygame.image.load('assets/main_menu/thesisquest.png').convert()
         self.selected_option = 0
         self.setup_music()
+        self.next_game_state = "Main Menu"
 
     def setup_music(self):
         pygame.mixer.music.load('assets/main_menu/lofi1.mp3')
@@ -47,6 +49,9 @@ class Menu:
 
     def handle_input(self):
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     self.click_sound.play()
@@ -62,12 +67,13 @@ class Menu:
     def select_option(self):
         global game_state
         if self.selected_option == 0:  # Start Game
-            game_state = 'Map'
-            pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
-            pygame.mixer.music.play(-1)
             print(f"selected option: {self.selected_option}")
+            self.next_game_state = "Map"
+            print(f"The next game state is {self.next_game_state}")
+            # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
+            # pygame.mixer.music.play(-1)
         elif self.selected_option == 1:  # High Scores
-            pass  # Add functionality
+            print(f"selected option: {self.selected_option}")
         elif self.selected_option == 2:  # Quit
             pygame.quit()
             sys.exit()
