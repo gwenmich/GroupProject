@@ -17,7 +17,7 @@ class Timer:
         # display and position timer
         FONT = pygame.font.Font("world/PressStart2P-Regular.ttf", 20)
         timer_text = FONT.render(f"{minutes:02}:{seconds:02}", True, "black")
-        timer_text_rect = timer_text.get_rect(topleft=(20, 20))
+        timer_text_rect = timer_text.get_rect(topleft=(20, 23))
         surface.blit(timer_text, timer_text_rect)
 
 

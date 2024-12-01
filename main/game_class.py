@@ -6,6 +6,8 @@ import pygame
 from menu_class import Menu
 import sys
 from world.high_scores_screen import HighScoreScreen
+from utilities.timer import Timer
+from utilities.bars_classes import StressBar, GamesBar
 
 
 class Game:
@@ -17,8 +19,16 @@ class Game:
         self.clock = pygame.time.Clock()
         self.dt = 0
         # self.game = Game(self)
+        # instantiating Bar Class and giving coordinates
+        self.stress_bar = StressBar(900, 23, 70, 16, 100)
+        self.games_bar = GamesBar(510, 23, 70, 16, 4)
+        # instantiating Timer and passing timer duration
+        self.timer = Timer(1800)
+        # creating a pygame for to set how often timer updates, every second
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
         self.high_scores = HighScoreScreen()
         self.game_over = GameOverScreen()
+
 
 
 
@@ -54,6 +64,13 @@ class Game:
                 self.map_screen.handler()
                 self.player.animate(self.map_screen.screen)
                 self.player.move(250, self.dt)
+                # drawing the bars and timers and the matching texts
+                self.stress_bar.draw(self.map_screen.screen)
+                self.stress_bar.draw_text(self.map_screen.screen)
+                self.games_bar.draw(self.map_screen.screen)
+                self.games_bar.draw_text(self.map_screen.screen)
+
+                self.timer.countdown(self.map_screen.screen)
             elif game_state == "Victory":
                 print(f"In Game over state state.")
                 self.game_over.draw()
