@@ -1,6 +1,7 @@
 import pygame
 from main_config import *
 from handlers.hitboxes import *
+from utilities.speech_bubble_map import MapBubbles
 
 class Character:
 
@@ -19,6 +20,7 @@ class Character:
         self.animation_cooldown = 300
         self.frame = 0
         self.load_frames(animation_frames)
+        self.building_bubble = MapBubbles(surface, 0, 0, "")
 
 
 
@@ -81,3 +83,7 @@ class Character:
             # the position stays the same as the variable we saved before the move
             self.player_position = new_position
             self.character_rect.topleft = self.player_position
+
+            self.building_bubble.handler(new_rect, buildings_bubble_hitboxes, bubble_position)
+            if self.building_bubble.visible_bubble == True:
+                self.building_bubble.draw()
