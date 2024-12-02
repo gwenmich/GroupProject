@@ -60,9 +60,8 @@ class Game:
 
             self.dt = self.clock.tick(FPS)/1000
 
-            # print(f"Before checking: Current game_state = {game_state}")
 
-            # check to bring player back to map, excluding menu
+            # check to bring player back to map, excluding menu. this is so the player does not get stuck in place
             if game_state != "Main Menu" and game_state != self.player.character_location:
                 print(f"Game state updated to: {self.player.character_location}")
                 game_state = self.player.character_location
@@ -119,13 +118,18 @@ class Game:
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
 
-                # check to trigger building state update
+                # checks if the game state matches building and is not won
             elif game_state == "library" and self.games_won["library"] == "Not won":
+                # this is meant to update the stress bar every time you go there, not finished
                 self.stress_bar.update()
                 print(f"In library state.")
+                # call the minigame
                 self.library.main()
+                # this is checking if the mini game variable that holds the game state which is called player location is set to map
+                # and if so, changes game state to map and
                 if self.library.player_location == "Map":
                     print("Transitioning to Map...")
+                    # this moves player down when going back to map so its not auto triggering the entrance and get stuck in a loop
                     self.player.player_position.y += 10
                     self.player.character_rect.topleft = self.player.player_position
                     print(f"Game state updated to: {self.library.player_location}")
