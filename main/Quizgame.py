@@ -209,6 +209,10 @@ class QuizGame:
                         if event.key == pygame.K_r:
                             self.__init__()
                             self.current_state = QUIZ_GAME
+                        elif event.key == pygame.K_e and self.victory_status == "Not won":
+                            self.__init__()
+                            self.player_location = "Map"
+                            running = False
                         elif event.key == pygame.K_e:
                             self.player_location = "Map"
                             running = False

@@ -22,7 +22,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.dt = 0
         # instantiating Bar Class and giving coordinates
-        self.stress_bar = StressBar(900, 23, 70, 16, 100)
+        self.stress_bar = StressBar(900, 23, 70, 16, 10)
         self.games_bar = GamesBar(510, 23, 70, 16, 4)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
@@ -39,6 +39,8 @@ class Game:
         "classroom": "Not won",
         "it_dept": "Not won"
     }
+
+
 
     def loop(self):
         while True:
@@ -58,7 +60,7 @@ class Game:
             if self.games_won["library"] != self.library.victory_status:
                 self.games_won["library"] = self.library.victory_status
 
-
+            # main game_state engine
             if game_state == "Main Menu":
                 print(f"In Main Menu state.")
                 self.menu.display(self.map_screen.screen)
@@ -101,10 +103,13 @@ class Game:
                        self.timer.timer_duration -= 1
                 # check to trigger building state update
             elif game_state == "library" and self.games_won["library"] == "Not won":
-                 print(f"In library state.")
-                 self.library.main()
-                 print(f"After library.main(): game_state = {game_state}, player_location = {self.library.player_location}")
-                 if game_state != self.library.player_location:
+                self.stress_bar.update()
+                print(f"In library state.")
+                self.library.main()
+                print(f"After library.main(): game_state = {game_state}, player_location = {self.library.player_location}")
+                if game_state != self.library.player_location:
+                     self.player.player_position.y += 10
+                     self.player.character_rect.topleft = self.player.player_position
                      print(f"Game state updated to: {self.library.player_location}")
                      game_state = self.library.player_location
             elif game_state == "Victory":
@@ -119,7 +124,6 @@ class Game:
 
 
 
-
             # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
             # pygame.mixer.music.play(-1)
             pygame.display.flip()
@@ -127,9 +131,6 @@ class Game:
 
             # print(f"After checking: Current game_state = {game_state}")
 
-
-            # def handle_input(self, event):
-        #     pass
 
 
 if __name__ == "__main__":
