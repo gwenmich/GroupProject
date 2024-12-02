@@ -11,6 +11,7 @@ from utilities.bars_classes import StressBar, GamesBar
 from prototypes.ines_duarte.random_useful_code import hitbox_visible_square
 from utilities.intro_bubble import IntroBubble
 from Quizgame import QuizGame
+from typing_game import TypingGame
 
 
 class Game:
@@ -32,6 +33,7 @@ class Game:
         self.high_scores = HighScoreScreen()
         self.game_over = GameOverScreen()
         self.library = QuizGame()
+        self.classroom = TypingGame(self.map_screen.screen)
         self.games_won = {
         "library": "Not won",
         "cafeteria": "Not won",
@@ -112,6 +114,10 @@ class Game:
                      self.player.character_rect.topleft = self.player.player_position
                      print(f"Game state updated to: {self.library.player_location}")
                      game_state = self.library.player_location
+            elif game_state == "classroom" and self.games_won["classroom"] == "Not won":
+                self.stress_bar.update()
+                print(f"In classroom state.")
+                self.classroom.run()
             elif game_state == "Victory":
                 print(f"In Game victory state.")
                 self.game_over.draw()
