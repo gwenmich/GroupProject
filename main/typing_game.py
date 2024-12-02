@@ -126,8 +126,9 @@ class TypingGame:
         self.player_location = "classroom"
         pygame.mixer.music.load(background_music)
         pygame.mixer.music.play(loops=-1, start=0.0, fade_ms=1000)
+        self.running = True
 
-    #reset
+        #reset
     def reset_game(self):
         self.current_challenge = 0
         self.user_input = ""
@@ -203,11 +204,10 @@ class TypingGame:
         if success:
             self.game_screen.draw_text("Congratulations! You Win!", self.game_screen.fonts["title"], black, -50)
             self.victory_status = "Won"
-            self.player_location = "Map"
-
 
         else:
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], black, -50)
+
         button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
 
@@ -220,7 +220,7 @@ class TypingGame:
 
     def run(self):
         clock = pygame.time.Clock()
-        while True:
+        while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -243,6 +243,13 @@ class TypingGame:
                         else:
                             if len(self.user_input) < 43:
                                 self.user_input += event.unicode
+                    if self.current_screen == "result":
+                        if event.key == pygame.K_e:
+                            self.player_location = "Map"
+                            self.running = False
+
+
+
 
             if self.current_screen == "intro":
                 self.intro_screen()

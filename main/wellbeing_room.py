@@ -143,10 +143,6 @@ class WellbeingGame():
         if self.level_complete:
             self.screen.blit(end_of_game_image,(0,0))
 
-    def update_location(self):
-        self.player_location = "Map"
-        print(f"Player location changed to: {self.player_location}")
-
 
     def game_loop(self):
         pygame.init()
@@ -162,8 +158,9 @@ class WellbeingGame():
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_e:
-                        self.update_location()
+                    if event.key == pygame.K_e and self.level_complete:
+                        self.player_location = "Map"
+                        self.__init__()
                         running = False
 
             self.update(event_list)
