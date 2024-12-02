@@ -4,4 +4,4 @@ WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
 FPS = 60
 
-game_state = "Main Menu"
+game_state = "Map"

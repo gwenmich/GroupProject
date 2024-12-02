@@ -10,6 +10,9 @@ from utilities.timer import Timer
 from utilities.bars_classes import StressBar, GamesBar
 from prototypes.ines_duarte.random_useful_code import hitbox_visible_square
 from utilities.intro_bubble import IntroBubble
+from Quizgame import QuizGame
+
+
 class Game:
     def __init__(self):
         # self.manager = manager
@@ -18,7 +21,6 @@ class Game:
         self.player = Character(self.map_screen.screen, "assets/sprites/girl_sprite.png", 2, "#ff00d6", 64, 64)
         self.clock = pygame.time.Clock()
         self.dt = 0
-        # self.game = Game(self)
         # instantiating Bar Class and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 100)
         self.games_bar = GamesBar(510, 23, 70, 16, 4)
@@ -29,17 +31,16 @@ class Game:
         self.intro_text = IntroBubble(self.map_screen.screen, 125, 30, '')
         self.high_scores = HighScoreScreen()
         self.game_over = GameOverScreen()
-
-
+        self.library = QuizGame()
 
 
     def loop(self):
         while True:
             global game_state
+
             self.dt = self.clock.tick(FPS)/1000
 
             # print(f"Before checking: Current game_state = {game_state}")
-
 
             if game_state == "Main Menu":
                 print(f"In Main Menu state.")
@@ -60,6 +61,10 @@ class Game:
                     game_state = self.high_scores.menu
                     self.high_scores.menu = "High Scores"
             elif game_state == "Map":
+                if game_state != self.player.character_location:
+                    print(f"Game state updated to: {self.player.character_location}")
+                    game_state = self.player.character_location
+                    self.player.character_location = "Map"
                 self.dt = self.clock.tick(FPS) / 1000
                 # print(f"In Map state.")
                 self.map_screen.draw()
@@ -75,15 +80,17 @@ class Game:
                 self.games_bar.draw_text(self.map_screen.screen)
                 # timer
                 self.timer.countdown(self.map_screen.screen)
-                hitbox_visible_square(self.map_screen.screen, 465, 330, 10, 50)
-                self.intro_text.draw()
-                self.intro_text.handler()
+                hitbox_visible_square(self.map_screen.screen, 797, 540, 10, 50)
+                # self.intro_text.draw()
+                # self.intro_text.handler()
                 for event in pygame.event.get():
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
-
+            # elif game_state == "library":
+            #     print(f"In library state.")
+            #     self.library.main()
             elif game_state == "Victory":
-                print(f"In Game over state state.")
+                print(f"In Game victory state.")
                 self.game_over.draw()
                 self.game_over.handler()
 

@@ -21,6 +21,7 @@ class Character:
         self.frame = 0
         self.load_frames(animation_frames)
         self.building_bubble = MapBubbles(surface, 0, 0, "")
+        self.character_location = "Map"
 
 
 
@@ -71,9 +72,6 @@ class Character:
         # calling check_collision function that checks against dict with all hitboxes
         collision_detected = check_collision(new_rect, hitboxes)
 
-        # bubble_collision = check_collision_items()
-        # if
-
         # Only update the position if no collision is detected
         if collision_detected == False:
             # if no collision update player position to those coordinates
@@ -84,6 +82,10 @@ class Character:
             self.player_position = new_position
             self.character_rect.topleft = self.player_position
 
-            self.building_bubble.handler(new_rect, buildings_bubble_hitboxes, bubble_position)
-            if self.building_bubble.visible_bubble == True:
-                self.building_bubble.draw()
+        # checking if player hit entry hitbox to trigger minigame
+        # enter_building(self.character_rect)
+        self.character_location = enter_building(self.character_rect)
+        # bubble collision check
+        self.building_bubble.handler(new_rect, buildings_bubble_hitboxes, bubble_position)
+        if self.building_bubble.visible_bubble == True:
+            self.building_bubble.draw()

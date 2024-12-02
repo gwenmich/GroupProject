@@ -8,13 +8,13 @@ pygame.init()
 
 # IT dept hitboxes
 it_dept_A_1 = pygame.Rect(185, 80, 120, 95)
-it_dept_A_2 = pygame.Rect(185, 170, 40, 40)
-it_dept_A_3 = pygame.Rect(270, 170, 35, 40)
+it_dept_A_2 = pygame.Rect(185, 170, 10, 40)
+it_dept_A_3 = pygame.Rect(295, 170, 10, 40)
 
 # library hitboxes
 library_B_1 = pygame.Rect(190, 525, 110, 40)
-library_B_2 = pygame.Rect(180, 560, 40, 50)
-library_B_3 = pygame.Rect(270, 560, 40, 50)
+library_B_2 = pygame.Rect(180, 560, 10, 50)
+library_B_3 = pygame.Rect(297, 560, 10, 50)
 
 # counselling office hitboxes
 counselling_office_1 = pygame.Rect(465, 300, 120, 50)
@@ -24,13 +24,13 @@ counselling_office_4 = pygame.Rect(520, 265, 25, 30)
 
 # classroom
 classroom_1 = pygame.Rect(725, 140, 120, 60)
-classroom_2 = pygame.Rect(725, 210, 30, 20)
-classroom_3 = pygame.Rect(815, 210, 30, 20)
+classroom_2 = pygame.Rect(725, 210, 10, 20)
+classroom_3 = pygame.Rect(835, 210, 10, 20)
 classroom_4 = pygame.Rect(773, 103, 25, 40)
 
 # cafeteria hitboxes
 cafeteria_1 = pygame.Rect(797, 462, 97, 90)
-cafeteria_2 = pygame.Rect(797, 540, 60, 50)
+cafeteria_2 = pygame.Rect(797, 540, 10, 50)
 
 # dictionary with hitboxes to check collisions against in character movement in character movement file
 hitboxes = {
@@ -96,6 +96,51 @@ def check_collision_items(new_rect, hitboxes):
             return name
     # if no match found, False
     return False
+
+
+# Mini Game trigger hitboxes
+# buildings' sizes and coordinates on map
+library = pygame.Rect(230, 540, 35, 40)
+cafeteria = pygame.Rect(850, 525, 40, 40)
+counselling_office = pygame.Rect(510, 327, 35, 40)
+classroom = pygame.Rect(760, 183, 50, 40)
+it_dept = pygame.Rect(230, 150, 35, 40)
+
+
+
+def enter_building(character_rect):
+    """
+    if the character collides with a building and hasn't won that challenge will call the building's mini-game
+    """
+
+    entry_hitboxes = {
+        "library": library,
+        "cafeteria": cafeteria,
+        "counselling_office": counselling_office,
+        "classroom": classroom,
+        "it_dept": it_dept
+    }
+
+
+    games_won = {
+        "library": "Not won",
+        "cafeteria": "Not won",
+        "counselling_office": "Not won",
+        "classroom": "Not won",
+        "it_dept": "Not won"
+    }
+
+
+    for building, building_rect in entry_hitboxes.items():
+        if character_rect.colliderect(building_rect):
+            if building == "counselling_office" or games_won[building] == "Not won":
+                print(f"you found the entrance to {building}")
+                return building
+            else:
+                print("Sorry, you've already won this game, time to visit another building!")
+
+
+
 
 
 if __name__ == "__main__":
