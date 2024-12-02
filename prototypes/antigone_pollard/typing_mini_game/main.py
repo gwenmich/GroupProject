@@ -8,7 +8,7 @@ pygame.init()
 pygame.mixer.init()
 
 #Screen dimensions
-width, height = 800, 600
+width, height = 1000, 700
 #Colours used
 pink = (232, 123, 222)
 white = (255, 255, 255)
@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Typing Challenge")
 
 #font details
-font = "PressStart2P.ttf"
+font = "assets/typing_game/PressStart2P.ttf"
 title_size = 32
 font_size = 14
 
@@ -36,11 +36,11 @@ sentences = [
 ]
 
 #sound effects
-click = pygame.mixer.Sound("click.mp3")
-background_music = "Scream_Villain.mp3"
+click = pygame.mixer.Sound("assets/typing_game/click.mp3")
+background_music = "assets/typing_game/Scream_Villain.mp3"
 
 #background images
-background_image = pygame.image.load("background.png").convert()
+background_image = pygame.image.load("assets/typing_game/background.png").convert()
 background_image = pygame.transform.scale(background_image, (width, height))
 
 #manages colours and fonts

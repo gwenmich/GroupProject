@@ -44,13 +44,6 @@ class MapScreen(Screen):
         super().__init__()
         # set map color
         self.screen_fill = self.screen.fill((0, 200, 110))
-        # instantiating Bar Class and giving coordinates
-        self.stress_bar = StressBar(900, 20, 70, 16, 100)
-        self.games_bar = GamesBar(510, 20, 70, 16, 4)
-        # instantiating Timer and passing timer duration
-        self.timer = Timer(1800)
-        # creating a pygame for to set how often timer updates, every second
-        pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
         # creating a dictionary to contain and load the images for the map, using the function bellow to resize
@@ -89,14 +82,7 @@ class MapScreen(Screen):
             if tile in self.tile_images:
                 self.screen.blit(self.tile_images[tile], (x * TILE_SIZE, y * TILE_SIZE))
 
-        # drawing the bars and timers and the matching texts
-        # self.stress_bar.draw(self.screen)
-        # self.stress_bar.draw_text(self.screen)
-        #
-        # self.games_bar.draw(self.screen)
-        # self.games_bar.draw_text(self.screen)
-        #
-        # self.timer.countdown(self.screen)
+
 
     def handler(self):
         for event in pygame.event.get():
@@ -122,9 +108,6 @@ if __name__ == "__main__":
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
-                # decreases timer by 1 second every second
-                # elif event.type == pygame.USEREVENT:
-                #     map_screen.timer.timer_duration -= 1
 
             map_screen.draw()
 
