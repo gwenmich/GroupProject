@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+import time
 #initialize Pygame
 pygame.init()
 
@@ -24,7 +24,7 @@ title_size = 32
 font_size = 14
 
 #setting the timer
-timer = 19
+timer = 40
 
 #sentences to type
 sentences = [
@@ -122,6 +122,8 @@ class TypingGame:
         self.timer_started = False
         self.typed_text = ""
         self.typing_complete = False
+        self.victory_status = "Not won"
+        self.player_location = "classroom"
         pygame.mixer.music.load(background_music)
         pygame.mixer.music.play(loops=-1, start=0.0, fade_ms=1000)
 
@@ -200,12 +202,16 @@ class TypingGame:
         self.current_screen = "result"
         if success:
             self.game_screen.draw_text("Congratulations! You Win!", self.game_screen.fonts["title"], black, -50)
+            self.victory_status = "Won"
+            self.player_location = "Map"
+
+
         else:
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], black, -50)
-
         button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
-    #deals with the timer
+
+            #deals with the timer
     def update_timer(self):
         if self.timer > 0:
             self.timer -= 1
@@ -237,6 +243,7 @@ class TypingGame:
                         else:
                             if len(self.user_input) < 43:
                                 self.user_input += event.unicode
+
             if self.current_screen == "intro":
                 self.intro_screen()
             elif self.current_screen == "instructions":
@@ -245,6 +252,7 @@ class TypingGame:
                 self.typing_challenges()
             elif self.current_screen == "result":
                 self.result_screen(self.timer > 0)
+
             pygame.display.flip()
             clock.tick(60)
 

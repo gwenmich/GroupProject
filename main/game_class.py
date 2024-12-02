@@ -42,7 +42,15 @@ class Game:
         "it_dept": "Not won"
     }
 
-
+    def update_game_status(self, building_name):
+        if building_name == "library" and self.games_won["library"] != self.library.victory_status:
+            self.games_won["library"] = self.library.victory_status
+        # elif building_name == "cafeteria" and self.games_won["cafeteria"] != self.cafeteria.victory_status:
+        #     self.games_won["cafeteria"] = self.cafeteria.victory_status
+        elif building_name == "classroom" and self.games_won["classroom"] != self.classroom.victory_status:
+            self.games_won["classroom"] = self.classroom.victory_status
+        # elif building_name == "it_dept" and self.games_won["it_dept"] != self.it_dept.victory_status:
+        #     self.games_won["it_dept"] = self.it_dept.victory_status
 
     def loop(self):
         while True:
@@ -59,8 +67,10 @@ class Game:
                     self.player.character_location = "Map"
 
             # Victory status logic
-            if self.games_won["library"] != self.library.victory_status:
-                self.games_won["library"] = self.library.victory_status
+            self.update_game_status("library")
+            # self.update_game_status("cafeteria")
+            self.update_game_status("classroom")
+            # self.update_game_status("it_dept")
 
             # main game_state engine
             if game_state == "Main Menu":
@@ -73,6 +83,7 @@ class Game:
                     game_state = self.menu.next_game_state
                     # the set the menu variable back to default
                     self.menu.next_game_state = "Main Menu"
+
             elif game_state == "High Scores":
                 print(f"In High Scores state.")
                 self.high_scores.draw()
@@ -81,6 +92,7 @@ class Game:
                     print(f"Game state updated to: {self.high_scores.menu}")
                     game_state = self.high_scores.menu
                     self.high_scores.menu = "High Scores"
+
             elif game_state == "Map":
                 self.dt = self.clock.tick(FPS) / 1000
                 # print(f"In Map state.")
@@ -103,6 +115,7 @@ class Game:
                 for event in pygame.event.get():
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
+
                 # check to trigger building state update
             elif game_state == "library" and self.games_won["library"] == "Not won":
                 self.stress_bar.update()
@@ -114,10 +127,17 @@ class Game:
                      self.player.character_rect.topleft = self.player.player_position
                      print(f"Game state updated to: {self.library.player_location}")
                      game_state = self.library.player_location
+
             elif game_state == "classroom" and self.games_won["classroom"] == "Not won":
                 self.stress_bar.update()
                 print(f"In classroom state.")
                 self.classroom.run()
+                if game_state != self.classroom.player_location:
+                     self.player.player_position.y += 10
+                     self.player.character_rect.topleft = self.player.player_position
+                     print(f"Game state updated to: {self.classroom.player_location}")
+                     game_state = self.classroom.player_location
+
             elif game_state == "Victory":
                 print(f"In Game victory state.")
                 self.game_over.draw()
