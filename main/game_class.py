@@ -10,8 +10,9 @@ from utilities.timer import Timer
 from utilities.bars_classes import StressBar, GamesBar
 from prototypes.ines_duarte.random_useful_code import hitbox_visible_square
 from utilities.intro_bubble import IntroBubble
-from Quizgame import QuizGame
+from quizgame import QuizGame
 from typing_game import TypingGame
+from wellbeing_room import WellbeingGame
 
 
 class Game:
@@ -34,6 +35,7 @@ class Game:
         self.game_over = GameOverScreen()
         self.library = QuizGame()
         self.classroom = TypingGame(self.map_screen.screen)
+        self.counselling_office = WellbeingGame()
         self.games_won = {
         "library": "Not won",
         "cafeteria": "Not won",
@@ -59,6 +61,7 @@ class Game:
             self.dt = self.clock.tick(FPS)/1000
 
             # print(f"Before checking: Current game_state = {game_state}")
+
             # check to bring player back to map, excluding menu
             if game_state != "Main Menu" and game_state != self.player.character_location:
                 print(f"Game state updated to: {self.player.character_location}")
@@ -121,22 +124,31 @@ class Game:
                 self.stress_bar.update()
                 print(f"In library state.")
                 self.library.main()
-                print(f"After library.main(): game_state = {game_state}, player_location = {self.library.player_location}")
-                if game_state != self.library.player_location:
-                     self.player.player_position.y += 10
-                     self.player.character_rect.topleft = self.player.player_position
-                     print(f"Game state updated to: {self.library.player_location}")
-                     game_state = self.library.player_location
+                if self.library.player_location == "Map":
+                    print("Transitioning to Map...")
+                    self.player.player_position.y += 10
+                    self.player.character_rect.topleft = self.player.player_position
+                    print(f"Game state updated to: {self.library.player_location}")
+                    game_state = "Map"
 
             elif game_state == "classroom" and self.games_won["classroom"] == "Not won":
                 self.stress_bar.update()
                 print(f"In classroom state.")
                 self.classroom.run()
-                if game_state != self.classroom.player_location:
+                if self.classroom.player_location == "Map":
                      self.player.player_position.y += 10
                      self.player.character_rect.topleft = self.player.player_position
                      print(f"Game state updated to: {self.classroom.player_location}")
-                     game_state = self.classroom.player_location
+                     game_state = "Map"
+
+            elif game_state == "counselling_office":
+                print(f"In counselling office state.")
+                self.counselling_office.game_loop()
+                if self.counselling_office.player_location == "Map":
+                     self.player.player_position.y += 10
+                     self.player.character_rect.topleft = self.player.player_position
+                     print("Transitioning to the Map screen...")
+                     game_state = "Map"
 
             elif game_state == "Victory":
                 print(f"In Game victory state.")

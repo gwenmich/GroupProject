@@ -7,24 +7,24 @@ import os
 pygame.init()
 
 # Screen settings
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Cafeteria Food Fight!")  # Game title
 
 # Pastel color palette
 PASTEL_PINK = (255, 182, 193)
-PASTEL_BLUE = (173, 216, 230)
+PASTEL_BLUE = (120, 150, 200)
 PASTEL_PURPLE = (216, 191, 216)
 PASTEL_YELLOW = (255, 255, 153)
-PASTEL_GREEN = (152, 251, 152)
+PASTEL_GREEN = (120, 201, 120)
 DARK_BLUE = (25, 25, 112)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
 # Load fonts
 try:
-    PIXEL_FONT = pygame.font.Font("PressStart2P-Regular.ttf", 12)
-    PIXEL_LARGE_FONT = pygame.font.Font("PressStart2P-Regular.ttf", 16)
+    PIXEL_FONT = pygame.font.Font("assets/fight_quiz/PressStart2P-Regular.ttf", 12)
+    PIXEL_LARGE_FONT = pygame.font.Font("assets/fight_quiz/PressStart2P-Regular.ttf", 16)
 except FileNotFoundError:
     PIXEL_FONT = pygame.font.SysFont('Arial', 12)
     PIXEL_LARGE_FONT = pygame.font.SysFont('Arial', 16)
@@ -37,11 +37,11 @@ RED_APPLE_IMG = None
 GREEN_APPLE_IMG = None
 
 try:
-    FULL_HEART = pygame.image.load("full_heart.png").convert_alpha()
-    EMPTY_HEART = pygame.image.load("empty_heart.png").convert_alpha()
-    CABBAGE_IMG = pygame.image.load("cabbage.png").convert_alpha()
-    RED_APPLE_IMG = pygame.image.load("red_apple.png").convert_alpha()
-    GREEN_APPLE_IMG = pygame.image.load("green_apple.png").convert_alpha()
+    FULL_HEART = pygame.image.load("assets/fight_quiz/full_heart.png").convert_alpha()
+    EMPTY_HEART = pygame.image.load("assets/fight_quiz/empty_heart.png").convert_alpha()
+    CABBAGE_IMG = pygame.image.load("assets/fight_quiz/cabbage.png").convert_alpha()
+    RED_APPLE_IMG = pygame.image.load("assets/fight_quiz/red_apple.png").convert_alpha()
+    GREEN_APPLE_IMG = pygame.image.load("assets/fight_quiz/green_apple.png").convert_alpha()
 except FileNotFoundError as e:
     print(f"Error loading image: {e}")
 
@@ -58,7 +58,7 @@ if GREEN_APPLE_IMG:
 
 # Load background music
 try:
-    pygame.mixer.music.load("battle.mp3")
+    pygame.mixer.music.load("assets/fight_quiz/battle.mp3")
     pygame.mixer.music.play(-1)
 except FileNotFoundError:
     print("Error: Failed to load 'battle.mp3'. Ensure the file exists in the correct path.")
@@ -157,8 +157,8 @@ def draw_game():
     if GREEN_APPLE_IMG:
         screen.blit(GREEN_APPLE_IMG, (20, HEIGHT - 70))
 
-    draw_hearts(50, 20, player_lives, PLAYER_LIVES)
-    draw_hearts(600, 20, enemy_lives, ENEMY_LIVES)
+    draw_hearts(70, 20, player_lives, PLAYER_LIVES)
+    draw_hearts(800, 20, enemy_lives, ENEMY_LIVES)
 
     if instructions_displayed:
         draw_text(screen, message, 50, 150, PIXEL_FONT, PASTEL_BLUE)
