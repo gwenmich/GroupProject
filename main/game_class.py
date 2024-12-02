@@ -42,6 +42,13 @@ class Game:
 
             # print(f"Before checking: Current game_state = {game_state}")
 
+            # check to trigger building state update
+            if game_state != self.player.character_location:
+                print(f"Game state updated to: {self.player.character_location}")
+                game_state = self.player.character_location
+                if self.player.character_location != "Map":
+                    self.player.character_location = "Map"
+
             if game_state == "Main Menu":
                 print(f"In Main Menu state.")
                 self.menu.display(self.map_screen.screen)
@@ -61,10 +68,6 @@ class Game:
                     game_state = self.high_scores.menu
                     self.high_scores.menu = "High Scores"
             elif game_state == "Map":
-                if game_state != self.player.character_location:
-                    print(f"Game state updated to: {self.player.character_location}")
-                    game_state = self.player.character_location
-                    self.player.character_location = "Map"
                 self.dt = self.clock.tick(FPS) / 1000
                 # print(f"In Map state.")
                 self.map_screen.draw()
@@ -86,9 +89,9 @@ class Game:
                 for event in pygame.event.get():
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
-            # elif game_state == "library":
-            #     print(f"In library state.")
-            #     self.library.main()
+            elif game_state == "library":
+                 print(f"In library state.")
+                 self.library.main()
             elif game_state == "Victory":
                 print(f"In Game victory state.")
                 self.game_over.draw()

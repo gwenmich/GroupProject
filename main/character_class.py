@@ -9,7 +9,7 @@ class Character:
         self.width = width
         self.height = height
         # position of character and its rect
-        self.player_position = pygame.Vector2(surface.get_width() / 2, surface.get_height() / 2 + 40)
+        self.player_position = pygame.Vector2(surface.get_width() / 2, surface.get_height() / 2 + 60)
         self.character_rect = pygame.Rect(self.player_position.x, self.player_position.y, width, height)
 
         # character animation
@@ -85,6 +85,7 @@ class Character:
         # checking if player hit entry hitbox to trigger minigame
         # enter_building(self.character_rect)
         self.character_location = enter_building(self.character_rect)
+
         # bubble collision check
         self.building_bubble.handler(new_rect, buildings_bubble_hitboxes, bubble_position)
         if self.building_bubble.visible_bubble == True:
