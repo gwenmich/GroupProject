@@ -18,7 +18,7 @@ if not os.path.exists(BACKGROUND_PATH):
     raise FileNotFoundError(f"Background image not found at {BACKGROUND_PATH}")
 
 # Game Settings
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Quiz Game")
 
@@ -67,6 +67,8 @@ class Question:
 # Quiz Game
 class QuizGame:
     def __init__(self):
+        self.player_location = "library"
+        self.victory_status = "Not won"
         self.questions = [
             Question("Which keyword is used to define a function in Python?",
                      ["A. func", "B. def", "C. define", "D. method"], 1),
@@ -110,6 +112,7 @@ class QuizGame:
     def draw_end_screen(self, screen):
         if self.score >= 3:
             end_message = "Well done, you passed!"
+            self.victory_status = "Won"
         else:
             end_message = "Good try, but try again!"
 
@@ -207,6 +210,7 @@ class QuizGame:
                             self.__init__()
                             self.current_state = QUIZ_GAME
                         elif event.key == pygame.K_e:
+                            self.player_location = "Map"
                             running = False
 
             # Draw current state

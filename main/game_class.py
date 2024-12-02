@@ -32,7 +32,13 @@ class Game:
         self.high_scores = HighScoreScreen()
         self.game_over = GameOverScreen()
         self.library = QuizGame()
-
+        self.games_won = {
+        "library": "Not won",
+        "cafeteria": "Not won",
+        "counselling_office": "Not won",
+        "classroom": "Not won",
+        "it_dept": "Not won"
+    }
 
     def loop(self):
         while True:
@@ -41,13 +47,17 @@ class Game:
             self.dt = self.clock.tick(FPS)/1000
 
             # print(f"Before checking: Current game_state = {game_state}")
-
-            # check to trigger building state update
-            if game_state != self.player.character_location:
+            # check to bring player back to map, excluding menu
+            if game_state != "Main Menu" and game_state != self.player.character_location:
                 print(f"Game state updated to: {self.player.character_location}")
                 game_state = self.player.character_location
                 if self.player.character_location != "Map":
                     self.player.character_location = "Map"
+
+            # Victory status logic
+            if self.games_won["library"] != self.library.victory_status:
+                self.games_won["library"] = self.library.victory_status
+
 
             if game_state == "Main Menu":
                 print(f"In Main Menu state.")
@@ -89,9 +99,14 @@ class Game:
                 for event in pygame.event.get():
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
-            elif game_state == "library":
+                # check to trigger building state update
+            elif game_state == "library" and self.games_won["library"] == "Not won":
                  print(f"In library state.")
                  self.library.main()
+                 print(f"After library.main(): game_state = {game_state}, player_location = {self.library.player_location}")
+                 if game_state != self.library.player_location:
+                     print(f"Game state updated to: {self.library.player_location}")
+                     game_state = self.library.player_location
             elif game_state == "Victory":
                 print(f"In Game victory state.")
                 self.game_over.draw()
