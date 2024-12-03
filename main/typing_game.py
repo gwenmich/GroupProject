@@ -24,7 +24,7 @@ title_size = 32
 font_size = 14
 
 #setting the timer
-timer = 40
+timer = 20
 
 #sentences to type
 sentences = [
