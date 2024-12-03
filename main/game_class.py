@@ -57,12 +57,12 @@ class Game:
         elif building_name == "it_dept" and self.games_won["it_dept"] != self.it_dept.victory_status:
             self.games_won["it_dept"] = self.it_dept.victory_status
 
+
     def loop(self):
         while True:
             global game_state
 
             self.dt = self.clock.tick(FPS)/1000
-
 
             # check to bring player back to map, excluding menu. this is so the player does not get stuck in place
             if game_state != "Main Menu" and game_state != self.player.character_location:
@@ -187,13 +187,9 @@ class Game:
                 self.game_over.handler()
 
 
-
             # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
             # pygame.mixer.music.play(-1)
             pygame.display.flip()
-
-
-            # print(f"After checking: Current game_state = {game_state}")
 
 
 
