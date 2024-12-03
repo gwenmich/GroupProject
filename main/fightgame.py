@@ -13,6 +13,8 @@ class FoodFight:
         self.WIDTH, self.HEIGHT = 1000, 700
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Cafeteria Food Fight!")  # Game title
+        self.victory_status = "Not won"
+        self.player_location = "cafeteria"
 
         # Pastel color palette
         self.PASTEL_PINK = (255, 182, 193)
@@ -179,6 +181,9 @@ class FoodFight:
                            self.PIXEL_LARGE_FONT, self.RED)
             self.draw_text(self.screen, "Press R to play again or Q to quit!", self.WIDTH // 2 - 240,
                            self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
+            if self.player_lives >= 0:
+                self.victory_status = "Win"
+
 
         pygame.display.flip()
 
@@ -207,7 +212,8 @@ class FoodFight:
                     elif self.game_over:
                         if event.key == pygame.K_r:
                             self.reset_game()
-                        elif event.key == pygame.K_q:
+                        elif event.key == pygame.K_e:
+                            self.player_location = "Map"
                             self.running = False
                     elif not self.turn_ended:
                         if event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5]:
@@ -216,8 +222,8 @@ class FoodFight:
                     else:
                         self.enemy_turn()
 
-        pygame.quit()
-        sys.exit()
+        # pygame.quit()
+        # sys.exit()
 
 if __name__ == "__main__":
     game = FoodFight()

@@ -14,7 +14,7 @@ from quizgame import QuizGame
 from typing_game import TypingGame
 from wellbeing_room import WellbeingGame
 from maze import MazeGame
-
+from fightgame import FoodFight
 
 class Game:
     def __init__(self):
@@ -38,7 +38,7 @@ class Game:
         self.classroom = TypingGame(self.map_screen.screen)
         self.counselling_office = WellbeingGame()
         self.it_dept = MazeGame()
-        self.cafeteria =
+        self.cafeteria = FoodFight()
         self.games_won = {
         "library": "Not won",
         "cafeteria": "Not won",
@@ -50,8 +50,8 @@ class Game:
     def update_game_status(self, building_name):
         if building_name == "library" and self.games_won["library"] != self.library.victory_status:
             self.games_won["library"] = self.library.victory_status
-        # elif building_name == "cafeteria" and self.games_won["cafeteria"] != self.cafeteria.victory_status:
-        #     self.games_won["cafeteria"] = self.cafeteria.victory_status
+        elif building_name == "cafeteria" and self.games_won["cafeteria"] != self.cafeteria.victory_status:
+            self.games_won["cafeteria"] = self.cafeteria.victory_status
         elif building_name == "classroom" and self.games_won["classroom"] != self.classroom.victory_status:
             self.games_won["classroom"] = self.classroom.victory_status
         elif building_name == "it_dept" and self.games_won["it_dept"] != self.it_dept.victory_status:
@@ -73,7 +73,7 @@ class Game:
 
             # Victory status logic
             self.update_game_status("library")
-            # self.update_game_status("cafeteria")
+            self.update_game_status("cafeteria")
             self.update_game_status("classroom")
             self.update_game_status("it_dept")
 
@@ -114,7 +114,6 @@ class Game:
                 self.games_bar.draw_text(self.map_screen.screen)
                 # timer
                 self.timer.countdown(self.map_screen.screen)
-                hitbox_visible_square(self.map_screen.screen, 797, 540, 10, 50)
                 # self.intro_text.draw()
                 # self.intro_text.handler()
                 for event in pygame.event.get():
@@ -170,7 +169,7 @@ class Game:
             elif game_state == "cafeteria" and self.games_won["cafeteria"] == "Not won":
                 self.stress_bar.update()
                 print(f"In cafeteria state.")
-                self.cafeteria.run_game()
+                self.cafeteria.fight_loop()
                 if self.cafeteria.player_location == "Map":
                      self.player.player_position.y += 20
                      self.player.character_rect.topleft = self.player.player_position
