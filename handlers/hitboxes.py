@@ -77,8 +77,28 @@ bubble_position = {
     "Counselling": (480, 190)
 }
 
+# EXCEPTIONS FOR COLLISION TESTING
+
+# custom exception invalid input
+class InvalidInput(Exception):
+    """Raised for invalid input value"""
+    pass
+
+class TooManyArguments(Exception):
+    """Raised when too many arguments are passed"""
+    pass
+
 # hitbox collision function, you pass the new rectangle matching player position and the intended hitbox dictionary
-def check_collision(new_rect, hitboxes):
+def check_collision(new_rect, hitboxes, *args):
+    # isinstance will check if the argument new_rect which represents the hero sprite is a pygame.Rect. isinstance is
+    # commonly used to test classes
+    if not isinstance(new_rect, pygame.Rect):
+        raise InvalidInput("Input must be pygame.Rect")
+
+    # error state - more args
+    if len(args) > 0:
+        raise TooManyArguments("Too many arguments provided.")
+
     # if there's a match between a coordinates of a hitbox in the dict and new_rect(new player position) return true
     for hitbox in hitboxes.values():
         if new_rect.colliderect(hitbox):
