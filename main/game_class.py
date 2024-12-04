@@ -26,7 +26,7 @@ class Game:
         self.dt = 0
         # instantiating Bar Class and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 10)
-        self.games_bar = GamesBar(510, 23, 70, 16, 4)
+        self.games_bar = GamesBar(510, 23, 70, 16, 5)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
         # creating a pygame for to set how often timer updates, every second
@@ -50,12 +50,20 @@ class Game:
     def update_game_status(self, building_name):
         if building_name == "library" and self.games_won["library"] != self.library.victory_status:
             self.games_won["library"] = self.library.victory_status
+            if self.library.victory_status == "Won":
+                self.games_bar.wins += 1
         elif building_name == "cafeteria" and self.games_won["cafeteria"] != self.cafeteria.victory_status:
             self.games_won["cafeteria"] = self.cafeteria.victory_status
+            if self.cafeteria.victory_status == "Won":
+                self.games_bar.wins += 1
         elif building_name == "classroom" and self.games_won["classroom"] != self.classroom.victory_status:
             self.games_won["classroom"] = self.classroom.victory_status
+            if self.classroom.victory_status == "Won":
+                self.games_bar.wins += 1
         elif building_name == "it_dept" and self.games_won["it_dept"] != self.it_dept.victory_status:
             self.games_won["it_dept"] = self.it_dept.victory_status
+            if self.it_dept.victory_status == "Won":
+                self.games_bar.wins += 1
 
 
     def loop(self):

@@ -204,14 +204,17 @@ class TypingGame:
         if success:
             self.game_screen.draw_text("Congratulations! You Win!", self.game_screen.fonts["title"], black, -50)
             self.victory_status = "Won"
+            button = self.game_screen.draw_button("Exit", 100, self.exit_game)
 
         else:
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], black, -50)
+            button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
-        button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
+    def exit_game(self):
+        self.player_location = "Map"  # Transition back to the map
+        self.running = False  # Stop the game loop, transitioning to the map screen
 
-
-            #deals with the timer
+    #deals with the timer
     def update_timer(self):
         if self.timer > 0:
             self.timer -= 1
@@ -247,9 +250,6 @@ class TypingGame:
                         if event.key == pygame.K_e:
                             self.player_location = "Map"
                             self.running = False
-
-
-
 
             if self.current_screen == "intro":
                 self.intro_screen()
