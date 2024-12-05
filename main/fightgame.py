@@ -179,8 +179,13 @@ class FoodFight:
             result_text = "You lost the food fight!" if self.player_lives <= 0 else "You won the food fight!"
             self.draw_text(self.screen, result_text, self.WIDTH // 2 - 430, self.HEIGHT // 2 - 50,
                            self.PIXEL_LARGE_FONT, self.RED)
-            self.draw_text(self.screen, "Press R to play again or E to quit!", self.WIDTH // 2 - 240,
-                           self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
+            if self.player_lives >0:
+                self.draw_text(self.screen, "Press E to quit!", self.WIDTH // 2 -100,
+                               self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
+            else:
+                self.draw_text(self.screen, "Press R to play again or E to quit!", self.WIDTH // 2 - 240,
+                               self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
+
             if self.player_lives >= 0:
                 self.victory_status = "Win"
 
