@@ -24,6 +24,19 @@ def get_top10_scores():
 
 
 
+@app.route("/scores/add", methods=["POST"])
+def add_high_score():
+    data = request.get_json()
+
+    new_user_name = data.get('new_user_name')
+    game_final_time = data.get('game_final_time')
+    game_score = data.get('game_score')
+
+
+    return jsonify(add_new_score(new_user_name, game_final_time, game_score))
+
+
+
 # again using __main__ to limit the scope of what will run when the script is run directly
 if __name__ == "__main__":
     # in this case app.run will start the flask application and also enable debugger as it's set to True
