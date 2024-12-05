@@ -2,7 +2,7 @@ import pygame
 import sys
 from world.game_screen_classes import Screen
 from world.map_config import *
-from utilities.database.front_end import add_new_high_score
+from utilities.database.front_end import add_new_score
 
 # storing colors in variables
 DUSTY_PINK = (231, 84, 128)
@@ -145,7 +145,7 @@ class VictoryScreen(Screen):
                         self.enter_pressed = True
                         # when user hits ENTER it trigger the function that saves the score
                         # must replace TEST with variable for timer and stars
-                        add_new_high_score(self.user_text, 'TEST', 'TEST')
+                        add_new_score(self.user_text, 'TEST', 'TEST')
                 elif event.key == pygame.K_BACKSPACE:
                     self.user_text = self.user_text[:-1]
                     # Using Unicode
