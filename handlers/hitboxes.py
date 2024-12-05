@@ -142,22 +142,12 @@ def enter_building(character_rect):
     }
 
 
-    games_won = {
-        "library": "Not won",
-        "cafeteria": "Not won",
-        "counselling_office": "Not won",
-        "classroom": "Not won",
-        "it_dept": "Not won"
-    }
-
-
     for building, building_rect in entry_hitboxes.items():
         if character_rect.colliderect(building_rect):
-            if building == "counselling_office" or games_won[building] == "Not won":
-                print(f"you found the entrance to {building}")
-                return building
-            else:
-                print("Sorry, you've already won this game, time to visit another building!")
+            print(f"you found the entrance to {building}")
+            return building
+        else:
+            print("Sorry, you've already won this game, time to visit another building!")
 
 
 
