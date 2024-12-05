@@ -15,6 +15,20 @@ BLACK = (0, 0, 0)
 # variable storing
 FONT_PATH = "world/PressStart2P-Regular.ttf"
 
+
+# custom exception for empty score list
+class NoScoresFoundException(Exception):
+    """Exception raised when no scores are found."""
+    pass
+# custom exception for getting no response
+class NoResponseException(Exception):
+    """Exception raised when no response is received from the API."""
+    pass
+
+class APINotReachedException(Exception):
+    """Exception raised when the API cannot be reached. Probably because I did not write the root password..."""
+    pass
+
 # Child Class inheriting from Screen Class
 class HighScoreScreen(Screen):
     def __init__(self):
@@ -39,11 +53,26 @@ class HighScoreScreen(Screen):
             # is not just assumes NONE and returns image
             return image
 
-
     def get_top10_scores_front_end(self):
+        # storing the http endpoint in a variable to pass it to requests.get
         endpoint = "http://127.0.0.1:5000/scores"
-        result = requests.get(endpoint).json()
-        return result
+
+        try:
+            # using .json to format the response, converting it into a python dictionary
+            result = requests.get(endpoint).json()
+            # print(result)
+
+            if result == None:
+                raise NoResponseException("Sorry, the API didn't find anything")
+
+            elif result == []:
+                raise NoScoresFoundException("oh no, we could not find any scores!")
+            else:
+                return result
+        # I added this exception because I kept forgetting to run flask and especially put write the root password
+        # so the Try block tries to connect, if it can't connect triggers this exception
+        except requests.exceptions.RequestException:
+            raise APINotReachedException("The API cannot come to the phone right now. Did you remember to run flask and add the root password?.")
 
     # function to draw the Game Over Screen
     def draw(self):
