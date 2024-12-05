@@ -160,8 +160,8 @@ class WellbeingGame():
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e and self.level_complete:
-                        self.player_location = "Map"
                         self.__init__()
+                        self.player_location = "Map"
                         running = False
 
             self.update(event_list)

@@ -125,10 +125,12 @@ class QuizGame:
                     (WIDTH // 2 - end_surface.get_width() // 2, HEIGHT // 2 - end_surface.get_height()))
         screen.blit(result_surface, (WIDTH // 2 - result_surface.get_width() // 2, HEIGHT // 2 + 50))
 
+        if self.score <= 3:
         # Add restart and exit options
-        restart_surface = FONT.render("Press R to Restart", True, WHITE)
+            restart_surface = FONT.render("Press R to Restart", True, WHITE)
+            screen.blit(restart_surface, (WIDTH // 2 - restart_surface.get_width() // 2, HEIGHT // 2 + 100))
+
         exit_surface = FONT.render("Press E to Exit", True, WHITE)
-        screen.blit(restart_surface, (WIDTH // 2 - restart_surface.get_width() // 2, HEIGHT // 2 + 100))
         screen.blit(exit_surface, (WIDTH // 2 - exit_surface.get_width() // 2, HEIGHT // 2 + 150))
 
     # Main Menu
