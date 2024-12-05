@@ -15,7 +15,8 @@ from typing_game import TypingGame
 from wellbeing_room import WellbeingGame
 from maze import MazeGame
 from fightgame import FoodFight
-from win_class import VictoryScreen
+from world.victory_screen_screen import VictoryScreen
+# from win_class import VictoryScreen
 
 class Game:
     def __init__(self):
@@ -27,7 +28,7 @@ class Game:
         self.dt = 0
         # instantiating Bar Class and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 10)
-        self.games_bar = GamesBar(510, 23, 70, 16, 4)
+        self.games_bar = GamesBar(510, 23, 70, 16, 1)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
         # creating a pygame for to set how often timer updates, every second
@@ -40,7 +41,7 @@ class Game:
         self.counselling_office = WellbeingGame()
         self.it_dept = MazeGame()
         self.cafeteria = FoodFight()
-        self.victory_screen = VictoryScreen(self.map_screen.screen)
+        self.victory_screen = VictoryScreen()
         self.state = "Playing"
         self.running = True
         self.games_won = {
@@ -96,10 +97,10 @@ class Game:
                 global game_state
                 game_state = "Victory"
 
-            if game_state == "Victory":
-                self.map_screen.screen.fill((0, 0, 0))
-                print("Games won. In victory state.")
-                self.victory_screen.display()
+            # if game_state == "Victory":
+            #     self.map_screen.screen.fill((0, 0, 0))
+            #     print("Games won. In victory state.")
+            #     self.victory_screen.display()
 
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -134,9 +135,9 @@ class Game:
                         # the set the menu variable back to default
                         self.menu.next_game_state = "Main Menu"
 
-                elif game_state == "Victory":
-                    print("Games won. In victory state.")
-                    self.victory_screen.display()
+                # elif game_state == "Victory":
+                #     print("Games won. In victory state.")
+                #     self.victory_screen.display()
 
                 elif game_state == "High Scores":
                     print(f"In High Scores state.")
@@ -226,9 +227,8 @@ class Game:
                          game_state = "Map"
 
                 elif game_state == "Victory":
-                    print(f"In Game victory state.")
-                    self.game_over.draw()
-                    self.game_over.handler()
+                    print("Games won. In victory state.")
+                    self.victory_screen.victory_loop("LLLLL", "LLL")
 
                 elif game_state == "Game Over":
                     print(f"In Game over state state.")

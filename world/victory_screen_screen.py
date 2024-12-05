@@ -2,7 +2,7 @@ import pygame
 import sys
 from world.game_screen_classes import Screen
 from world.map_config import *
-from utilities.database.front_end import add_new_score
+from utilities.database.front_end import add_new_high_score
 
 # storing colors in variables
 DUSTY_PINK = (231, 84, 128)
@@ -125,10 +125,7 @@ class VictoryScreen(Screen):
             self.screen.blit(well_done, (SCREEN_WIDTH // 2 - well_done.get_width() // 2, 410))
 
 
-
-
-    # this checks for pygame events such as key presses and or QUIT
-    def menu_handler(self):
+    def menu_handler(self, game_final_time, game_score):
         for event in pygame.event.get():
             # if user presses QUIT it closes pygame and sys to close all operations
             if event.type == pygame.QUIT:
@@ -145,7 +142,7 @@ class VictoryScreen(Screen):
                         self.enter_pressed = True
                         # when user hits ENTER it trigger the function that saves the score
                         # must replace TEST with variable for timer and stars
-                        add_new_score(self.user_text, 'TEST', 'TEST')
+                        add_new_high_score(self.user_text, game_final_time, game_score)
                 elif event.key == pygame.K_BACKSPACE:
                     self.user_text = self.user_text[:-1]
                     # Using Unicode
@@ -154,36 +151,24 @@ class VictoryScreen(Screen):
                         self.user_text += event.unicode
 
 
-# UNCOMMENT TO TEST
-def main_game_loop():
-    # Initialize Pygame
-    pygame.init()
-
-    # Call game over class and store it in a variable in order to create an instance of the screen object
-    victory_screen = VictoryScreen()
-
-
-    # instantiating Clock to control framerate
-    clock = pygame.time.Clock()
-
-    while True:
-        # stars variable to change medals. This should probably be coded with the timer to update depending on final time
-        victory_screen.stars = 3
-        # pass the menu interaction function
-
-
-        # Draw the Game Over screen
-        victory_screen.draw()
-        victory_screen.save_button()
-
-        victory_screen.menu_handler()
-
-
-        # Update the screen
-        pygame.display.flip()
-
-        # set the frame rate at 60 FPS
-        clock.tick(60)
+    def victory_loop(self,game_final_time, game_score):
+        # Initialize Pygame
+        pygame.init()
+        # instantiating Clock to control framerate
+        clock = pygame.time.Clock()
+        while True:
+            # stars variable to change medals. This should probably be coded with the timer to update depending on final time
+            self.stars = 5
+            # pass the menu interaction function
+            self.menu_handler(game_final_time,game_score)
+            # Draw the Victory screen and save button
+            self.draw()
+            self.save_button()
+            # Update the screen
+            pygame.display.flip()
+            # set the frame rate at 60 FPS
+            clock.tick(60)
 
 if __name__ == "__main__":
-    main_game_loop()
+    victory = VictoryScreen()
+    victory.victory_loop("MMMMMMMMMM", "MMMMMMMM")
