@@ -3,7 +3,7 @@
 # **_CFG Degree Autumn 2024 - Group 1_** 
 ***
 💫 **Members:**
-+ Antigony Pollard
++ Antigone Pollard
 + Emily Bunce
 + Emma Begum
 + Grace Parr
