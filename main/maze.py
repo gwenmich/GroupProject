@@ -48,7 +48,7 @@ background = pygame.transform.scale(background, (width, height))
 class MazeGame:
     def __init__(self):
         self.level = 1
-        self.timer = 30  #timer
+        self.timer = 50  #timer
         self.start_time = None #stores time once starts
         self.player_position = [1, 1] #players initial position
         self.maze = [] #stores the maze
