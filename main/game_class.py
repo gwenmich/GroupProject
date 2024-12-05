@@ -15,6 +15,7 @@ from typing_game import TypingGame
 from wellbeing_room import WellbeingGame
 from maze import MazeGame
 from fightgame import FoodFight
+from win_class import VictoryScreen
 
 class Game:
     def __init__(self):
@@ -26,7 +27,7 @@ class Game:
         self.dt = 0
         # instantiating Bar Class and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 10)
-        self.games_bar = GamesBar(510, 23, 70, 16, 5)
+        self.games_bar = GamesBar(510, 23, 70, 16, 4)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
         # creating a pygame for to set how often timer updates, every second
@@ -39,6 +40,9 @@ class Game:
         self.counselling_office = WellbeingGame()
         self.it_dept = MazeGame()
         self.cafeteria = FoodFight()
+        self.victory_screen = VictoryScreen(self.map_screen.screen)
+        self.state = "Playing"
+        self.running = True
         self.games_won = {
         "library": "Not won",
         "cafeteria": "Not won",
@@ -52,152 +56,190 @@ class Game:
             self.games_won["library"] = self.library.victory_status
             if self.library.victory_status == "Won":
                 self.games_bar.wins += 1
+                self.victory_condition()
+            elif self.library.victory_status == "Lost":
+                self.stress_bar.update(1)
         elif building_name == "cafeteria" and self.games_won["cafeteria"] != self.cafeteria.victory_status:
             self.games_won["cafeteria"] = self.cafeteria.victory_status
             if self.cafeteria.victory_status == "Won":
                 self.games_bar.wins += 1
+                self.victory_condition()
+            elif self.cafeteria.victory_status == "Lost":
+                self.stress_bar.update(1)
         elif building_name == "classroom" and self.games_won["classroom"] != self.classroom.victory_status:
             self.games_won["classroom"] = self.classroom.victory_status
             if self.classroom.victory_status == "Won":
                 self.games_bar.wins += 1
+                self.victory_condition()
+            elif self.classroom.victory_status == "Lost":
+                self.stress_bar.update(1)
         elif building_name == "it_dept" and self.games_won["it_dept"] != self.it_dept.victory_status:
             self.games_won["it_dept"] = self.it_dept.victory_status
             if self.it_dept.victory_status == "Won":
                 self.games_bar.wins += 1
+                self.victory_condition()
+            elif self.it_dept.victory_status == "Lost":
+                self.stress_bar.update(1)
 
+    def victory_condition(self):
+        if self.games_bar.wins == self.games_bar.max_wins:
+            global game_state
+            game_state = "Victory"
 
     def loop(self):
-        while True:
+        while self.running:
             global game_state
 
             self.dt = self.clock.tick(FPS)/1000
 
-            # check to bring player back to map, excluding menu. this is so the player does not get stuck in place
-            if game_state != "Main Menu" and game_state != self.player.character_location:
-                print(f"Game state updated to: {self.player.character_location}")
-                game_state = self.player.character_location
-                if self.player.character_location != "Map":
-                    self.player.character_location = "Map"
+            if self.games_bar.wins == self.games_bar.max_wins:
+                global game_state
+                game_state = "Victory"
 
-            # Victory status logic
-            self.update_game_status("library")
-            self.update_game_status("cafeteria")
-            self.update_game_status("classroom")
-            self.update_game_status("it_dept")
+            if game_state == "Victory":
+                self.map_screen.screen.fill((0, 0, 0))
+                print("Games won. In victory state.")
+                self.victory_screen.display()
 
-            # main game_state engine
-            if game_state == "Main Menu":
-                print(f"In Main Menu state.")
-                self.menu.display(self.map_screen.screen)
-                self.menu.handle_input()
-                # So this is where if checks if the game_state is diferent than the menu specifc variable and if so updates
-                if game_state != self.menu.next_game_state:
-                    print(f"Game state updated to: {self.menu.next_game_state}")
-                    game_state = self.menu.next_game_state
-                    # the set the menu variable back to default
-                    self.menu.next_game_state = "Main Menu"
-
-            elif game_state == "High Scores":
-                print(f"In High Scores state.")
-                self.high_scores.draw()
-                self.high_scores.handler()
-                if game_state != self.high_scores.menu:
-                    print(f"Game state updated to: {self.high_scores.menu}")
-                    game_state = self.high_scores.menu
-                    self.high_scores.menu = "High Scores"
-
-            elif game_state == "Map":
-                self.dt = self.clock.tick(FPS) / 1000
-                # print(f"In Map state.")
-                self.map_screen.draw()
-                self.map_screen.handler()
-                self.player.animate(self.map_screen.screen)
-                self.player.move(400, self.dt)
-                # drawing the bars and timers and the matching texts
-                # stress bars
-                self.stress_bar.draw(self.map_screen.screen)
-                self.stress_bar.draw_text(self.map_screen.screen)
-                # Challenge wins
-                self.games_bar.draw(self.map_screen.screen)
-                self.games_bar.draw_text(self.map_screen.screen)
-                # timer
-                self.timer.countdown(self.map_screen.screen)
-                # self.intro_text.draw()
-                # self.intro_text.handler()
                 for event in pygame.event.get():
-                    if event.type == pygame.USEREVENT:
-                       self.timer.timer_duration -= 1
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            game_state = "High Scores"
+                            print(f"Game state updated to: {game_state}")
+                        elif event.key == pygame.K_ESCAPE:
+                            self.running = False
 
-                # checks if the game state matches building and is not won
-            elif game_state == "library" and self.games_won["library"] == "Not won":
-                # this is meant to update the stress bar every time you go there, not finished
-                self.stress_bar.update()
-                print(f"In library state.")
-                # call the minigame
-                self.library.main()
-                # this is checking if the mini game variable that holds the game state which is called player location is set to map
-                # and if so, changes game state to map and
-                if self.library.player_location == "Map":
-                    print("Transitioning to Map...")
-                    # this moves player down when going back to map so its not auto triggering the entrance and get stuck in a loop
-                    self.player.player_position.y += 10
-                    self.player.character_rect.topleft = self.player.player_position
-                    print(f"Game state updated to: {self.library.player_location}")
-                    game_state = "Map"
+            else:
+                if game_state != "Main Menu" and game_state != self.player.character_location:
+                    print(f"Game state updated to: {self.player.character_location}")
+                    game_state = self.player.character_location
+                    if self.player.character_location != "Map":
+                        self.player.character_location = "Map"
 
-            elif game_state == "classroom" and self.games_won["classroom"] == "Not won":
-                self.stress_bar.update()
-                print(f"In classroom state.")
-                self.classroom.run()
-                if self.classroom.player_location == "Map":
-                     self.player.player_position.y += 10
-                     self.player.character_rect.topleft = self.player.player_position
-                     print(f"Game state updated to: {self.classroom.player_location}")
-                     game_state = "Map"
+                # Victory status logic
+                self.update_game_status("library")
+                self.update_game_status("cafeteria")
+                self.update_game_status("classroom")
+                self.update_game_status("it_dept")
 
-            elif game_state == "counselling_office":
-                print(f"In counselling office state.")
-                self.counselling_office.game_loop()
-                if self.counselling_office.player_location == "Map":
-                     self.player.player_position.y += 10
-                     self.player.character_rect.topleft = self.player.player_position
-                     print(f"Game state updated to: {self.counselling_office.player_location}")
-                     game_state = "Map"
+                # main game_state engine
+                if game_state == "Main Menu":
+                    print(f"In Main Menu state.")
+                    self.menu.display(self.map_screen.screen)
+                    self.menu.handle_input()
+                    # So this is where if checks if the game_state is diferent than the menu specifc variable and if so updates
+                    if game_state != self.menu.next_game_state:
+                        print(f"Game state updated to: {self.menu.next_game_state}")
+                        game_state = self.menu.next_game_state
+                        # the set the menu variable back to default
+                        self.menu.next_game_state = "Main Menu"
 
-            elif game_state == "it_dept" and self.games_won["it_dept"] == "Not won":
-                self.stress_bar.update()
-                print(f"In it_dept state.")
-                self.it_dept.run_game()
-                if self.it_dept.player_location == "Map":
-                     self.player.player_position.y += 20
-                     self.player.character_rect.topleft = self.player.player_position
-                     print(f"Game state updated to: {self.it_dept.player_location}")
-                     game_state = "Map"
+                elif game_state == "Victory":
+                    print("Games won. In victory state.")
+                    self.victory_screen.display()
 
-            elif game_state == "cafeteria" and self.games_won["cafeteria"] == "Not won":
-                self.stress_bar.update()
-                print(f"In cafeteria state.")
-                self.cafeteria.fight_loop()
-                if self.cafeteria.player_location == "Map":
-                     self.player.player_position.y += 20
-                     self.player.character_rect.topleft = self.player.player_position
-                     print(f"Game state updated to: {self.cafeteria.player_location}")
-                     game_state = "Map"
+                elif game_state == "High Scores":
+                    print(f"In High Scores state.")
+                    self.high_scores.draw()
+                    self.high_scores.handler()
+                    if game_state != self.high_scores.menu:
+                        print(f"Game state updated to: {self.high_scores.menu}")
+                        game_state = self.high_scores.menu
+                        self.high_scores.menu = "High Scores"
 
-            elif game_state == "Victory":
-                print(f"In Game victory state.")
-                self.game_over.draw()
-                self.game_over.handler()
+                elif game_state == "Map":
+                    self.dt = self.clock.tick(FPS) / 1000
+                    # print(f"In Map state.")
+                    self.map_screen.draw()
+                    self.map_screen.handler()
+                    self.player.animate(self.map_screen.screen)
+                    self.player.move(400, self.dt)
+                    # drawing the bars and timers and the matching texts
+                    # stress bars
+                    self.stress_bar.draw(self.map_screen.screen)
+                    self.stress_bar.draw_text(self.map_screen.screen)
+                    # Challenge wins
+                    self.games_bar.draw(self.map_screen.screen)
+                    self.games_bar.draw_text(self.map_screen.screen)
+                    # timer
+                    self.timer.countdown(self.map_screen.screen)
+                    # self.intro_text.draw()
+                    # self.intro_text.handler()
+                    for event in pygame.event.get():
+                        if event.type == pygame.USEREVENT:
+                           self.timer.timer_duration -= 1
 
-            elif game_state == "Game Over":
-                print(f"In Game over state state.")
-                self.game_over.draw()
-                self.game_over.handler()
+                    # checks if the game state matches building and is not won
+                elif game_state == "library" and self.games_won["library"] == "Not won":
+                    # this is meant to update the stress bar every time you go there, not finished
+                        self.stress_bar.update()
+                        print(f"In library state.")
+                        # call the minigame
+                        self.library.main()
+                        # this is checking if the mini game variable that holds the game state which is called player location is set to map
+                        # and if so, changes game state to map and
+                        if self.library.player_location == "Map":
+                            print("Transitioning to Map...")
+                            # this moves player down when going back to map so its not auto triggering the entrance and get stuck in a loop
+                            self.player.player_position.y += 10
+                            self.player.character_rect.topleft = self.player.player_position
+                            print(f"Game state updated to: {self.library.player_location}")
+                            game_state = "Map"
+
+                elif game_state == "classroom" and self.games_won["classroom"] == "Not won":
+                    self.stress_bar.update()
+                    print(f"In classroom state.")
+                    self.classroom.run()
+                    if self.classroom.player_location == "Map":
+                         self.player.player_position.y += 10
+                         self.player.character_rect.topleft = self.player.player_position
+                         print(f"Game state updated to: {self.classroom.player_location}")
+                         game_state = "Map"
+
+                elif game_state == "counselling_office":
+                    print(f"In counselling office state.")
+                    self.counselling_office.game_loop()
+                    if self.counselling_office.player_location == "Map":
+                         self.player.player_position.y += 10
+                         self.player.character_rect.topleft = self.player.player_position
+                         print(f"Game state updated to: {self.counselling_office.player_location}")
+                         game_state = "Map"
+
+                elif game_state == "it_dept" and self.games_won["it_dept"] == "Not won":
+                    self.stress_bar.update()
+                    print(f"In it_dept state.")
+                    self.it_dept.run_game()
+                    if self.it_dept.player_location == "Map":
+                         self.player.player_position.y += 20
+                         self.player.character_rect.topleft = self.player.player_position
+                         print(f"Game state updated to: {self.it_dept.player_location}")
+                         game_state = "Map"
+
+                elif game_state == "cafeteria" and self.games_won["cafeteria"] == "Not won":
+                    self.stress_bar.update()
+                    print(f"In cafeteria state.")
+                    self.cafeteria.fight_loop()
+                    if self.cafeteria.player_location == "Map":
+                         self.player.player_position.y += 20
+                         self.player.character_rect.topleft = self.player.player_position
+                         print(f"Game state updated to: {self.cafeteria.player_location}")
+                         game_state = "Map"
+
+                elif game_state == "Victory":
+                    print(f"In Game victory state.")
+                    self.game_over.draw()
+                    self.game_over.handler()
+
+                elif game_state == "Game Over":
+                    print(f"In Game over state state.")
+                    self.game_over.draw()
+                    self.game_over.handler()
 
 
-            # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
-            # pygame.mixer.music.play(-1)
-            pygame.display.flip()
+                # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
+                # pygame.mixer.music.play(-1)
+                pygame.display.flip()
+
 
 
 

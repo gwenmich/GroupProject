@@ -19,6 +19,7 @@ class Card(pygame.sprite.Sprite):
         #image first not shown but backimage
         self.shown = False
 
+
     #update the image of the card as either shown or not shown
     def update(self):
         self.image = self.original_image if self.shown else self.back_image

@@ -207,6 +207,7 @@ class TypingGame:
             button = self.game_screen.draw_button("Exit", 100, self.exit_game)
 
         else:
+            button = self.game_screen.draw_button("Exit", 250, self.exit_game)
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], black, -50)
             button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
