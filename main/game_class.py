@@ -27,7 +27,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.dt = 0
         # instantiating Bar Class and giving coordinates
-        self.stress_bar = StressBar(900, 23, 70, 16, 10)
+        self.stress_bar = StressBar(900, 23, 70, 16, 8)
         self.games_bar = GamesBar(510, 23, 70, 16, 1)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
@@ -79,13 +79,21 @@ class Game:
             if self.it_dept.victory_status == "Won":
                 self.games_bar.wins += 1
                 self.victory_condition()
+
             elif self.it_dept.victory_status == "Lost":
                 self.stress_bar.update(1)
+
 
     def victory_condition(self):
         if self.games_bar.wins == self.games_bar.max_wins:
             global game_state
             game_state = "Victory"
+
+    def game_over_condition(self):
+        if self.timer.timer_duration <= 0 or self.stress_bar.stress == self.stress_bar.max_stress:
+            global game_state
+            game_state = "Game Over"
+
 
     def loop(self):
         while self.running:
@@ -93,22 +101,15 @@ class Game:
 
             self.dt = self.clock.tick(FPS)/1000
 
-            if self.games_bar.wins == self.games_bar.max_wins:
-                global game_state
-                game_state = "Victory"
 
-            # if game_state == "Victory":
-            #     self.map_screen.screen.fill((0, 0, 0))
-            #     print("Games won. In victory state.")
-            #     self.victory_screen.display()
 
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            game_state = "High Scores"
-                            print(f"Game state updated to: {game_state}")
-                        elif event.key == pygame.K_ESCAPE:
-                            self.running = False
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        game_state = "High Scores"
+                        print(f"Game state updated to: {game_state}")
+                    elif event.key == pygame.K_ESCAPE:
+                        self.running = False
 
             else:
                 if game_state != "Main Menu" and game_state != self.player.character_location:
@@ -123,6 +124,7 @@ class Game:
                 self.update_game_status("classroom")
                 self.update_game_status("it_dept")
 
+                self.game_over_condition()
                 # main game_state engine
                 if game_state == "Main Menu":
                     print(f"In Main Menu state.")
@@ -135,9 +137,6 @@ class Game:
                         # the set the menu variable back to default
                         self.menu.next_game_state = "Main Menu"
 
-                # elif game_state == "Victory":
-                #     print("Games won. In victory state.")
-                #     self.victory_screen.display()
 
                 elif game_state == "High Scores":
                     print(f"In High Scores state.")

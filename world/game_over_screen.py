@@ -2,6 +2,7 @@ import pygame
 import sys
 from world.game_screen_classes import Screen
 from world.map_config import *
+# from main.game_class import Game
 # from main.game_class import *
 
 # storing colors in variables
@@ -74,9 +75,9 @@ class GameOverScreen(Screen):
                     pygame.quit()
                     sys.exit()
                 # if key press is Y replay game loop
-                elif event.key == pygame.K_y:
-                    # self.play_again.loop()
-                    return
+                # elif event.key == pygame.K_y:
+                #     self.play_again.__init__()
+                #     return
 
 
 
