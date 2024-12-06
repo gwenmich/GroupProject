@@ -161,10 +161,16 @@ class Game:
                 # timer
                 self.timer.countdown(self.map_screen.screen)
                 self.intro_text.draw()
-                self.intro_text.handler()
                 for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.intro_text.enter_pressed = True
+                        if event.key == pygame.K_ESCAPE:
+                            self.running = False
                     if event.type == pygame.USEREVENT:
-                       self.timer.timer_duration -= 1
+                        self.timer.timer_duration -= 1
 
                 # checks if the game state matches building and is not won
             elif game_state == "library" and self.games_won["library"] == "Not won":
