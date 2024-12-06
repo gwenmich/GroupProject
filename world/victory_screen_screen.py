@@ -27,7 +27,8 @@ class VictoryScreen(Screen):
         # blinking interval in milliseconds
         self.star_blink = 300
         self.button_blink = 300
-        self.stars = 5
+        # just giving it a start value to be recalculated at the end of the game
+        self.stars = 3
         self.user_text = ''
         self.enter_pressed = False
 
@@ -42,8 +43,18 @@ class VictoryScreen(Screen):
             # is not just assumes NONE and returns image
             return image
 
+    # this will dynamically calculate the stars for the victory screen, it's similar ot the function that calcultes the stars for the database
+    # to save the scores
+    def star_calculator(self, game_final_time, initial_duration):
+        if game_final_time >= initial_duration * 2 // 3:
+            return 5
+        elif game_final_time >= initial_duration // 3:
+            return 4
+        else:
+            return 3
+
     # function to draw the Game Over Screen
-    def draw(self, game_state=None):
+    def draw(self):
         # first fills background
         self.screen.fill(SKY_BLUE)
         # pass pygame.time.get_ticks() to count how long since pygame initialized to set the blinking
@@ -157,8 +168,6 @@ class VictoryScreen(Screen):
         # instantiating Clock to control framerate
         clock = pygame.time.Clock()
         while True:
-            # stars variable to change medals. This should probably be coded with the timer to update depending on final time
-            self.stars = 5
             # pass the menu interaction function
             self.menu_handler(game_final_time,game_score)
             # Draw the Victory screen and save button

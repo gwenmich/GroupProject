@@ -97,12 +97,10 @@ class Game:
     def star_score(self):
         if self.timer.timer_duration >= (self.timer.initial_duration * 2 // 3):
             return "5 Stars"
-        elif self.timer.timer_duration >= (self.timer.initial_duration // 2):
+        elif self.timer.timer_duration >= (self.timer.initial_duration // 3):
             return "4 Stars"
         else:
             return "3 Stars"
-
-
 
 
     def loop(self):
@@ -226,6 +224,7 @@ class Game:
 
             elif game_state == "Victory":
                 print("Games won. In victory state.")
+                self.victory_screen.stars = self.victory_screen.star_calculator(self.timer.timer_duration, self.timer.initial_duration)
                 self.victory_screen.victory_loop(self.timer.get_time_taken(), self.star_score())
 
             elif game_state == "Game Over":
