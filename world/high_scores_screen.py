@@ -13,7 +13,7 @@ DARK_PURPLE = (150, 0, 100)
 BLACK = (0, 0, 0)
 
 # variable storing
-FONT_PATH = "world/PressStart2P-Regular.ttf"
+FONT_PATH = "assets/high_scores/PressStart2P-Regular.ttf"
 
 
 # custom exception for empty score list
@@ -76,7 +76,7 @@ class HighScoreScreen(Screen):
 
     # function to draw the Game Over Screen
     def draw(self):
-        icon = self.load_image('prototypes/ines_duarte/menus/menu_assets/new_cloud_bg.png', (SCREEN_WIDTH, SCREEN_HEIGHT))
+        icon = self.load_image('assets/high_scores/new_cloud_bg.png', (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.screen.blit(icon, (0,0))
 
         scores = self.get_top10_scores_front_end()

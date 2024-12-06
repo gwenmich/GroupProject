@@ -11,7 +11,7 @@ DUSTY_YELLOW = (250, 228, 100)
 DARKER_BLUE = (108, 165, 188)
 BLACK = (0, 0, 0)
 # variable storing
-FONT_PATH = "world/PressStart2P-Regular.ttf"
+FONT_PATH = "assets/high_scores/PressStart2P-Regular.ttf"
 
 # Child Class inheriting from Screen Class
 class VictoryScreen(Screen):
@@ -67,18 +67,18 @@ class VictoryScreen(Screen):
         # centering the text exactly in middle
         self.screen.blit(victory_text, (SCREEN_WIDTH // 2 - victory_text.get_width() // 2, 80))
 
-        medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
+        medal = self.load_image('assets/victory_screen/medal.png', (100, 100))
         # if statements to show the number of stars matching player score.
         if self.stars == 5:
             if (current_time // self.star_blink) % 2 == 0:
-                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (100, 100))
+                medal = self.load_image('assets/victory_screen/medal.png', (100, 100))
                 self.screen.blit(medal, (150, 190))
                 self.screen.blit(medal, (300, 190))
                 self.screen.blit(medal, (450, 190))
                 self.screen.blit(medal, (600, 190))
                 self.screen.blit(medal, (750, 190))
             elif (current_time // self.star_blink) % 2 == 1:
-                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
+                medal = self.load_image('assets/victory_screen/medal.png', (95, 95))
                 self.screen.blit(medal, (150, 190))
                 self.screen.blit(medal, (300, 190))
                 self.screen.blit(medal, (450, 190))
@@ -94,7 +94,7 @@ class VictoryScreen(Screen):
                 self.screen.blit(medal, (510, 190))
                 self.screen.blit(medal, (660, 190))
             elif (current_time // self.star_blink) % 2 == 1:
-                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
+                medal = self.load_image('assets/victory_screen/medal.png', (95, 95))
                 self.screen.blit(medal, (210, 190))
                 self.screen.blit(medal, (360, 190))
                 self.screen.blit(medal, (510, 190))
@@ -107,7 +107,7 @@ class VictoryScreen(Screen):
                 self.screen.blit(medal, (450, 190))
                 self.screen.blit(medal, (600, 190))
             elif (current_time // self.star_blink) % 2 == 1:
-                medal = self.load_image('prototypes/ines_duarte/menus/menu_assets/medal.png', (95, 95))
+                medal = self.load_image('assets/victory_screen/medal.png', (95, 95))
                 self.screen.blit(medal, (300, 190))
                 self.screen.blit(medal, (450, 190))
                 self.screen.blit(medal, (600, 190))
@@ -119,10 +119,10 @@ class VictoryScreen(Screen):
             # code for the save button
         if self.enter_pressed == False:
             if (current_time // self.button_blink) % 2 == 0:
-                save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (630, 100))
+                save_button = self.load_image('assets/victory_screen/button_pink.png', (630, 100))
                 self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
             elif (current_time // self.button_blink) % 2 == 1:
-                save_button = self.load_image('prototypes/ines_duarte/menus/menu_assets/button_pink.png', (625, 95))
+                save_button = self.load_image('assets/victory_screen/button_pink.png', (625, 95))
                 self.screen.blit(save_button, (SCREEN_WIDTH // 2 - save_button.get_width() // 2, 500))
             save_score = self.font_small.render("What name shall we put in the diploma?", True, DUSTY_YELLOW)
             self.screen.blit(save_score, (SCREEN_WIDTH // 2 - save_score.get_width() // 2, 480))
@@ -130,7 +130,7 @@ class VictoryScreen(Screen):
             user_name = self.font_small_2.render(self.user_text, True, DARKER_BLUE)
             self.screen.blit(user_name, (SCREEN_WIDTH // 2 - user_name.get_width() // 2, 527))
         else:
-            diploma = self.load_image('prototypes/ines_duarte/menus/menu_assets/certificate_1.png', (420, 350))
+            diploma = self.load_image('assets/victory_screen/certificate_1.png', (420, 350))
             self.screen.blit(diploma, (SCREEN_WIDTH // 2 - diploma.get_width() // 2, 350))
             well_done = self.font_small_2.render(self.user_text, True, BLACK)
             self.screen.blit(well_done, (SCREEN_WIDTH // 2 - well_done.get_width() // 2, 410))
@@ -180,4 +180,4 @@ class VictoryScreen(Screen):
 
 if __name__ == "__main__":
     victory = VictoryScreen()
-    victory.victory_loop("MMMMMMMMMM", "MMMMMMMM")
+    victory.victory_loop("Test", "Test")

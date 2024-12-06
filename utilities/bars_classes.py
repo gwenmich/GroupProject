@@ -50,7 +50,7 @@ class StressBar(Bars):
             self.stress -= 1
 
     def draw_text(self, surface):
-        FONT = pygame.font.Font("world/PressStart2P-Regular.ttf", 20)
+        FONT = pygame.font.Font("assets/high_scores/PressStart2P-Regular.ttf", 20)
         stress_text = FONT.render("STRESS", True, "black")
         stress_text_rect = stress_text.get_rect(topleft=(770, 23))
         surface.blit(stress_text, stress_text_rect)
@@ -75,7 +75,7 @@ class GamesBar(Bars):
 
 
     def draw_text(self, surface):
-        FONT = pygame.font.Font("world/PressStart2P-Regular.ttf", 20)
+        FONT = pygame.font.Font("assets/high_scores/PressStart2P-Regular.ttf", 20)
         games_text = FONT.render("CHALLENGES", True, "black")
         games_text_rect = games_text.get_rect(topleft=(300, 23))
         surface.blit(games_text, games_text_rect)

@@ -10,7 +10,7 @@ DUSTY_PINK = (231, 84, 128)
 SKY_BLUE = (135, 206, 235)
 DUSTY_YELLOW = (239, 228, 176)
 # variable storing
-FONT_PATH = "world/PressStart2P-Regular.ttf"
+FONT_PATH = "assets/high_scores/PressStart2P-Regular.ttf"
 
 # Child Class inheriting from Screen Class
 class GameOverScreen(Screen):
