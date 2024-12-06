@@ -28,7 +28,7 @@ class Game:
         self.dt = 0
         # instantiating Bar Class and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 10)
-        self.games_bar = GamesBar(510, 23, 70, 16, 1)
+        self.games_bar = GamesBar(510, 23, 70, 16, 4)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
         # creating a pygame for to set how often timer updates, every second
@@ -161,10 +161,16 @@ class Game:
                 # timer
                 self.timer.countdown(self.map_screen.screen)
                 self.intro_text.draw()
-                self.intro_text.handler()
                 for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.intro_text.enter_pressed = True
+                        if event.key == pygame.K_ESCAPE:
+                            self.running = False
                     if event.type == pygame.USEREVENT:
-                       self.timer.timer_duration -= 1
+                        self.timer.timer_duration -= 1
 
                 # checks if the game state matches building and is not won
             elif game_state == "library" and self.games_won["library"] == "Not won":
@@ -230,7 +236,19 @@ class Game:
             elif game_state == "Game Over":
                 print(f"In Game over state state.")
                 self.game_over.draw()
-                self.game_over.handler()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_n:
+                            pygame.quit()
+                            sys.exit()
+                        if event.key == pygame.K_y:
+                            # if you pick yes, it re/initializes the game, and changes state to main menu to start with menu not map
+                            self.__init__()
+                            game_state = "Main Menu"
+
 
             pygame.display.flip()
 

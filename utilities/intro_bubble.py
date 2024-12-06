@@ -2,8 +2,6 @@ import pygame
 import sys
 from abc import ABC, abstractmethod
 from world.game_over_screen import FONT_PATH
-from world.map_config import *
-from world.game_screen_classes import Screen, MapScreen
 from utilities.speech_bubble_map import Bubble, center_text, DARK_BLUE
 from pygame import Rect
 
@@ -38,13 +36,13 @@ class IntroBubble(Bubble):
         # creating pulsation effect
         if self.enter_pressed == False:
             if (current_time // self.blink_interval) % 2 == 0:
-                intro_bubble = IntroBubble.load_image('prototypes/ines_duarte/menus/menu_assets/board.png',(self.bubble_width, self.bubble_height))
+                intro_bubble = IntroBubble.load_image('assets/bubbles/board.png',(self.bubble_width, self.bubble_height))
                 intro_text = self.title_font.render("WELCOME TO CAMPUS", True, DUSTY_PINK)
                 intro_rect = pygame.Rect(self.bubble_x, self.bubble_y - 50, self.bubble_width, self.bubble_height)
                 start = self.start_font.render("Press ENTER to start your quest", True, DUSTY_PINK)
                 start_rect = pygame.Rect(self.bubble_x, self.bubble_y, self.bubble_width, self.bubble_height)
             elif (current_time // self.blink_interval) % 2 == 1:
-                intro_bubble = IntroBubble.load_image('prototypes/ines_duarte/menus/menu_assets/board.png',(self.bubble_width-3, self.bubble_height-3))
+                intro_bubble = IntroBubble.load_image('assets/bubbles/board.png',(self.bubble_width-3, self.bubble_height-3))
                 intro_text = self.title_font_2.render("WELCOME TO CAMPUS", True, DUSTY_PINK)
                 intro_rect = pygame.Rect(self.bubble_x, self.bubble_y - 50, self.bubble_width, self.bubble_height)
                 start = self.start_font_2.render("Press ENTER to start your quest", True, DUSTY_PINK)

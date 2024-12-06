@@ -19,7 +19,7 @@ class Bubble(ABC):
     # initialize
     def __init__(self, surface, width, height, x_axis, y_axis, text):
         pygame.init()
-        FONT_PATH = "world/PressStart2P-Regular.ttf"
+        FONT_PATH = "assets/high_scores/PressStart2P-Regular.ttf"
         self.font_large = pygame.font.Font(FONT_PATH, 60)
         self.font_medium = pygame.font.Font(FONT_PATH, 40)
         self.font_small_2 = pygame.font.Font(FONT_PATH, 20)
