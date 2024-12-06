@@ -9,7 +9,7 @@ class Character:
         self.width = width
         self.height = height
         # position of character and its rect
-        self.player_position = pygame.Vector2(surface.get_width() / 2, surface.get_height() / 2 + 60)
+        self.player_position = pygame.Vector2(surface.get_width() / 2, surface.get_height() / 2 + 50)
         self.character_rect = pygame.Rect(self.player_position.x, self.player_position.y, width, height)
 
         # character animation
