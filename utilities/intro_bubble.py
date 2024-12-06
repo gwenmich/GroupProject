@@ -81,4 +81,7 @@ class IntroBubble(Bubble):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.enter_pressed = True
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 

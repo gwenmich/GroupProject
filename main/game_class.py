@@ -27,7 +27,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.dt = 0
         # instantiating Bar Class and giving coordinates
-        self.stress_bar = StressBar(900, 23, 70, 16, 8)
+        self.stress_bar = StressBar(900, 23, 70, 16, 10)
         self.games_bar = GamesBar(510, 23, 70, 16, 1)
         # instantiating Timer and passing timer duration
         self.timer = Timer(1800)
@@ -94,6 +94,16 @@ class Game:
             global game_state
             game_state = "Game Over"
 
+    def star_score(self):
+        if self.timer.timer_duration >= (self.timer.initial_duration * 2 // 3):
+            return "5 Stars"
+        elif self.timer.timer_duration >= (self.timer.initial_duration // 2):
+            return "4 Stars"
+        else:
+            return "3 Stars"
+
+
+
 
     def loop(self):
         while self.running:
@@ -141,7 +151,6 @@ class Game:
                 self.dt = self.clock.tick(FPS) / 1000
                 # print(f"In Map state.")
                 self.map_screen.draw()
-                self.map_screen.handler()
                 self.player.animate(self.map_screen.screen)
                 self.player.move(400, self.dt)
                 # drawing the bars and timers and the matching texts
@@ -153,8 +162,8 @@ class Game:
                 self.games_bar.draw_text(self.map_screen.screen)
                 # timer
                 self.timer.countdown(self.map_screen.screen)
-                # self.intro_text.draw()
-                # self.intro_text.handler()
+                self.intro_text.draw()
+                self.intro_text.handler()
                 for event in pygame.event.get():
                     if event.type == pygame.USEREVENT:
                        self.timer.timer_duration -= 1
@@ -217,7 +226,7 @@ class Game:
 
             elif game_state == "Victory":
                 print("Games won. In victory state.")
-                self.victory_screen.victory_loop("LLLLL", "LLL")
+                self.victory_screen.victory_loop(self.timer.get_time_taken(), self.star_score())
 
             elif game_state == "Game Over":
                 print(f"In Game over state state.")
@@ -225,7 +234,6 @@ class Game:
                 self.game_over.handler()
 
             pygame.display.flip()
-
 
 
 
