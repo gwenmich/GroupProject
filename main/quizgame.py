@@ -9,7 +9,7 @@ pygame.init()
 
 # File Paths
 FONT_PATH = "assets/fight_quiz/PressStart2P-Regular.ttf"
-BACKGROUND_PATH = "assets/fight_quiz/Library.png"
+BACKGROUND_PATH = "assets/quiz_game/Library.png"
 
 
 # Ensure font file and background image exist
@@ -174,7 +174,7 @@ class QuizGame:
 
 
     def load_music(self):
-        pygame.mixer.music.load("assets/fight_quiz/battle.mp3")
+        pygame.mixer.music.load("assets/quiz_game/stranger-things-124008.mp3")
         pygame.mixer.music.play(-1)
 
     # Game Loop
