@@ -160,13 +160,18 @@ class Game:
                     if event.type == pygame.USEREVENT:
                         self.timer.timer_duration -= 1
 
+            # Checks if the game state if the wellbeing room
             elif self.game_state == "wellbeing_room":
+                pygame.mixer.music.stop()
+                self.wellbeing_room.handle_music()
                 self.wellbeing_room.play()
                 if self.wellbeing_room.player_location == "Map":
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {self.wellbeing_room.player_location}")
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
                     self.game_state = "Map"
 
 

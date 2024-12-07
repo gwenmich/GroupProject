@@ -53,11 +53,15 @@ class WellbeingGame():
         self.player_location = "counselling_office"
         pygame.mixer.init()
         # Add music from the sounds folder and loop them indefinitely
+        self.generate_level()
+
+        # Sets up the cards
+
+
+    def handle_music(self):
         pygame.mixer.music.load("assets/wellbeing_room/sounds/cozy-lofi-beat-split-memmories-248205.mp3")
         pygame.mixer.music.play(-1)
 
-        self.generate_level()
-        # Sets up the cards
 
     def update(self, event_list):
         # Handles user input events
@@ -148,7 +152,7 @@ class WellbeingGame():
 
     # Game loop
     def play(self):
-        pygame.init()
+        # pygame.init()
 
         pygame.display.set_caption("Wellbeing Room")
 
@@ -162,7 +166,7 @@ class WellbeingGame():
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e and self.level_complete:
-                        # self.__init__()
+                        self.__init__()
                         self.player_location = "Map"
                         running = False
 
@@ -170,7 +174,6 @@ class WellbeingGame():
             pygame.display.update()
             clock.tick(FPS)
 
-        pygame.quit()
 
 
 if __name__ == "__main__":
