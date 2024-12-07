@@ -201,6 +201,7 @@ class TypingGame:
             button = self.game_screen.draw_button("Exit", 100, self.exit_game)
 
         else:
+            # self.victory_status = "Not won"
             button = self.game_screen.draw_button("Exit", 250, self.exit_game)
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], BLACK, -50)
             button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
@@ -250,7 +251,11 @@ class TypingGame:
                             if len(self.user_input) < 43:
                                 self.user_input += event.unicode
                     if self.current_screen == "result":
-                        if event.key == pygame.K_e:
+                        if event.key == pygame.K_e and self.victory_status == "Not won":
+                            self.__init__()
+                            self.player_location = "Map"
+                            self.running = False
+                        elif event.key == pygame.K_e:
                             self.player_location = "Map"
                             self.running = False
 

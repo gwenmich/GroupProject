@@ -180,7 +180,7 @@ class FoodFight:
                                self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
 
             if self.player_lives >= 0:
-                self.victory_status = "Win"
+                self.victory_status = "Won"
 
 
         pygame.display.flip()
@@ -228,7 +228,7 @@ class FoodFight:
                     else:
                         self.enemy_turn()
 
-        return self.victory_status
+        # return self.victory_status
 
         # pygame.quit()
         # sys.exit()

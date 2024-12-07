@@ -147,34 +147,14 @@ def enter_building(character_rect):
             print(f"you found the entrance to {building}")
             return building
         else:
-            print("Sorry, you've already won this game, time to visit another building!")
+            print("No collision found")
 
 
 
 
 
 if __name__ == "__main__":
-
-    # THIS IS THE CODE I HAD PREVIOUSLY IMPLEMENTED IN THE MAIN FILE TO IMPLEMENT THE HITBOXES
-
-    # we need a new_position variable to check for collision, before we update player position
-    new_position = player_position.copy()
-
-    # movement of character
-    if keyboard[pygame.K_UP] and character_rect.y > 20:
-        new_position.y -= 250 * dt
-    if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - 77:
-        new_position.y += 250 * dt
-    if keyboard[pygame.K_LEFT] and character_rect.x > 20:
-        new_position.x -= 250 * dt
-    if keyboard[pygame.K_RIGHT] and character_rect.x < SCREEN_WIDTH - 52:
-        new_position.x += 250 * dt
-
-    # updates player hitbox position
-    new_rect = character.get_rect(center=new_position)
-
-    # checks for collision
-    collision_detected = check_collision(new_rect, hitboxes)
-    # it will only update if collision returns false
-    if collision_detected == False:
-        player_position = new_position
+    # enter_building(character_rect)
+    # check_collision()
+    # check_collision_items(new_rect, hitboxes)
+    pass
