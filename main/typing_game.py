@@ -8,9 +8,8 @@ pygame.init()
 # Mixer for sound
 pygame.mixer.init()
 
-# Setting the display with typing game title
+# Setting the display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Typing Challenge")
 
 # Font details
 font = "assets/typing_game/PressStart2P.ttf"
@@ -217,9 +216,15 @@ class TypingGame:
         else:
             self.result_screen(False) # Presents results screen if timer runs out
 
+    def load_music(self):
+        pygame.mixer.music.load(background_music)
+        pygame.mixer.music.play(-1)
+
     # Game loop
     def play(self):
         clock = pygame.time.Clock()
+        pygame.display.set_caption("Typing Challenge")
+        self.load_music()
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

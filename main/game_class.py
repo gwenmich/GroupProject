@@ -21,6 +21,7 @@ class Game:
 
     def __init__(self):
         self.map_screen = MapScreen()
+        pygame.display.set_caption("Thesis Quest")
         self.menu = Menu()
         self.menu.setup_music()
         self.player = Character(self.map_screen.screen, "assets/sprites/girl_sprite.png", 2, "#ff00d6", 64, 64)
@@ -94,6 +95,11 @@ class Game:
             return "3 Stars"
 
 
+    def load_map_music(self):
+        pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
+        pygame.mixer.music.play(-1)
+
+
     def loop(self):
         while self.running:
 
@@ -137,6 +143,7 @@ class Game:
 
 
             elif self.game_state == "Map":
+                self.load_map_music()
                 # print(f"In Map state.")
                 self.map_screen.draw()
                 self.player.animate(self.map_screen.screen)
@@ -164,7 +171,6 @@ class Game:
             # Checks if the game state if the wellbeing room
             elif self.game_state == "wellbeing_room":
                 pygame.mixer.music.stop()
-                self.wellbeing_room.handle_music()
                 self.wellbeing_room.play()
                 if self.wellbeing_room.player_location == "Map":
                     print("Transitioning to Map...")

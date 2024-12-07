@@ -18,11 +18,10 @@ if not os.path.exists(FONT_PATH):
 if not os.path.exists(BACKGROUND_PATH):
     raise FileNotFoundError(f"Background image not found at {BACKGROUND_PATH}")
 
-# Game Settings
+# Display Settings
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Quiz Game")
 
-# Font files, pixellated
+# Font files, pixelated
 try:
     FONT = pygame.font.Font(FONT_PATH, 14)
     LARGE_FONT = pygame.font.Font(FONT_PATH, 24)
@@ -173,10 +172,17 @@ class QuizGame:
 
         pygame.display.update()
 
+
+    def load_music(self):
+        pygame.mixer.music.load("assets/fight_quiz/battle.mp3")
+        pygame.mixer.music.play(-1)
+
     # Game Loop
     def play(self):
         # global CURRENT_STATE
         # quiz = QuizGame()
+        pygame.display.set_caption("Quiz Game")
+        self.load_music()
         running = True
 
         while running:

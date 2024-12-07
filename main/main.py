@@ -6,8 +6,9 @@ from game_class import Game
 pygame.init()
 pygame.mixer.init()
 
-def play_game():
+class PlayGame:
     game = Game()
+    game.menu.setup_music()
     game.loop()
 
 # game loop
@@ -26,11 +27,5 @@ def play_game():
 
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
-    play_game()
+    play = PlayGame()

@@ -58,7 +58,7 @@ class WellbeingGame():
         # Sets up the cards
 
 
-    def handle_music(self):
+    def load_music(self):
         pygame.mixer.music.load("assets/wellbeing_room/sounds/cozy-lofi-beat-split-memmories-248205.mp3")
         pygame.mixer.music.play(-1)
 
@@ -152,9 +152,9 @@ class WellbeingGame():
 
     # Game loop
     def play(self):
-        # pygame.init()
 
         pygame.display.set_caption("Wellbeing Room")
+        self.load_music()
 
         clock = pygame.time.Clock()
 

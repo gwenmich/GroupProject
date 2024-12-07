@@ -32,9 +32,8 @@ class Config:
             "title": pygame.font.Font("assets/maze/PressStart2P.ttf", 25)
         }
 
-# Setting the display with maze game title
+# Setting the display
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Maze Game")
 
 # Loading assets
 player = pygame.image.load("assets/maze/girl.png")
@@ -67,8 +66,6 @@ class MazeGame:
             ("A friend calls you. Do you pick up?", -5),
             ("You found a map! Do you follow it?", 5),
         ]
-        pygame.mixer.music.load("assets/maze/background_music.mp3")  # Loads the music file
-        pygame.mixer.music.play(-1, 0.0)  # Plays the music in a loop (-1) starting immediately
         self.victory_status = "Not won"
         self.player_location = "it_dept"
 
@@ -229,8 +226,14 @@ class MazeGame:
                 else:
                     self.win_screen()
 
+    def load_music(self):
+        pygame.mixer.music.load("assets/maze/background_music.mp3")  # Loads the music file
+        pygame.mixer.music.play(-1, 0.0)  # Plays the music in a loop (-1) starting immediately
+
     # Game loop
     def play(self):
+        pygame.display.set_caption("Maze Game")
+        self.load_music()
         self.show_title_screen()
         self.generate_maze()
         self.start_time = pygame.time.get_ticks()

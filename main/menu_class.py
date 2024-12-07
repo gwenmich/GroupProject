@@ -16,7 +16,6 @@ class Menu:
         self.menu_options = ["Start Game", "High Scores", "Quit"]
         self.menu_background = pygame.image.load('assets/main_menu/thesisquest.png').convert()
         self.selected_option = 0
-        # self.setup_music()
         # new variable to contain the menu game stated that will be used to update the main game loop
         # always reset back to its own menu
         self.next_game_state = "Main Menu"
@@ -71,8 +70,8 @@ class Menu:
             print(f"selected option: {self.selected_option}")
             self.next_game_state = "Map"
             print(f"The next game state is {self.next_game_state}")
-            # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
-            # pygame.mixer.music.play(-1)
+            pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
+            pygame.mixer.music.play(-1)
         elif self.selected_option == 1:  # High Scores
             print(f"selected option: {self.selected_option}")
             self.next_game_state = "High Scores"
