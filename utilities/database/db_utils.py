@@ -64,12 +64,12 @@ def get_high_scores():
         # returns the query result
         return scores_list
 
-    # except block to return the assigned error message. It helps us locate where the error ocurred.
+    # except block to return the assigned error message. It helps us locate where the error occurred.
     # In this case it would indicate it was in reading the data
     except Exception:
         raise DbConnectionError("Failed to read data from DB")
 
-    # The finally block always executes, and its being used to check if the cursor and db_connections exist and
+    # The finally block always executes, and it's being used to check if the cursor and db_connections exist and
     # if so to close them
     finally:
         if cur:
@@ -86,11 +86,11 @@ def add_new_score(new_user_name, game_final_time,game_score):
         cur = db_connection.cursor()
         print("Connected to DB: %s" % DATABASE)
 
-        # using cur.callproc instead of cur.execute as its specific for procedure
+        # using cur.callproc instead of cur.execute as it's specific for procedure
         # pass the function that contains the transaction
         cur.callproc('Save_High_Score', [new_user_name, game_final_time, game_score])
 
-        # # commiting the transaction or it will roll back once serve stops
+        # commiting the transaction or it will roll back once serve stops
         db_connection.commit()
 
     except Exception:

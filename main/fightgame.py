@@ -201,8 +201,8 @@ class FoodFight:
         self.bottom_message = "Another round begins!"
         self.instructions_displayed = True
 
-
-    def fight_loop(self):
+    # Game loop
+    def play(self):
         self.running = True
         while self.running:
             self.draw_game()
@@ -232,4 +232,4 @@ class FoodFight:
 
 if __name__ == "__main__":
     game = FoodFight()
-    game.fight_loop()
+    game.play()

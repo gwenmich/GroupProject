@@ -1,32 +1,32 @@
 import pygame
 import sys
 import time
-#initialize Pygame
+# Initialize Pygame
 pygame.init()
 
-#mixer for sound
+# Mixer for sound
 pygame.mixer.init()
 
-#Screen dimensions
+# Screen dimensions
 width, height = 1000, 700
-#Colours used
+# Colours used
 pink = (232, 123, 222)
 white = (255, 255, 255)
 black = (0, 0, 0)
 
-#making the display and giving it the title typing challenge
+# Setting the display with typing game title
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Typing Challenge")
 
-#font details
+# Font details
 font = "assets/typing_game/PressStart2P.ttf"
 title_size = 32
 font_size = 14
 
-#setting the timer
+# Setting the timer
 timer = 20
 
-#sentences to type
+# Sentences to be typed
 sentences = [
     "Hand in your thesis before the deadline!",
     "This is your final chance to save your PhD!",
@@ -35,15 +35,15 @@ sentences = [
     "This is the final test. Don't give up now!"
 ]
 
-#sound effects
+# Sound effects
 click = pygame.mixer.Sound("assets/typing_game/click.mp3")
 background_music = "assets/typing_game/Scream_Villain.mp3"
 
-#background images
+# Background images
 background_image = pygame.image.load("assets/typing_game/background.png").convert()
 background_image = pygame.transform.scale(background_image, (width, height))
 
-#manages colours and fonts
+# Manages colours and fonts
 class Config:
     @staticmethod
     def colors():
@@ -62,7 +62,7 @@ class GameScreen:
         self.fonts = Config.fonts()
         self.colors = Config.colors()
 
-    #splits text into lines that fit into the width (so they fit on the screen) and writes it out for the user
+    # Splits text into lines that fit into the width of the screen and writes it out for the user
     def draw_text(self, text, font, color, y_offset=0, line_spacing=30, center=True, max_width=700):
         words = text.split()
         lines = []
@@ -82,7 +82,7 @@ class GameScreen:
             text_rect = text_surface.get_rect(center=(width // 2, y_start + i * line_spacing))
             self.screen.blit(text_surface, text_rect)
 
-    #creates buttons to be used in other functions
+    # Creates buttons to be used in other functions
     def draw_button(self, button_text, y_offset, callback):
         button_width, button_height = 300, 60
         button_x = width // 2 - button_width // 2
@@ -104,6 +104,7 @@ class GameScreen:
             click.play()
         return button_rect
 
+    # Draws box for player to input text
     def draw_input_box(self, input_text):
         input_box = pygame.Rect(width // 2 - 300, height // 2 + 100, 600, 50)
         pygame.draw.rect(self.screen, black, input_box)
@@ -128,7 +129,7 @@ class TypingGame:
         pygame.mixer.music.play(loops=-1, start=0.0, fade_ms=1000)
         self.running = True
 
-        #reset
+    # Reset game
     def reset_game(self):
         self.current_challenge = 0
         self.user_input = ""
@@ -138,7 +139,7 @@ class TypingGame:
         self.typing_complete = False
         self.current_screen = "intro"
 
-    #displays the introduction screen and give background information as well as the continue button
+    # Displays the introduction screen, give background information and a continue button
     def intro_screen(self):
         self.screen.blit(background_image, (0, 0))
         self.game_screen.draw_text("Thesis Typing", self.game_screen.fonts["title"], black, -120, line_spacing=50)
@@ -146,7 +147,7 @@ class TypingGame:
         self.game_screen.draw_text("Oh no! Your computer crashed! Rewrite the sentences to save your thesis!", self.game_screen.fonts["text"], black, -20, line_spacing=30)
         button = self.game_screen.draw_button("Continue", 100, self.instructions_screen)
 
-    #displays the instruction screen which tells user how to play as well as start button
+    # Displays the instruction screen and start button
     def instructions_screen(self):
         self.screen.blit(background_image, (0, 0))
         self.current_screen = "instructions"
@@ -156,7 +157,7 @@ class TypingGame:
         self.game_screen.draw_text("3. Press backspace to fix mistakes.", self.game_screen.fonts["text"], black, -20)
         button = self.game_screen.draw_button("Start Challenge", 150, self.typing_challenges)
 
-    #this is for the typing animation in the challenges
+    # Typing animation for the challenges
     def animate_text(self, text, font, color, y_offset=0, speed=100, max_width=700):
         self.typed_text = ""
         self.typing_complete = False
@@ -170,7 +171,7 @@ class TypingGame:
             pygame.time.delay(speed)
         self.typing_complete = True
 
-    #the challenges
+    # The typing challenges
     def typing_challenges(self):
         if self.current_challenge >= len(sentences):
             self.result_screen(True)
@@ -189,7 +190,7 @@ class TypingGame:
             self.game_screen.draw_text(self.typed_text, self.game_screen.fonts["text"], black, -100)
         self.game_screen.draw_text(f"Time left: {self.timer}", self.game_screen.fonts["text"], black, 50, center=False)
         self.game_screen.draw_input_box(self.user_input)
-        #checks if the users input it right to continue to the next challenge
+        # Checks if the user's input is correct to continue to the next challenge
         if self.user_input == sentences[self.current_challenge]:
             self.timer_started = False
             pygame.time.set_timer(pygame.USEREVENT, 0)
@@ -197,7 +198,7 @@ class TypingGame:
             self.user_input = ""
             self.typing_complete = False
 
-    #gives the congratulations or times up message
+    # Gives the congratulations or time's up message
     def result_screen(self, success):
         self.screen.blit(background_image, (0, 0))
         self.current_screen = "result"
@@ -215,14 +216,15 @@ class TypingGame:
         self.player_location = "Map"  # Transition back to the map
         self.running = False  # Stop the game loop, transitioning to the map screen
 
-    #deals with the timer
+    # Timer mechanics
     def update_timer(self):
         if self.timer > 0:
             self.timer -= 1
         else:
-            self.result_screen(False) #calls results screen if timer runs out
+            self.result_screen(False) # Presents results screen if timer runs out
 
-    def run(self):
+    # Game loop
+    def play(self):
         clock = pygame.time.Clock()
         while self.running:
             for event in pygame.event.get():
@@ -267,4 +269,4 @@ class TypingGame:
 #entry point
 if __name__ == "__main__":
     game = TypingGame(screen)
-    game.run()
+    game.play()

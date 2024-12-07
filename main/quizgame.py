@@ -176,8 +176,8 @@ class QuizGame:
 
         pygame.display.update()
 
-    # Main Game Loop
-    def main(self):
+    # Game Loop
+    def play(self):
         # global CURRENT_STATE
         # quiz = QuizGame()
         running = True
@@ -234,4 +234,4 @@ class QuizGame:
 
 if __name__ == "__main__":
     library_game = QuizGame()
-    library_game.main()
+    library_game.play()
