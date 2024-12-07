@@ -45,9 +45,12 @@ class StressBar(Bars):
         if self.stress <= 9:
             self.stress += 1
 
-    def update_win(self):
-        if self.stress >= 1:
-            self.stress -= 1
+    # def update_win(self):
+    #     if self.stress >= 1:
+    #         self.stress -= 1
+
+    def update_wellbeing(self):
+        self.stress -= 3
 
     def draw_text(self, surface):
         FONT = pygame.font.Font("assets/high_scores/PressStart2P-Regular.ttf", 20)

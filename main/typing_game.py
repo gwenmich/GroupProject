@@ -2,7 +2,7 @@ import pygame
 import sys
 from main_config import *
 import time
-# Initialize Pygame
+# Initialise Pygame
 pygame.init()
 
 # Mixer for sound
@@ -228,8 +228,9 @@ class TypingGame:
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    self.exit_game()
+                    # pygame.quit()
+                    # sys.exit()
                 if event.type == pygame.USEREVENT:
                     if self.current_screen == "challenge" and self.timer > 0:
                         self.timer -= 1

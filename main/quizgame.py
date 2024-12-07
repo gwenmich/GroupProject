@@ -189,8 +189,6 @@ class QuizGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                    pygame.quit()
-                    sys.exit()
 
                 elif event.type == pygame.KEYDOWN:
                     if self.current_state == MAIN_MENU:

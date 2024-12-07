@@ -228,6 +228,8 @@ class FoodFight:
                     else:
                         self.enemy_turn()
 
+        return self.victory_status
+
         # pygame.quit()
         # sys.exit()
 
