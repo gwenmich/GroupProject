@@ -7,7 +7,6 @@ pygame.init()
 pygame.mixer.init()
 
 def play_game():
-    menu = Menu()
     game = Game()
     game.loop()
 

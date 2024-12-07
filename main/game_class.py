@@ -22,6 +22,7 @@ class Game:
     def __init__(self):
         self.map_screen = MapScreen()
         self.menu = Menu()
+        self.menu.setup_music()
         self.player = Character(self.map_screen.screen, "assets/sprites/girl_sprite.png", 2, "#ff00d6", 64, 64)
         self.clock = pygame.time.Clock()
         self.dt = 0

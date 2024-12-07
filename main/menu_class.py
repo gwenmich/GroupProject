@@ -16,7 +16,7 @@ class Menu:
         self.menu_options = ["Start Game", "High Scores", "Quit"]
         self.menu_background = pygame.image.load('assets/main_menu/thesisquest.png').convert()
         self.selected_option = 0
-        self.setup_music()
+        # self.setup_music()
         # new variable to contain the menu game stated that will be used to update the main game loop
         # always reset back to its own menu
         self.next_game_state = "Main Menu"
