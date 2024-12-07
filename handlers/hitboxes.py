@@ -17,10 +17,10 @@ library_B_2 = pygame.Rect(180, 560, 10, 50)
 library_B_3 = pygame.Rect(297, 560, 10, 50)
 
 # counselling office hitboxes
-counselling_office_1 = pygame.Rect(465, 300, 120, 50)
-counselling_office_2 = pygame.Rect(465, 330, 10, 50)
-counselling_office_3 = pygame.Rect(580, 330, 10, 50)
-counselling_office_4 = pygame.Rect(520, 265, 25, 30)
+wellbeing_room_1 = pygame.Rect(465, 300, 120, 50)
+wellbeing_room_2 = pygame.Rect(465, 330, 10, 50)
+wellbeing_room_3 = pygame.Rect(580, 330, 10, 50)
+wellbeing_room_4 = pygame.Rect(520, 265, 25, 30)
 
 # classroom
 classroom_1 = pygame.Rect(725, 140, 120, 60)
@@ -40,10 +40,10 @@ hitboxes = {
     "library_1": library_B_1,
     "library_2": library_B_2,
     "library_3": library_B_3,
-    "counselling_office_1": counselling_office_1,
-    "counselling_office_2": counselling_office_2,
-    "counselling_office_3": counselling_office_3,
-    "counselling_office_4": counselling_office_4,
+    "wellbeing_room_1": wellbeing_room_1,
+    "wellbeing_room_2": wellbeing_room_2,
+    "wellbeing_room_3": wellbeing_room_3,
+    "wellbeing_room_4": wellbeing_room_4,
     "classroom_1": classroom_1,
     "classroom_2": classroom_2,
     "classroom_3": classroom_3,
@@ -56,14 +56,14 @@ hitboxes = {
 # TEXT BUBBLE COORDINATES CODE
 library_rect_B = pygame.Rect(175, 515, 140, 100)
 cafeteria_rect_B = pygame.Rect(780, 450, 130, 150)
-counselling_rect_B = pygame.Rect(452, 280, 150, 115)
+wellbeing_rect_B = pygame.Rect(452, 280, 150, 115)
 classroom_rect_B = pygame.Rect(710, 120, 150, 120)
 it_dept_rect_B = pygame.Rect(175, 75, 140, 140)
 
 buildings_bubble_hitboxes = {
     "Library": library_rect_B,
     "Cafeteria": cafeteria_rect_B,
-    "Counselling": counselling_rect_B,
+    "Wellbeing Room": wellbeing_rect_B,
     "Classroom": classroom_rect_B,
     "IT Dept.": it_dept_rect_B
 }
@@ -74,7 +74,7 @@ bubble_position = {
     "Classroom": (815, 120),
     "Cafeteria": (815, 420),
     "IT Dept.": (280, 120),
-    "Counselling": (480, 190)
+    "Wellbeing Room": (480, 190)
 }
 
 # EXCEPTIONS FOR COLLISION TESTING
@@ -122,7 +122,7 @@ def check_collision_items(new_rect, hitboxes):
 # buildings' sizes and coordinates on map
 library = pygame.Rect(230, 540, 35, 40)
 cafeteria = pygame.Rect(850, 525, 40, 40)
-counselling_office = pygame.Rect(510, 327, 35, 40)
+wellbeing_room = pygame.Rect(510, 327, 35, 40)
 classroom = pygame.Rect(760, 183, 50, 40)
 it_dept = pygame.Rect(230, 150, 35, 40)
 
@@ -136,7 +136,7 @@ def enter_building(character_rect):
     entry_hitboxes = {
         "library": library,
         "cafeteria": cafeteria,
-        "counselling_office": counselling_office,
+        "wellbeing_room": wellbeing_room,
         "classroom": classroom,
         "it_dept": it_dept
     }
@@ -147,34 +147,14 @@ def enter_building(character_rect):
             print(f"you found the entrance to {building}")
             return building
         else:
-            print("Sorry, you've already won this game, time to visit another building!")
+            print("No collision found")
 
 
 
 
 
 if __name__ == "__main__":
-
-    # THIS IS THE CODE I HAD PREVIOUSLY IMPLEMENTED IN THE MAIN FILE TO IMPLEMENT THE HITBOXES
-
-    # we need a new_position variable to check for collision, before we update player position
-    new_position = player_position.copy()
-
-    # movement of character
-    if keyboard[pygame.K_UP] and character_rect.y > 20:
-        new_position.y -= 250 * dt
-    if keyboard[pygame.K_DOWN] and character_rect.y < SCREEN_HEIGHT - 77:
-        new_position.y += 250 * dt
-    if keyboard[pygame.K_LEFT] and character_rect.x > 20:
-        new_position.x -= 250 * dt
-    if keyboard[pygame.K_RIGHT] and character_rect.x < SCREEN_WIDTH - 52:
-        new_position.x += 250 * dt
-
-    # updates player hitbox position
-    new_rect = character.get_rect(center=new_position)
-
-    # checks for collision
-    collision_detected = check_collision(new_rect, hitboxes)
-    # it will only update if collision returns false
-    if collision_detected == False:
-        player_position = new_position
+    # enter_building(character_rect)
+    # check_collision()
+    # check_collision_items(new_rect, hitboxes)
+    pass

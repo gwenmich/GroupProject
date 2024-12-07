@@ -2,13 +2,14 @@ import pygame
 import sys
 import os
 import textwrap
+from main_config import SCREEN_WIDTH, SCREEN_HEIGHT, WHITE
 
-# Initialize Pygame
+# Initialise Pygame
 pygame.init()
 
 # File Paths
 FONT_PATH = "assets/fight_quiz/PressStart2P-Regular.ttf"
-BACKGROUND_PATH = "assets/fight_quiz/Library.png"
+BACKGROUND_PATH = "assets/quiz_game/Library.png"
 
 
 # Ensure font file and background image exist
@@ -17,15 +18,10 @@ if not os.path.exists(FONT_PATH):
 if not os.path.exists(BACKGROUND_PATH):
     raise FileNotFoundError(f"Background image not found at {BACKGROUND_PATH}")
 
-# Game Settings
-WIDTH, HEIGHT = 1000, 700
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Quiz Game")
+# Display Settings
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Colours
-WHITE = (255, 255, 255)
-
-# Font files, pixellated
+# Font files, pixelated
 try:
     FONT = pygame.font.Font(FONT_PATH, 14)
     LARGE_FONT = pygame.font.Font(FONT_PATH, 24)
@@ -96,7 +92,7 @@ class QuizGame:
         # Draw the background image
         try:
             background = pygame.image.load(BACKGROUND_PATH)
-            background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+            background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(background, (0, 0))
         except pygame.error as e:
             print(f"Error loading background image: {e}")
@@ -122,22 +118,22 @@ class QuizGame:
 
         # Makes sure text is centered on the screen
         screen.blit(end_surface,
-                    (WIDTH // 2 - end_surface.get_width() // 2, HEIGHT // 2 - end_surface.get_height()))
-        screen.blit(result_surface, (WIDTH // 2 - result_surface.get_width() // 2, HEIGHT // 2 + 50))
+                    (SCREEN_WIDTH // 2 - end_surface.get_width() // 2, SCREEN_HEIGHT // 2 - end_surface.get_height()))
+        screen.blit(result_surface, (SCREEN_WIDTH // 2 - result_surface.get_width() // 2, SCREEN_HEIGHT // 2 + 50))
 
         if self.score <= 3:
         # Add restart and exit options
             restart_surface = FONT.render("Press R to Restart", True, WHITE)
-            screen.blit(restart_surface, (WIDTH // 2 - restart_surface.get_width() // 2, HEIGHT // 2 + 100))
+            screen.blit(restart_surface, (SCREEN_WIDTH // 2 - restart_surface.get_width() // 2, SCREEN_HEIGHT // 2 + 100))
 
         exit_surface = FONT.render("Press E to Exit", True, WHITE)
-        screen.blit(exit_surface, (WIDTH // 2 - exit_surface.get_width() // 2, HEIGHT // 2 + 150))
+        screen.blit(exit_surface, (SCREEN_WIDTH // 2 - exit_surface.get_width() // 2, SCREEN_HEIGHT // 2 + 150))
 
     # Main Menu
     def draw_main_menu(self):
         try:
             background = pygame.image.load(BACKGROUND_PATH)
-            background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+            background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(background, (0, 0))
         except pygame.error as e:
             print(f"Error loading background image: {e}")
@@ -146,9 +142,9 @@ class QuizGame:
         play_surface = FONT.render("Press Enter to Play", True, WHITE)
         exit_surface = FONT.render("Press ESC to Quit", True, WHITE)
 
-        screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 2 - 100))
-        screen.blit(play_surface, (WIDTH // 2 - play_surface.get_width() // 2, HEIGHT // 2))
-        screen.blit(exit_surface, (WIDTH // 2 - exit_surface.get_width() // 2, HEIGHT // 2 + 50))
+        screen.blit(title_surface, (SCREEN_WIDTH // 2 - title_surface.get_width() // 2, SCREEN_HEIGHT // 2 - 100))
+        screen.blit(play_surface, (SCREEN_WIDTH // 2 - play_surface.get_width() // 2, SCREEN_HEIGHT // 2))
+        screen.blit(exit_surface, (SCREEN_WIDTH // 2 - exit_surface.get_width() // 2, SCREEN_HEIGHT // 2 + 50))
 
         pygame.display.update()
 
@@ -156,7 +152,7 @@ class QuizGame:
     def draw_librarian_intro(self):
         try:
             background = pygame.image.load(BACKGROUND_PATH)
-            background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+            background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
             screen.blit(background, (0, 0))
         except pygame.error as e:
             print(f"Error loading background image: {e}")
@@ -165,29 +161,34 @@ class QuizGame:
         intro_text = "Hey you! You need to complete this quiz before you can hand in any thesis work!"
         lines = textwrap.wrap(intro_text, width=50)
 
-        y_offset = HEIGHT // 2 - len(lines) * 20
+        y_offset = SCREEN_HEIGHT // 2 - len(lines) * 20
         for line in lines:
             line_surface = SMALL_FONT.render(line, True, WHITE)
-            screen.blit(line_surface, (WIDTH // 2 - line_surface.get_width() // 2, y_offset))
+            screen.blit(line_surface, (SCREEN_WIDTH // 2 - line_surface.get_width() // 2, y_offset))
             y_offset += 20
 
         instruction_surface = SMALL_FONT.render("Press Enter to start the quiz!", True, WHITE)
-        screen.blit(instruction_surface, (WIDTH // 2 - instruction_surface.get_width() // 2, y_offset + 40))
+        screen.blit(instruction_surface, (SCREEN_WIDTH // 2 - instruction_surface.get_width() // 2, y_offset + 40))
 
         pygame.display.update()
 
-    # Main Game Loop
-    def main(self):
+
+    def load_music(self):
+        pygame.mixer.music.load("assets/quiz_game/stranger-things-124008.mp3")
+        pygame.mixer.music.play(-1)
+
+    # Game Loop
+    def play(self):
         # global CURRENT_STATE
         # quiz = QuizGame()
+        pygame.display.set_caption("Quiz Game")
+        self.load_music()
         running = True
 
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                    pygame.quit()
-                    sys.exit()
 
                 elif event.type == pygame.KEYDOWN:
                     if self.current_state == MAIN_MENU:
@@ -234,4 +235,4 @@ class QuizGame:
 
 if __name__ == "__main__":
     library_game = QuizGame()
-    library_game.main()
+    library_game.play()

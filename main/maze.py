@@ -2,17 +2,17 @@ import pygame
 import random
 import sys
 
-#initialize Pygame and mixer
+# Initialise Pygame and mixer
 pygame.init()
 pygame.mixer.init()
 
 
-#screen dimensions
+# Screen dimensions
 width, height = 1000, 700
 tile_size = 40
 rows, columns = height // tile_size, width // tile_size
 
-#manages colours and fonts
+# Manages colours and fonts
 class Config:
     @staticmethod
     def colours():
@@ -32,11 +32,10 @@ class Config:
             "title": pygame.font.Font("assets/maze/PressStart2P.ttf", 25)
         }
 
-#making the display and giving it the title maze game
+# Setting the display
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Maze Game")
 
-#load assets
+# Loading assets
 player = pygame.image.load("assets/maze/girl.png")
 player = pygame.transform.scale(player, (tile_size - 8, tile_size - 8))
 obstacle = pygame.image.load("assets/maze/stop.png")
@@ -48,14 +47,14 @@ background = pygame.transform.scale(background, (width, height))
 class MazeGame:
     def __init__(self):
         self.level = 1
-        self.timer = 50  #timer
-        self.start_time = None #stores time once starts
-        self.player_position = [1, 1] #players initial position
-        self.maze = [] #stores the maze
-        self.obstacles = [] #stores the obstacles in the maze
+        self.timer = 50  # Timer
+        self.start_time = None # Stores time once game starts
+        self.player_position = [1, 1] # Player's initial position
+        self.maze = [] # Stores the maze
+        self.obstacles = [] # Stores the obstacles in the maze
         self.running = True
-        self.endpoint_position = [rows - 2, columns - 2] #the position of the goal
-        self.questions = [ #List of tuples that contain question for the obstacle and the time change
+        self.endpoint_position = [rows - 2, columns - 2] # Position of the goal
+        self.questions = [ # List of tuples that contain questions for the obstacles and the time changes
             ("Your friend wants coffee. Do you join?", -5),
             ("You found a shortcut! Do you take it?", 5),
             ("A friend invites you to the pub. Do you go?", -10),
@@ -67,8 +66,6 @@ class MazeGame:
             ("A friend calls you. Do you pick up?", -5),
             ("You found a map! Do you follow it?", 5),
         ]
-        pygame.mixer.music.load("assets/maze/background_music.mp3")  # Load the music file
-        pygame.mixer.music.play(-1, 0.0)  # Play the music in a loop (-1) starting immediately
         self.victory_status = "Not won"
         self.player_location = "it_dept"
 
@@ -77,17 +74,17 @@ class MazeGame:
 
     def show_title_screen(self):
         self.draw_background()
-        #title text
+        # Title text
         title_text = Config.fonts()["title"].render("The IT Department is such a maze", True, Config.colours()["text"])
         good_luck = Config.fonts()["title"].render("good luck finding your way out...", True, Config.colours()["text"])
-        #instructions text
+        # Instructions text
         instructions_title = Config.fonts()["default"].render("Instructions:", True, Config.colours()["text"])
         instructions_text1 = Config.fonts()["default"].render("1. Navigate the maze with arrow keys.", True, Config.colours()["text"])
         instructions_text2 = Config.fonts()["default"].render("2. Avoid obstacles and answer questions.", True, Config.colours()["text"])
         instructions_text3 = Config.fonts()["default"].render("3. Reach the endpoint before time runs out!", True, Config.colours()["text"])
-        #start text
+        # Start text
         start_text = Config.fonts()["default"].render("Press any key to start", True, Config.colours()["text"])
-        #draw all texts to the screen
+        # Draw all texts to the screen
         screen.blit(title_text, (width // 2 - title_text.get_width() // 2, height // 3))
         screen.blit(good_luck, (width // 2 - good_luck.get_width() // 2, height // 3 + 40))
         screen.blit(instructions_title, (width // 2 - instructions_title.get_width() // 2, height // 2 + 50))
@@ -108,11 +105,11 @@ class MazeGame:
 
 
     def generate_maze(self):
-        self.maze = [[1 for _ in range(columns)] for _ in range(rows)] #creates a grid where all squares are initially 1 (wall)
+        self.maze = [[1 for _ in range(columns)] for _ in range(rows)] # Creates a grid where all squares are initially 1 (wall)
         self.obstacles.clear()
-        def carve_path(x, y): #use a recursive function to generate the maze by setting adjacent tiles to 0 to make the path
+        def carve_path(x, y): # Recursive function to generate the maze by setting adjacent tiles to 0 to make the path
             directions = [(0, -1), (-1, 0), (0, 1), (1, 0)]
-            random.shuffle(directions) #random to change the maze every time
+            random.shuffle(directions) # Random shuffle to change the maze every time
             for dx, dy in directions:
                 nx, ny = x + dx * 2, y + dy * 2
                 if 0 < nx < rows and 0 < ny < columns and self.maze[nx][ny] == 1:
@@ -123,23 +120,24 @@ class MazeGame:
         carve_path(1, 1)
         for _ in range(self.level * 5):
             ox, oy = random.randint(1, rows - 2), random.randint(1, columns - 2)
-            if self.maze[ox][oy] == 0 and (ox, oy) != (1, 1) and (ox, oy) != self.endpoint_position: #specifies the endpoint
-                self.obstacles.append((ox, oy)) #randomly places obstacles for the user to bump into
+            if self.maze[ox][oy] == 0 and (ox, oy) != (1, 1) and (ox, oy) != self.endpoint_position: # Specifies the endpoint
+                self.obstacles.append((ox, oy)) # Randomly places obstacles for the user to bump into
 
-    def is_walkable(self, row, col): #checks whether the player can move there (whether the place is a wall or the path)
+    def is_walkable(self, row, col): # Checks whether the player can move there (whether the place is a wall or the path)
         if 0 <= row < rows and 0 <= col < columns:
             if self.maze[row][col] == 0 or (row, col) == tuple(self.endpoint_position):
                 return True
         return False
 
     def handle_question(self):
-        question, time_change = random.choice(self.questions) #randomly selects a question when the player hits an obstacle
+        question, time_change = random.choice(self.questions) # Randomly selects a question when the player hits an obstacle
         self.draw_background()
         question_text = Config.fonts()["default"].render(question, True, Config.colours()["text"])
         screen.blit(question_text, (width // 2 - question_text.get_width() // 2, height // 3))
         yes = pygame.Rect(width // 2 - 100, height // 2 - 25, 200, 50)
         no = pygame.Rect(width // 2 - 100, height // 2 + 35, 200, 50)
-        pygame.draw.rect(screen, Config.colours()["button_yes"], yes) #displays yes and no buttons for the user to make their choice
+        # Displays yes and no buttons for the user to make their choice
+        pygame.draw.rect(screen, Config.colours()["button_yes"], yes)
         pygame.draw.rect(screen, Config.colours()["button_no"], no)
         yes_text = Config.fonts()["default"].render("Yes", True, Config.colours()["text"])
         no_text = Config.fonts()["default"].render("No", True, Config.colours()["text"])
@@ -153,16 +151,16 @@ class MazeGame:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if yes.collidepoint(event.pos): #if user selects yes - the time change is shown
+                    if yes.collidepoint(event.pos): # If user selects yes - the time change is shown
                         self.timer += time_change
                         result_text = f"Your choice: {time_change} seconds."
                         waiting = False
                     elif no.collidepoint(event.pos):
-                        result_text = f"Your choice: no time change" #if player selects no - there is no timechange
+                        result_text = f"Your choice: no time change" # If player selects no - there is no time change
                         waiting = False
         self.show_result_screen(result_text)
 
-    def show_result_screen(self, result_text): #shows the screen to display the results of the questio asked
+    def show_result_screen(self, result_text): # Displays results
         self.draw_background()
         result_message = Config.fonts()["default"].render(result_text, True, Config.colours()["text"])
         continue_text = Config.fonts()["default"].render("Press any key to continue", True, Config.colours()["text"])
@@ -178,7 +176,7 @@ class MazeGame:
                 if event.type == pygame.KEYDOWN:
                     waiting = False
 
-    def win_screen(self): #displays a screen saying they won if they made it through all levels
+    def win_screen(self): # Displays a screen saying they won if they made it through all levels
         self.draw_background()
         win_text = Config.fonts()["title"].render("You made it out! You win!", True, Config.colours()["text"])
         screen.blit(win_text, (width // 2 - win_text.get_width() // 2, height // 3))
@@ -187,7 +185,7 @@ class MazeGame:
         pygame.display.flip()
         pygame.time.wait(3000)
 
-    def loss_screen(self): #displays loss screen if the user runs out of time and gives a button to let them try again
+    def loss_screen(self): # Displays loss screen if the user runs out of time and gives a button to let them try again
         self.draw_background()
         lost_text = Config.fonts()["title"].render("Time's up! You lost.", True, Config.colours()["text"])
         screen.blit(lost_text, (width // 2 - lost_text.get_width() // 2, height // 3))
@@ -212,7 +210,7 @@ class MazeGame:
                         self.running = True
                         waiting = False
 
-    def move_player(self, dx, dy): #updates players position in the maze
+    def move_player(self, dx, dy): # Updates player's position in the maze
         new_row = self.player_position[0] + dy
         new_col = self.player_position[1] + dx
         if self.is_walkable(new_row, new_col):
@@ -228,31 +226,37 @@ class MazeGame:
                 else:
                     self.win_screen()
 
+    def load_music(self):
+        pygame.mixer.music.load("assets/maze/background_music.mp3")  # Loads the music file
+        pygame.mixer.music.play(-1, 0.0)  # Plays the music in a loop (-1) starting immediately
 
-    def run_game(self):
+    # Game loop
+    def play(self):
+        pygame.display.set_caption("Maze Game")
+        self.load_music()
         self.show_title_screen()
         self.generate_maze()
         self.start_time = pygame.time.get_ticks()
-        while self.running: #main game loop
+        while self.running: # Main game loop
             time_used = (pygame.time.get_ticks() - self.start_time) / 1000
             remaining_time = self.timer - time_used
             if remaining_time <= 0:
-                self.loss_screen() #this shows the player has lost because they have run out of time
+                self.loss_screen() # Shows the player has lost because they have run out of time
             elif self.victory_status == "Won":
                 self.running = False
             self.draw_background()
-            for row in range(rows): #if the maze block has a value of 1 it makes it black - this makes the walls
+            for row in range(rows): # If the maze block has a value of 1 it makes it black - this makes the walls
                 for col in range(columns):
                     if self.maze[row][col] == 1:
                         pygame.draw.rect(screen, Config.colours()["maze_wall"], pygame.Rect(col * tile_size, row * tile_size, tile_size, tile_size))
-            for ox, oy in self.obstacles: #puts the obstacles on the screen
+            for ox, oy in self.obstacles: # Puts the obstacles on the screen
                 screen.blit(obstacle, (oy * tile_size, ox * tile_size))
             pygame.draw.rect(screen, Config.colours()["endpoint"], pygame.Rect(self.endpoint_position[1] * tile_size, self.endpoint_position[0] * tile_size, tile_size, tile_size))#for the endpoint
-            screen.blit(player, (self.player_position[1] * tile_size, self.player_position[0] * tile_size)) #puts the player on the screen
+            screen.blit(player, (self.player_position[1] * tile_size, self.player_position[0] * tile_size)) # Puts the player on the screen
             time_text = Config.fonts()["default"].render(f"Time: {int(remaining_time)}s", True, Config.colours()["text"]) #displays the timer
-            screen.blit(time_text, (10, 10)) #puts timer in left hand corner
-            pygame.display.flip() #updates screen
-            for event in pygame.event.get(): #checks for key presses to move the player
+            screen.blit(time_text, (10, 10)) # Puts timer in left hand corner
+            pygame.display.flip() # Updates screen
+            for event in pygame.event.get(): # Checks for key presses to move the player
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
@@ -277,4 +281,4 @@ class MazeGame:
 
 if __name__ == "__main__":
     game = MazeGame()
-    game.run_game()
+    game.play()

@@ -12,7 +12,6 @@ class FoodFight:
         # Screen settings
         self.WIDTH, self.HEIGHT = 1000, 700
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        pygame.display.set_caption("Cafeteria Food Fight!")  # Game title
         self.victory_status = "Not won"
         self.player_location = "cafeteria"
 
@@ -60,12 +59,6 @@ class FoodFight:
         if self.GREEN_APPLE_IMG:
             self.GREEN_APPLE_IMG = pygame.transform.scale(self.GREEN_APPLE_IMG, (50, 50))
 
-        # Load background music
-        try:
-            pygame.mixer.music.load("assets/fight_quiz/battle.mp3")
-            pygame.mixer.music.play(-1)
-        except FileNotFoundError:
-            print("Error: Failed to load 'battle.mp3'. Ensure the file exists in the correct path.")
 
         # Game variables
         self.PLAYER_LIVES = 3
@@ -187,7 +180,7 @@ class FoodFight:
                                self.HEIGHT // 2 + 50, self.PIXEL_FONT, self.WHITE)
 
             if self.player_lives >= 0:
-                self.victory_status = "Win"
+                self.victory_status = "Won"
 
 
         pygame.display.flip()
@@ -201,8 +194,16 @@ class FoodFight:
         self.bottom_message = "Another round begins!"
         self.instructions_displayed = True
 
+    # Load background music
+    def load_music(self):
+        pygame.mixer.music.load("assets/fight_quiz/battle.mp3")
+        pygame.mixer.music.play(-1)
 
-    def fight_loop(self):
+
+    # Game loop
+    def play(self):
+        pygame.display.set_caption("Cafeteria Food Fight!") # Game title
+        self.load_music()
         self.running = True
         while self.running:
             self.draw_game()
@@ -227,9 +228,11 @@ class FoodFight:
                     else:
                         self.enemy_turn()
 
+        # return self.victory_status
+
         # pygame.quit()
         # sys.exit()
 
 if __name__ == "__main__":
     game = FoodFight()
-    game.fight_loop()
+    game.play()

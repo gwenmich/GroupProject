@@ -7,22 +7,20 @@ import time
 
 class Menu:
     def __init__(self):
-        # self.manager = manager
         self.font_path = "assets/main_menu/PressStart2P-Regular.ttf"
         self.title_font = pygame.font.Font(self.font_path, 40)
         self.option_font = pygame.font.Font(self.font_path, 30)
-        self.click_sound = pygame.mixer.Sound('assets/main_menu/click.mp3')
-        self.start_sound = pygame.mixer.Sound('assets/main_menu/starts.mp3')
+        self.click_sound = pygame.mixer.Sound("assets/main_menu/click.mp3")
+        self.start_sound = pygame.mixer.Sound("assets/main_menu/starts.mp3")
         self.menu_options = ["Start Game", "High Scores", "Quit"]
-        self.menu_background = pygame.image.load('assets/main_menu/thesisquest.png').convert()
+        self.menu_background = pygame.image.load("assets/main_menu/thesisquest.png").convert()
         self.selected_option = 0
-        self.setup_music()
         # new variable to contain the menu game stated that will be used to update the main game loop
         # always reset back to its own menu
         self.next_game_state = "Main Menu"
 
     def setup_music(self):
-        pygame.mixer.music.load('assets/main_menu/lofi1.mp3')
+        pygame.mixer.music.load("assets/main_menu/lofi1.mp3")
         pygame.mixer.music.play(-1)
 
     def display(self, display):
@@ -71,8 +69,8 @@ class Menu:
             print(f"selected option: {self.selected_option}")
             self.next_game_state = "Map"
             print(f"The next game state is {self.next_game_state}")
-            # pygame.mixer.music.load('assets/main_menu/mapmusic.mp3')
-            # pygame.mixer.music.play(-1)
+            pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
+            pygame.mixer.music.play(-1)
         elif self.selected_option == 1:  # High Scores
             print(f"selected option: {self.selected_option}")
             self.next_game_state = "High Scores"
