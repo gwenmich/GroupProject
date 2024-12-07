@@ -65,7 +65,7 @@ class Bubble(ABC):
             y += font_height + line_spacing
             # Remove the text we just blitted as we go to start the loop again
             text = text[i:]
-        # returns any unbitted text that did not fit the dimensions of the rectangle
+        # returns any unblitted text that did not fit the dimensions of the rectangle
         return text
 
     @staticmethod
@@ -125,10 +125,10 @@ class MapBubbles(Bubble):
                 surface_type.blit(building_name, (text_x, text_y - 5))
 
 
-    # thif function checks for collisions with the coordinates on the hitboxes in building_bubble_list, and draws the
+    # this function checks for collisions with the coordinates on the hitboxes in building_bubble_list, and draws the
     # bubble at the coordinates and name on bubble_position w
     def handler(self, new_rect, buildings_bubble_hitboxes, bubble_position):
-        # this call another function that has the collision checking logic. Buildings_bubble_list has the hibtboxes for the buildings
+        # this call another function that has the collision checking logic. Buildings_bubble_list has the hitboxes for the buildings
         bubble_collision = check_collision_items(new_rect, buildings_bubble_hitboxes)
         # if no collision, not visible
         if bubble_collision == False:
@@ -136,7 +136,7 @@ class MapBubbles(Bubble):
         else:
             # else visible is True
             self.visible_bubble = True
-            # pass to bubble position the name of the building returned by bubble_colission to get the righ x,y and text
+            # pass to bubble position the name of the building returned by bubble_collision to get the right x,y and text
             x, y = bubble_position[bubble_collision]
             self.bubble_x = x
             self.bubble_y = y
@@ -170,7 +170,7 @@ class MapBubbles(Bubble):
 #
 if __name__ == "__main__":
 #     # to put in game loop
-# # instantiate bubble with dummy values, baically zeros and empty string, just pass the correct surface
+# # instantiate bubble with dummy values, basically zeros and empty string, just pass the correct surface
     bubble = MapBubbles(map_screen, 0, 0, "")
 
     # pass handler in loop with the character rect as argument and

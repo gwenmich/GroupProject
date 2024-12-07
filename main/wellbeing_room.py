@@ -58,6 +58,8 @@ class WellbeingGame():
         pygame.mixer.music.load("assets/wellbeing_room/sounds/cozy-lofi-beat-split-memmories-248205.mp3")
         pygame.mixer.music.play(-1)
 
+        self.victory_status = "Not won"
+
         self.generate_level()
         # Sets up the cards
 
@@ -86,6 +88,7 @@ class WellbeingGame():
                                     for card in self.cards_group:
                                         if card.shown: # If every card is shown
                                             self.level_complete =True # level complete will be true
+                                            self.victory_status = "Not won"
                                         else:
                                             self.level_complete=False # otherwise it will be false
                                             break
