@@ -88,7 +88,7 @@ class WellbeingGame():
                                     for card in self.cards_group:
                                         if card.shown: # If every card is shown
                                             self.level_complete =True # level complete will be true
-                                            self.victory_status = "Not won"
+                                            self.victory_status = "Not won" # To be able to play again
                                         else:
                                             self.level_complete=False # otherwise it will be false
                                             break

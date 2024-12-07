@@ -1,5 +1,6 @@
 import pygame
 import sys
+from main_config import *
 import time
 # Initialize Pygame
 pygame.init()
@@ -7,15 +8,8 @@ pygame.init()
 # Mixer for sound
 pygame.mixer.init()
 
-# Screen dimensions
-width, height = 1000, 700
-# Colours used
-pink = (232, 123, 222)
-white = (255, 255, 255)
-black = (0, 0, 0)
-
 # Setting the display with typing game title
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Typing Challenge")
 
 # Font details
@@ -41,13 +35,13 @@ background_music = "assets/typing_game/Scream_Villain.mp3"
 
 # Background images
 background_image = pygame.image.load("assets/typing_game/background.png").convert()
-background_image = pygame.transform.scale(background_image, (width, height))
+background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Manages colours and fonts
 class Config:
     @staticmethod
     def colors():
-        return {"pink": pink, "white": white, "black": black}
+        return {"pink": PINK, "white": WHITE, "black": BLACK}
 
     @staticmethod
     def fonts():
@@ -76,26 +70,26 @@ class GameScreen:
                 current_line = [word]
         lines.append(' '.join(current_line))
         total_height = len(lines) * line_spacing
-        y_start = (height // 2) - total_height // 2 + y_offset
+        y_start = (SCREEN_HEIGHT // 2) - total_height // 2 + y_offset
         for i, line in enumerate(lines):
             text_surface = font.render(line, True, color)
-            text_rect = text_surface.get_rect(center=(width // 2, y_start + i * line_spacing))
+            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, y_start + i * line_spacing))
             self.screen.blit(text_surface, text_rect)
 
     # Creates buttons to be used in other functions
     def draw_button(self, button_text, y_offset, callback):
         button_width, button_height = 300, 60
-        button_x = width // 2 - button_width // 2
-        button_y = height // 2 + y_offset
+        button_x = SCREEN_WIDTH // 2 - button_width // 2
+        button_y = SCREEN_HEIGHT // 2 + y_offset
         mouse_pos = pygame.mouse.get_pos()
         hover = pygame.Rect(button_x, button_y, button_width, button_height).collidepoint(mouse_pos)
         scale_factor = 1.1 if hover else 1
         button_width = int(300 * scale_factor)
         button_height = int(60 * scale_factor)
-        button_rect = pygame.Rect(width // 2 - button_width // 2, button_y, button_width, button_height)
-        pygame.draw.rect(self.screen, black, button_rect)
-        pygame.draw.rect(self.screen, white, button_rect, 3)
-        text_surface = self.fonts["text"].render(button_text, True, white)
+        button_rect = pygame.Rect(SCREEN_WIDTH // 2 - button_width // 2, button_y, button_width, button_height)
+        pygame.draw.rect(self.screen, BLACK, button_rect)
+        pygame.draw.rect(self.screen, WHITE, button_rect, 3)
+        text_surface = self.fonts["text"].render(button_text, True, WHITE)
         text_rect = text_surface.get_rect(center=button_rect.center)
         self.screen.blit(text_surface, text_rect)
         if hover and pygame.mouse.get_pressed()[0]:
@@ -106,15 +100,15 @@ class GameScreen:
 
     # Draws box for player to input text
     def draw_input_box(self, input_text):
-        input_box = pygame.Rect(width // 2 - 300, height // 2 + 100, 600, 50)
-        pygame.draw.rect(self.screen, black, input_box)
-        pygame.draw.rect(self.screen, white, input_box, 3)
-        text_surface = self.fonts["text"].render(input_text, True, white)
+        input_box = pygame.Rect(SCREEN_WIDTH // 2 - 300, SCREEN_HEIGHT // 2 + 100, 600, 50)
+        pygame.draw.rect(self.screen, BLACK, input_box)
+        pygame.draw.rect(self.screen, WHITE, input_box, 3)
+        text_surface = self.fonts["text"].render(input_text, True, WHITE)
         self.screen.blit(text_surface, (input_box.x + 10, input_box.y + 10))
 
 class TypingGame:
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self, surface):
+        self.screen = surface
         self.game_screen = GameScreen(screen)
         self.current_screen = "intro"
         self.current_challenge = 0
@@ -142,19 +136,19 @@ class TypingGame:
     # Displays the introduction screen, give background information and a continue button
     def intro_screen(self):
         self.screen.blit(background_image, (0, 0))
-        self.game_screen.draw_text("Thesis Typing", self.game_screen.fonts["title"], black, -120, line_spacing=50)
-        self.game_screen.draw_text("Challenge!", self.game_screen.fonts["title"], black, -80, line_spacing=50)
-        self.game_screen.draw_text("Oh no! Your computer crashed! Rewrite the sentences to save your thesis!", self.game_screen.fonts["text"], black, -20, line_spacing=30)
+        self.game_screen.draw_text("Thesis Typing", self.game_screen.fonts["title"], BLACK, -120, line_spacing=50)
+        self.game_screen.draw_text("Challenge!", self.game_screen.fonts["title"], BLACK, -80, line_spacing=50)
+        self.game_screen.draw_text("Oh no! Your computer crashed! Rewrite the sentences to save your thesis!", self.game_screen.fonts["text"], BLACK, -20, line_spacing=30)
         button = self.game_screen.draw_button("Continue", 100, self.instructions_screen)
 
     # Displays the instruction screen and start button
     def instructions_screen(self):
         self.screen.blit(background_image, (0, 0))
         self.current_screen = "instructions"
-        self.game_screen.draw_text("Instructions:", self.game_screen.fonts["title"], black, -150)
-        self.game_screen.draw_text("1. Type the sentences shown on screen.", self.game_screen.fonts["text"], black, -100)
-        self.game_screen.draw_text("2. You have 15 seconds per challenge.", self.game_screen.fonts["text"], black, -60)
-        self.game_screen.draw_text("3. Press backspace to fix mistakes.", self.game_screen.fonts["text"], black, -20)
+        self.game_screen.draw_text("Instructions:", self.game_screen.fonts["title"], BLACK, -150)
+        self.game_screen.draw_text("1. Type the sentences shown on screen.", self.game_screen.fonts["text"], BLACK, -100)
+        self.game_screen.draw_text("2. You have 15 seconds per challenge.", self.game_screen.fonts["text"], BLACK, -60)
+        self.game_screen.draw_text("3. Press backspace to fix mistakes.", self.game_screen.fonts["text"], BLACK, -20)
         button = self.game_screen.draw_button("Start Challenge", 150, self.typing_challenges)
 
     # Typing animation for the challenges
@@ -163,9 +157,9 @@ class TypingGame:
         self.typing_complete = False
         for i in range(len(text)):
             self.typed_text += text[i]
-            self.screen.fill(pink)
+            self.screen.fill(PINK)
             self.screen.blit(background_image, (0, 0))
-            self.game_screen.draw_text(f"Challenge {self.current_challenge + 1}", self.game_screen.fonts["title"], black, -150)
+            self.game_screen.draw_text(f"Challenge {self.current_challenge + 1}", self.game_screen.fonts["title"], BLACK, -150)
             self.game_screen.draw_text(self.typed_text, font, color, y_offset, max_width=max_width)
             pygame.display.flip()
             pygame.time.delay(speed)
@@ -177,18 +171,18 @@ class TypingGame:
             self.result_screen(True)
             return
         self.current_screen = "challenge"
-        self.screen.fill(pink)
+        self.screen.fill(PINK)
         self.screen.blit(background_image, (0, 0))
         if not self.timer_started:
             self.timer = timer
             pygame.time.set_timer(pygame.USEREVENT, 1000)
             self.timer_started = True
-        self.game_screen.draw_text(f"Challenge {self.current_challenge + 1}", self.game_screen.fonts["title"], black, -150)
+        self.game_screen.draw_text(f"Challenge {self.current_challenge + 1}", self.game_screen.fonts["title"], BLACK, -150)
         if not self.typing_complete:
-            self.animate_text(sentences[self.current_challenge], self.game_screen.fonts["text"], black, -100)
+            self.animate_text(sentences[self.current_challenge], self.game_screen.fonts["text"], BLACK, -100)
         if self.typing_complete:
-            self.game_screen.draw_text(self.typed_text, self.game_screen.fonts["text"], black, -100)
-        self.game_screen.draw_text(f"Time left: {self.timer}", self.game_screen.fonts["text"], black, 50, center=False)
+            self.game_screen.draw_text(self.typed_text, self.game_screen.fonts["text"], BLACK, -100)
+        self.game_screen.draw_text(f"Time left: {self.timer}", self.game_screen.fonts["text"], BLACK, 50, center=False)
         self.game_screen.draw_input_box(self.user_input)
         # Checks if the user's input is correct to continue to the next challenge
         if self.user_input == sentences[self.current_challenge]:
@@ -203,13 +197,13 @@ class TypingGame:
         self.screen.blit(background_image, (0, 0))
         self.current_screen = "result"
         if success:
-            self.game_screen.draw_text("Congratulations! You Win!", self.game_screen.fonts["title"], black, -50)
+            self.game_screen.draw_text("Congratulations! You Win!", self.game_screen.fonts["title"], BLACK, -50)
             self.victory_status = "Won"
             button = self.game_screen.draw_button("Exit", 100, self.exit_game)
 
         else:
             button = self.game_screen.draw_button("Exit", 250, self.exit_game)
-            self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], black, -50)
+            self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], BLACK, -50)
             button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
     def exit_game(self):
@@ -264,7 +258,7 @@ class TypingGame:
                 self.result_screen(self.timer > 0)
 
             pygame.display.flip()
-            clock.tick(60)
+            clock.tick(FPS)
 
 #entry point
 if __name__ == "__main__":

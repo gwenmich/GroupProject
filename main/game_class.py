@@ -137,19 +137,17 @@ class Game:
                     self.high_scores.menu = "High Scores"
 
             elif game_state == "Map":
-                self.dt = self.clock.tick(FPS) / 1000
                 # print(f"In Map state.")
                 self.map_screen.draw()
                 self.player.animate(self.map_screen.screen)
                 self.player.move(400, self.dt)
-                # drawing the bars and timers and the matching texts
-                # stress bars
+                # Drawing stress bar with its text
                 self.stress_bar.draw(self.map_screen.screen)
                 self.stress_bar.draw_text(self.map_screen.screen)
-                # Challenge wins
+                # Drawing challenges bar with its text
                 self.games_bar.draw(self.map_screen.screen)
                 self.games_bar.draw_text(self.map_screen.screen)
-                # timer
+                # Displaying timer with its text
                 self.timer.countdown(self.map_screen.screen)
                 self.intro_text.draw()
                 for event in pygame.event.get():
