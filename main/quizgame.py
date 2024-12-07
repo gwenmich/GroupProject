@@ -4,7 +4,7 @@ import os
 import textwrap
 from main_config import SCREEN_WIDTH, SCREEN_HEIGHT, WHITE
 
-# Initialize Pygame
+# Initialise Pygame
 pygame.init()
 
 # File Paths

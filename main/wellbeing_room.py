@@ -1,6 +1,6 @@
 import pygame, random
+from main_config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 
-FPS = 60
 
 # Initialise the Card class with the parent class pygame sprite
 class Card(pygame.sprite.Sprite):
@@ -33,8 +33,6 @@ class Card(pygame.sprite.Sprite):
 # Initialise gameclass
 class WellbeingGame():
     def __init__(self):
-        SCREEN_WIDTH = 1000
-        SCREEN_HEIGHT = 700
         self.screen= pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.level = 1 
         self.level_complete = False 
@@ -57,8 +55,6 @@ class WellbeingGame():
         # Add music from the sounds folder and loop them indefinitely
         pygame.mixer.music.load("assets/wellbeing_room/sounds/cozy-lofi-beat-split-memmories-248205.mp3")
         pygame.mixer.music.play(-1)
-
-        self.victory_status = "Not won"
 
         self.generate_level()
         # Sets up the cards
@@ -88,7 +84,7 @@ class WellbeingGame():
                                     for card in self.cards_group:
                                         if card.shown: # If every card is shown
                                             self.level_complete =True # level complete will be true
-                                            self.victory_status = "Not won" # To be able to play again
+                                            # self.victory_status = "Not won" # To be able to play again
                                         else:
                                             self.level_complete=False # otherwise it will be false
                                             break
@@ -166,7 +162,7 @@ class WellbeingGame():
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e and self.level_complete:
-                        self.__init__()
+                        # self.__init__()
                         self.player_location = "Map"
                         running = False
 
@@ -174,6 +170,7 @@ class WellbeingGame():
             pygame.display.update()
             clock.tick(FPS)
 
+        pygame.quit()
 
 
 if __name__ == "__main__":

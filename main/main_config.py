@@ -11,4 +11,3 @@ BLACK = (0, 0, 0)
 # Frames per minute
 FPS = 60
 
-game_state = "Main Menu"

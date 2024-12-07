@@ -1,5 +1,5 @@
 from character_class import Character
-from main_config import FPS, game_state
+from main_config import FPS
 from world.game_over_screen import GameOverScreen
 from world.game_screen_classes import MapScreen
 import pygame
@@ -18,12 +18,14 @@ from world.victory_screen_screen import VictoryScreen
 # from win_class import VictoryScreen
 
 class Game:
+
     def __init__(self):
         self.map_screen = MapScreen()
         self.menu = Menu()
         self.player = Character(self.map_screen.screen, "assets/sprites/girl_sprite.png", 2, "#ff00d6", 64, 64)
         self.clock = pygame.time.Clock()
         self.dt = 0
+        self.game_state = "Main Menu"
         # Instantiating stress and games bars and giving coordinates
         self.stress_bar = StressBar(900, 23, 70, 16, 10)
         self.games_bar = GamesBar(510, 23, 70, 16, 4)
@@ -53,11 +55,10 @@ class Game:
         "classroom": "Not won",
         "it_dept": "Not won"
     }
-        # Dictionary of buildings
+        # Dictionary of buildings with challenges needed to win the game
         self.buildings = {
             "library" : self.library,
             "cafeteria" : self.cafeteria,
-            "wellbeing_room" : self.wellbeing_room,
             "classroom" : self.classroom,
             "it_dept" : self.it_dept
         }
@@ -77,13 +78,11 @@ class Game:
 
     def victory_condition(self):
         if self.games_bar.wins == self.games_bar.max_wins:
-            global game_state
-            game_state = "Victory"
+            self.game_state = "Victory"
 
     def game_over_condition(self):
         if self.timer.timer_duration <= 0 or self.stress_bar.stress == self.stress_bar.max_stress:
-            global game_state
-            game_state = "Game Over"
+            self.game_state = "Game Over"
 
     def star_score(self):
         if self.timer.timer_duration >= (self.timer.initial_duration * 2 // 3):
@@ -96,14 +95,12 @@ class Game:
 
     def loop(self):
         while self.running:
-            global game_state
 
             self.dt = self.clock.tick(FPS)/1000
 
-
-            if game_state != "Main Menu" and game_state != "High Scores" and game_state != self.player.character_location:
+            if self.game_state != "Main Menu" and self.game_state != "High Scores" and self.game_state != self.player.character_location:
                 print(f"Game state updated to: {self.player.character_location}")
-                game_state = self.player.character_location
+                self.game_state = self.player.character_location
                 if self.player.character_location != "Map":
                     self.player.character_location = "Map"
 
@@ -114,29 +111,31 @@ class Game:
             self.update_game_status("it_dept")
 
             self.game_over_condition()
+
             # Main game_state engine
-            if game_state == "Main Menu":
+            if self.game_state == "Main Menu":
                 print(f"In Main Menu state.")
                 self.menu.display(self.map_screen.screen)
                 self.menu.handle_input()
                 # Checks if the game_state is different than the menu specific variable and if so updates
-                if game_state != self.menu.next_game_state:
+                if self.game_state != self.menu.next_game_state:
                     print(f"Game state updated to: {self.menu.next_game_state}")
-                    game_state = self.menu.next_game_state
+                    self.game_state = self.menu.next_game_state
                     # Sets the menu variable back to default
                     self.menu.next_game_state = "Main Menu"
 
 
-            elif game_state == "High Scores":
+            elif self.game_state == "High Scores":
                 print(f"In High Scores state.")
                 self.high_scores.draw()
                 self.high_scores.handler()
-                if game_state != self.high_scores.menu:
+                if self.game_state != self.high_scores.menu:
                     print(f"Game state updated to: {self.high_scores.menu}")
-                    game_state = self.high_scores.menu
+                    self.game_state = self.high_scores.menu
                     self.high_scores.menu = "High Scores"
 
-            elif game_state == "Map":
+
+            elif self.game_state == "Map":
                 # print(f"In Map state.")
                 self.map_screen.draw()
                 self.player.animate(self.map_screen.screen)
@@ -161,24 +160,34 @@ class Game:
                     if event.type == pygame.USEREVENT:
                         self.timer.timer_duration -= 1
 
+            elif self.game_state == "wellbeing_room":
+                self.wellbeing_room.play()
+                if self.wellbeing_room.player_location == "Map":
+                    print("Transitioning to Map...")
+                    self.player.character_position.y += 10
+                    self.player.character_rect.topleft = self.player.character_position
+                    print(f"Game state updated to: {self.wellbeing_room.player_location}")
+                    self.game_state = "Map"
+
+
             # Checks if the game state matches building and is not won
-            elif game_state in self.buildings and self.games_won[game_state] == "Not won":
-                building = self.buildings[game_state]
-                print(f"In {game_state} state.")
+            elif self.game_state in self.buildings and self.games_won[self.game_state] == "Not won":
+                building = self.buildings[self.game_state]
+                print(f"In {self.game_state} state.")
                 building.play()
                 if building.player_location == "Map":
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {building.player_location}")
-                    game_state = "Map"
+                    self.game_state = "Map"
 
-            elif game_state == "Victory":
+            elif self.game_state == "Victory":
                 print("Games won. In victory state.")
                 self.victory_screen.stars = self.victory_screen.star_calculator(self.timer.timer_duration, self.timer.initial_duration)
                 self.victory_screen.victory_loop(self.timer.get_time_taken(), self.star_score())
 
-            elif game_state == "Game Over":
+            elif self.game_state == "Game Over":
                 print(f"In Game over state state.")
                 self.game_over.draw()
                 for event in pygame.event.get():
@@ -192,7 +201,7 @@ class Game:
                         if event.key == pygame.K_y:
                             # if you pick yes, it re/initializes the game, and changes state to main menu to start with menu not map
                             self.__init__()
-                            game_state = "Main Menu"
+                            self.game_state = "Main Menu"
 
 
             pygame.display.flip()
