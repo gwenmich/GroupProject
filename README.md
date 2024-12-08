@@ -22,10 +22,12 @@ Our goal is to deliver entertaining and relatable experiences through diverse mi
 ***
 💫 **How to Run Thesis Quest:**
 
-1. Install required dependencies - pip install requirements.txt
-2. Run Flask
-3. Run game file from main/gameclass.py
-4. Enjoy Thesis Quest!
+1. Create SQL database with _utilities/database/game_table_creation.sql_
+2. Execute _utilities/database/game_queries.sql_ file
+2. Install required dependencies - _pip install -r requirements.txt_
+3. Run _utilities/database/server.py_
+4. Run _game file from main/main.py_
+5. Enjoy Thesis Quest!
 
 ***
 
@@ -59,4 +61,4 @@ Mini-games can only be repeated if player doesn't win the game but at the cost o
 
 💫 **Documentation:**
 
-Read our [Documentation here](https://drive.google.com/file/d/1yYvpWRzkFy9Dtse66a0-ddEJznftf7VJ/view?usp=sharing)
+Read our [Documentation here](Thesis_Quest_Documentation.pdf)
