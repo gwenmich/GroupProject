@@ -219,8 +219,13 @@ class FoodFight:
                         if event.key == pygame.K_r:
                             self.reset_game()
                         elif event.key == pygame.K_e:
-                            self.player_location = "Map"
-                            self.running = False
+                            if self.player_lives <= 0:
+                                self.__init__()
+                                self.player_location = "Map"
+                                self.running = False
+                            else:
+                                self.player_location = "Map"
+                                self.running = False
                     elif not self.turn_ended:
                         if event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5]:
                             action = ["Broccoli", "Carrot", "Soup", "Coffee", "Food Tray"][event.key - pygame.K_1]

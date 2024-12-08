@@ -108,7 +108,7 @@ def check_collision(new_rect, hitboxes, *args):
     return False
 
 
-# similar colision function but checks items not values
+# similar collision function but checks items not values
 def check_collision_items(new_rect, hitboxes):
     for name, rect in hitboxes.items():
         if new_rect.colliderect(rect):
@@ -154,7 +154,4 @@ def enter_building(character_rect):
 
 
 if __name__ == "__main__":
-    # enter_building(character_rect)
-    # check_collision()
-    # check_collision_items(new_rect, hitboxes)
     pass

@@ -15,11 +15,12 @@ from wellbeing_room import WellbeingGame
 from maze import MazeGame
 from fightgame import FoodFight
 from world.victory_screen_screen import VictoryScreen
-# from win_class import VictoryScreen
+
 
 class Game:
 
     def __init__(self):
+        pygame.init()
         self.map_screen = MapScreen()
         pygame.display.set_caption("Thesis Quest")
         self.menu = Menu()
@@ -117,6 +118,7 @@ class Game:
             self.update_game_status("it_dept")
 
             self.game_over_condition()
+            self.victory_condition()
 
             # Main game_state engine
             if self.game_state == "Main Menu":
@@ -178,9 +180,8 @@ class Game:
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {self.wellbeing_room.player_location}")
-                    pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
                     self.game_state = "Map"
+                    self.load_map_music()
 
 
             # Checks if the game state matches building and is not won
@@ -195,8 +196,7 @@ class Game:
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {building.player_location}")
                     self.game_state = "Map"
-                    pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
+                    self.load_map_music()
 
 
             elif self.game_state == "Victory":

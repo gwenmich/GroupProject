@@ -98,8 +98,7 @@ class MazeGame:
         while waiting:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    self.running = False
                 if event.type == pygame.KEYDOWN:
                     waiting = False
 
@@ -148,8 +147,7 @@ class MazeGame:
         while waiting:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if yes.collidepoint(event.pos): # If user selects yes - the time change is shown
                         self.timer += time_change
@@ -171,8 +169,7 @@ class MazeGame:
         while waiting:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    self.running = False
                 if event.type == pygame.KEYDOWN:
                     waiting = False
 
@@ -180,7 +177,7 @@ class MazeGame:
         self.draw_background()
         win_text = Config.fonts()["title"].render("You made it out! You win!", True, Config.colours()["text"])
         screen.blit(win_text, (width // 2 - win_text.get_width() // 2, height // 3))
-        # self.running = False
+
         self.victory_status = "Won"
         pygame.display.flip()
         pygame.time.wait(3000)
@@ -198,8 +195,7 @@ class MazeGame:
         while waiting:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if retry_button.collidepoint(event.pos):
                         self.level = 1
@@ -237,7 +233,7 @@ class MazeGame:
         self.show_title_screen()
         self.generate_maze()
         self.start_time = pygame.time.get_ticks()
-        while self.running: # Main game loop
+        while self.running:
             time_used = (pygame.time.get_ticks() - self.start_time) / 1000
             remaining_time = self.timer - time_used
             if remaining_time <= 0:
