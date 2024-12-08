@@ -42,7 +42,7 @@ class StressBar(Bars):
 
 
     def update(self):
-        if self.stress <= 9:
+        if self.stress <= self.max_stress:
             self.stress += 1
 
     # def update_win(self):

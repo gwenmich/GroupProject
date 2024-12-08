@@ -201,8 +201,6 @@ class TypingGame:
             button = self.game_screen.draw_button("Exit", 100, self.exit_game)
 
         else:
-            # self.victory_status = "Not won"
-            button = self.game_screen.draw_button("Exit", 250, self.exit_game)
             self.game_screen.draw_text("Time's Up! Try Again!", self.game_screen.fonts["title"], BLACK, -50)
             button = self.game_screen.draw_button("Play Again", 100, self.reset_game)
 
@@ -230,8 +228,6 @@ class TypingGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit_game()
-                    # pygame.quit()
-                    # sys.exit()
                 if event.type == pygame.USEREVENT:
                     if self.current_screen == "challenge" and self.timer > 0:
                         self.timer -= 1

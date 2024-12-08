@@ -1,3 +1,5 @@
+import time
+
 from character_class import Character
 from main_config import FPS
 from world.game_over_screen import GameOverScreen
@@ -15,11 +17,12 @@ from wellbeing_room import WellbeingGame
 from maze import MazeGame
 from fightgame import FoodFight
 from world.victory_screen_screen import VictoryScreen
-# from win_class import VictoryScreen
+
 
 class Game:
 
     def __init__(self):
+        pygame.init()
         self.map_screen = MapScreen()
         pygame.display.set_caption("Thesis Quest")
         self.menu = Menu()
@@ -117,6 +120,7 @@ class Game:
             self.update_game_status("it_dept")
 
             self.game_over_condition()
+            self.victory_condition()
 
             # Main game_state engine
             if self.game_state == "Main Menu":
@@ -171,32 +175,40 @@ class Game:
             # Checks if the game state if the wellbeing room
             elif self.game_state == "wellbeing_room":
                 pygame.mixer.music.stop()
+                start_time = time.time()
                 self.wellbeing_room.play()
+                elapsed_time = int(time.time() - start_time)
+                self.timer.timer_duration -= elapsed_time
                 self.stress_bar.update_wellbeing()
                 if self.wellbeing_room.player_location == "Map":
+                    pygame.mixer.stop()
+                    self.load_map_music()
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {self.wellbeing_room.player_location}")
-                    pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
                     self.game_state = "Map"
+
 
 
             # Checks if the game state matches building and is not won
             elif self.game_state in self.buildings and self.games_won[self.game_state] == "Not won":
                 building = self.buildings[self.game_state]
                 print(f"In {self.game_state} state.")
+                start_time = time.time()
                 building.play()
+                elapsed_time = int(time.time() - start_time)
+                self.timer.timer_duration -= elapsed_time
                 self.update_game_status(self.game_state)
                 if building.player_location == "Map":
+                    pygame.mixer.stop()
+                    self.load_map_music()
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {building.player_location}")
                     self.game_state = "Map"
-                    pygame.mixer.music.stop()
-                    pygame.mixer.music.load("assets/main_menu/mapmusic.mp3")
+
 
 
             elif self.game_state == "Victory":

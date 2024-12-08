@@ -180,7 +180,6 @@ class QuizGame:
     # Game Loop
     def play(self):
         # global CURRENT_STATE
-        # quiz = QuizGame()
         pygame.display.set_caption("Quiz Game")
         self.load_music()
         running = True
