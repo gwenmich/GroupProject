@@ -175,7 +175,10 @@ class Game:
             # Checks if the game state if the wellbeing room
             elif self.game_state == "wellbeing_room":
                 pygame.mixer.music.stop()
+                start_time = time.time()
                 self.wellbeing_room.play()
+                elapsed_time = int(time.time() - start_time)
+                self.timer.timer_duration -= elapsed_time
                 self.stress_bar.update_wellbeing()
                 if self.wellbeing_room.player_location == "Map":
                     pygame.mixer.stop()
@@ -196,7 +199,6 @@ class Game:
                 building.play()
                 elapsed_time = int(time.time() - start_time)
                 self.timer.timer_duration -= elapsed_time
-                self.timer.countdown(self.map_screen.screen)
                 self.update_game_status(self.game_state)
                 if building.player_location == "Map":
                     pygame.mixer.stop()
