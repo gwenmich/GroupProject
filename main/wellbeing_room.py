@@ -163,6 +163,7 @@ class WellbeingGame():
             event_list = pygame.event.get()
             for event in event_list:
                 if event.type == pygame.QUIT:
+                    self.player_location = "Map"
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_e and self.level_complete:

@@ -177,7 +177,9 @@ class Game:
 
             # Checks if the game state if the wellbeing room
             elif self.game_state == "wellbeing_room":
-                pygame.mixer.music.stop()
+                if self.map_music_playing:
+                    pygame.mixer.music.stop()
+                    self.map_music_playing = False
                 start_time = time.time()
                 self.wellbeing_room.play()
                 elapsed_time = int(time.time() - start_time)
@@ -198,8 +200,10 @@ class Game:
             elif self.game_state in self.buildings and self.games_won[self.game_state] == "Not won":
                 building = self.buildings[self.game_state]
                 print(f"In {self.game_state} state.")
+                if self.map_music_playing:
+                    pygame.mixer.music.stop()
+                    self.map_music_playing = False
                 start_time = time.time()
-                pygame.mixer.music.stop()
                 building.play()
                 elapsed_time = int(time.time() - start_time)
                 self.timer.timer_duration -= elapsed_time
@@ -213,7 +217,6 @@ class Game:
                     self.player.character_rect.topleft = self.player.character_position
                     print(f"Game state updated to: {building.player_location}")
                     self.game_state = "Map"
-
 
 
             elif self.game_state == "Victory":

@@ -88,7 +88,7 @@ bubble_position = {
     "Classroom": (815, 120),
     "Cafeteria": (815, 420),
     "IT Dept.": (280, 120),
-    "Wellbeing Room": (480, 190)
+    "Wellbeing": (480, 190)
 }
 
 # EXCEPTIONS FOR COLLISION TESTING
