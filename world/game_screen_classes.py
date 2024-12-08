@@ -1,10 +1,9 @@
 import pygame
-# do we need sys?????
 import sys
 from abc import ABC, abstractmethod
 from world.map_config import *
-from prototypes.gwen_michailidis.bars_classes import *
-from prototypes.gwen_michailidis.timer import *
+from utilities.bars_classes import *
+from utilities.timer import *
 import itertools
 
 
@@ -14,7 +13,7 @@ class Screen(ABC):
     # initialize
     def __init__(self):
         pygame.init()
-        # set screen size calling varibales from Config File
+        # set screen size calling variables from Config File
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.title = "Thesis Quest"
         # set titles in game window
