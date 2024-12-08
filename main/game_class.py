@@ -187,7 +187,6 @@ class Game:
                 self.stress_bar.update_wellbeing()
                 pygame.mixer.music.stop()
                 if self.wellbeing_room.player_location == "Map":
-
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
@@ -210,8 +209,6 @@ class Game:
                 self.update_game_status(self.game_state)
                 pygame.mixer.music.stop()
                 if building.player_location == "Map":
-                    # pygame.mixer.stop()
-                    # self.load_map_music()
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
