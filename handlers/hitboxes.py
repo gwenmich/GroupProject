@@ -77,7 +77,7 @@ it_dept_rect_B = pygame.Rect(175, 75, 140, 140)
 buildings_bubble_hitboxes = {
     "Library": library_rect_B,
     "Cafeteria": cafeteria_rect_B,
-    "Wellbeing Room": wellbeing_rect_B,
+    "Wellbeing": wellbeing_rect_B,
     "Classroom": classroom_rect_B,
     "IT Dept.": it_dept_rect_B
 }
@@ -88,7 +88,7 @@ bubble_position = {
     "Classroom": (815, 120),
     "Cafeteria": (815, 420),
     "IT Dept.": (280, 120),
-    "Wellbeing Room": (480, 190)
+    "Wellbeing": (480, 190)
 }
 
 # EXCEPTIONS FOR COLLISION TESTING

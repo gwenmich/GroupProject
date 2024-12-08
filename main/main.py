@@ -2,26 +2,14 @@ import pygame
 from game_class import Game
 
 
-# event
-pygame.init()
-pygame.mixer.init()
+
 
 class PlayGame:
+    pygame.init()
+    pygame.mixer.init()
     game = Game()
     game.menu.setup_music()
     game.loop()
-
-# game loop
-
-
-
-
-
-
-# render
-
-
-
 
 
 
