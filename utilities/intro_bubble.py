@@ -65,7 +65,7 @@ class IntroBubble(Bubble):
                      "in the LIBRARY, IT DEPARTMENT, CAFETERIA and CLASSROOM to complete your thesis. Be quick, you can't "
                      "miss the deadline!")
             rules_2 = ("You can retry a failed challenge, but mind your STRESS or you'll have a breakdown!When you feel"
-                     "overwhelmed go to the COUNSELLING Building for some meditation to lower your stress. But don't "
+                     "overwhelmed go to the WELLBEING Building for some meditation to lower your stress. But don't "
                        "get too relaxed! No extensions this time! What are you waiting for?")
             rules_rect = Rect(210, 230, 600, 260)
             Bubble.wrap_text(surface_type, rules, DARK_BLUE, rules_rect, self.rules_font, aa=True)

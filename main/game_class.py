@@ -66,6 +66,7 @@ class Game:
             "classroom" : self.classroom,
             "it_dept" : self.it_dept
         }
+        self.map_music_playing = False
 
     def update_game_status(self, building_name):
         if building_name in self.buildings:
@@ -147,7 +148,9 @@ class Game:
 
             elif self.game_state == "Map":
                 pygame.display.set_caption("Thesis Quest")
-                self.load_map_music()
+                if not self.map_music_playing:
+                    self.load_map_music()
+                    self.map_music_playing = True
                 # print(f"In Map state.")
                 self.map_screen.draw()
                 self.player.animate(self.map_screen.screen)
@@ -180,9 +183,9 @@ class Game:
                 elapsed_time = int(time.time() - start_time)
                 self.timer.timer_duration -= elapsed_time
                 self.stress_bar.update_wellbeing()
+                pygame.mixer.music.stop()
                 if self.wellbeing_room.player_location == "Map":
-                    pygame.mixer.stop()
-                    self.load_map_music()
+
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position
@@ -196,13 +199,15 @@ class Game:
                 building = self.buildings[self.game_state]
                 print(f"In {self.game_state} state.")
                 start_time = time.time()
+                pygame.mixer.music.stop()
                 building.play()
                 elapsed_time = int(time.time() - start_time)
                 self.timer.timer_duration -= elapsed_time
                 self.update_game_status(self.game_state)
+                pygame.mixer.music.stop()
                 if building.player_location == "Map":
-                    pygame.mixer.stop()
-                    self.load_map_music()
+                    # pygame.mixer.stop()
+                    # self.load_map_music()
                     print("Transitioning to Map...")
                     self.player.character_position.y += 10
                     self.player.character_rect.topleft = self.player.character_position

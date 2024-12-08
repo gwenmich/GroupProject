@@ -77,7 +77,7 @@ it_dept_rect_B = pygame.Rect(175, 75, 140, 140)
 buildings_bubble_hitboxes = {
     "Library": library_rect_B,
     "Cafeteria": cafeteria_rect_B,
-    "Wellbeing Room": wellbeing_rect_B,
+    "Wellbeing": wellbeing_rect_B,
     "Classroom": classroom_rect_B,
     "IT Dept.": it_dept_rect_B
 }
