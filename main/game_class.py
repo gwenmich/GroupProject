@@ -204,6 +204,7 @@ class Game:
                     self.map_music_playing = False
                 start_time = time.time()
                 building.play()
+                self.stress_bar.update()
                 elapsed_time = int(time.time() - start_time)
                 self.timer.timer_duration -= elapsed_time
                 self.update_game_status(self.game_state)
