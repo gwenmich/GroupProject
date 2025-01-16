@@ -1,6 +1,6 @@
 
 ![thesis_quest](assets/read_me/thesis_quest_logo_1.png)
-# ** Group Project** 
+# **Group Project** 
 ***
 💫 **Members:**
 + Antigone Pollard
@@ -59,6 +59,3 @@ Mini-games can only be repeated if player doesn't win the game but at the cost o
 
 ***
 
-💫 **Documentation:**
-
-Read our [Documentation here](Thesis_Quest_Documentation.pdf)
